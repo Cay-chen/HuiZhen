@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <title>用户登录</title>
+    <link href="/static/css/login.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: rgb(43, 43, 43);
+            text-align: center;
+        }
+
+        form {
+           width: 400px;
+            min-width: 400px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 30px;
+            background-color: white;
+            border: 2px solid rgba(128, 128, 128, 0.2);
+            border-radius: 10px;
+        }
+
+        form div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body class="abc">
+<div>
+    <div class="divlogo">
+        <img src="/static/img/logo.png">
+    </div>
+    <form action="/" method="post" class="layui-form">
+        <div>
+            <h1>用户登录</h1>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px;text-align: left">院区选择</label>
+            <div class="layui-input-inline" style="width: 285px">
+                <select name="JYConPersonBelongHos" lay-verify="required" id="sele" lay-search="">
+                    <option value="JYZX">精医中心</option>
+                    <option value="WJQY">温江区医院</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px;text-align: left">账号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="JYConPersonCode" lay-verify="title" placeholder="请输工号" autocomplete="off"
+                       class="layui-input" style="width: 285px"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px;text-align: left">密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="JYConPersonPassword" lay-verify="pass" placeholder="请输入密码" autocomplete="off"
+                       class="layui-input" style="width: 285px"/>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display:{{.Err}}">
+            <div class="layui-input-inline" style="width: 100%">
+                <a class="layui-icon layui-icon-face-surprised"
+                   style="font-size: 15px; color: #FF0000;margin-left: 50px"> {{.Err_msg}}</a>
+            </div>
+        </div>
+        <br>
+        <div class="layui-form-item">
+            <div class="layui-input-inline" style="width:100%;height:35px;text-align: center">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1" style="width:80%;height:35px;">
+                    登录
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 1) {
+                    return '请输入工号';
+                }
+            }
+            , pass: [
+                /^[\S]{1,30}$/
+                , '请输入密码'
+            ]
+        });
+
+
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            /* layer.alert(JSON.stringify(data.field), {
+                 title: '最终的提交信息'
+             })
+             return false;*/
+        });
+        /*  //表单取值
+          layui.$('#LAY-component-form-getval').on('click', function () {
+              var data = form.val('example');
+              alert(JSON.stringify(data));
+          });*/
+
+    });
+</script>
+</html>

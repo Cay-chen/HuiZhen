@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>精医会诊服务平台</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+</head>
+<body style='overflow:scroll;overflow-x:hidden'>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black" style="font-size: 24px;font-family: ‘楷体’,‘楷体_GB2312’; ">
+            精医会诊服务平台
+        </div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <!--<ul class="layui-nav layui-layout-left">
+
+            <li class="layui-nav-item layui-hide-xs" id="newHuiZhen"><button>新建会诊</button></li>
+        </ul>-->
+        <div class=" layui-layout-left"
+             style="display:block;text-align:center;height: 60px;line-height:60px;color: whitesmoke;font-size: 20px;margin-left: 10px">
+            {{.hospital}}
+        </div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                    <!--
+                                        <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+
+                                             class="layui-nav-img">-->
+                    四川省精神医学中心@{{.PersonName}}
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a id="change_password">修改密码</a></dd>
+                    <dd><a href="/exit">退出系统</a></dd>
+                </dl>
+            </li>
+            <!--        <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                        <a href="javascript:;">
+                            <i class="layui-icon layui-icon-more-vertical"></i>
+                        </a>
+                    </li>-->
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <!--
+                                <li class="layui-nav-item " id="newHuiZhen"><a>新建会诊</a></li>
+                -->
+                <li class="layui-nav-item layui-this" id="myHuiZhen"><a>我的会诊</a></li>
+                {{if .List2}}
+                <li class="layui-nav-item">
+                    <a href="javascript:;">我的审批</a>
+                    <dl class="layui-nav-child  ">
+                        <dd><a href="javascript:;" id="dai_shenpi">待审批</a></dd>
+                        <dd><a href="javascript:;" id="yi_shenpi">已审批</a></dd>
+                    </dl>
+                </li>
+                {{end}}
+                {{if .List1}}
+                <li class="layui-nav-item">
+                    <a href="javascript:;">我的审批</a>
+                    <dl class="layui-nav-child  ">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">&#12288;待审批</a>
+                    <dl class="layui-nav-child  ">
+                        <dd><a href="javascript:;" id="from_dsp">&#12288;&#12288;form待审批</a></dd>
+                        <dd><a href="javascript:;" id="to_dsp">&#12288;&#12288;to待审批</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">&#12288;已审批</a>
+                    <dl class="layui-nav-child  ">
+                        <dd><a href="javascript:;" id="from_ysp">&#12288;&#12288;form已审批</a></dd>
+                        <dd><a href="javascript:;" id="to_ysp">&#12288;&#12288;to已审批</a></dd>
+                    </dl>
+                </li>
+                </dl>
+                </li>
+                {{end}}
+                {{if .List4}}
+                <li class="layui-nav-item">
+                    <a href="javascript:;">我的审批</a>
+                    <dl class="layui-nav-child  ">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">&#12288;待审批</a>
+                    <dl class="layui-nav-child  ">
+                        <dd><a href="javascript:;" id="from_dsp">&#12288;&#12288;form待审批</a></dd>
+                        <dd><a href="javascript:;" id="to_dsp">&#12288;&#12288;to待审批</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">&#12288;已审批</a>
+                    <dl class="layui-nav-child  ">
+                        <dd><a href="javascript:;" id="from_ysp">&#12288;&#12288;form已审批</a></dd>
+                        <dd><a href="javascript:;" id="to_ysp">&#12288;&#12288;to已审批</a></dd>
+                    </dl>
+                </li>
+                </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">信息维护</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" id="dep_manage">&#12288;科室管理</a></dd>
+                        <dd><a href="javascript:;" id="person_manage">&#12288;用户管理</a></dd>
+                    </dl>
+                </li>
+                {{end}}
+                {{if .List0}}
+                <li class="layui-nav-item">
+                    <a href="javascript:;">我的审批</a>
+                    <dl class="layui-nav-child  ">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">&#12288;待审批</a>
+                    <dl class="layui-nav-child  ">
+                        <dd><a href="javascript:;" id="from_dsp">&#12288;&#12288;form待审批</a></dd>
+                        <dd><a href="javascript:;" id="to_dsp">&#12288;&#12288;to待审批</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">&#12288;已审批</a>
+                    <dl class="layui-nav-child  ">
+                        <dd><a href="javascript:;" id="from_ysp">&#12288;&#12288;form已审批</a></dd>
+                        <dd><a href="javascript:;" id="to_ysp">&#12288;&#12288;to已审批</a></dd>
+                    </dl>
+                </li>
+                </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">信息维护</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" id="dep_manage">&#12288;科室管理</a></dd>
+                        <dd><a href="javascript:;" id="person_manage">&#12288;用户管理</a></dd>
+                    </dl>
+                </li>
+                {{end}}
+
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body" style="font-size:0">
+        <!-- 内容主体区域 -->
+        <iframe src="/table/my" style="height: 100%;width: 100%" id="mainContent"></iframe>
+    </div>
+
+    <div class="layui-footer" style="text-align: center">
+        <!-- 底部固定区域 -->
+        <p>Copyright © 2021 版权所有： 四川省精神医学中心</p>
+    </div>
+</div>
+<script src="/static/layui/layui.js"></script>
+<!--
+<script src="/static/js/JQuery.min.js"></script>
+-->
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function () {
+        var element = layui.element
+            , layer = layui.layer
+            , util = layui.util;
+        // ,$ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            //左侧菜单事件
+            menuLeft: function (othis) {
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+                alert('HelloWorld');
+            }
+            , menuRight: function () {
+                layer.open({
+                    type: 1
+                    , content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                    , area: ['260px', '100%']
+                    , offset: 'rt' //右上角
+                    , anim: 5
+                    , shadeClose: true
+                });
+            }
+        });
+
+    });
+    layui.$(document).ready(function () {
+        /*  layui.$("#newHuiZhen").click(function () {
+              layui.$("#mainContent").attr("src", "/apply");
+          });*/
+        layui.$("#myHuiZhen").click(function () {
+            layui.$("#mainContent").attr("src", "/table/my");
+        });
+        layui.$("#from_dsp").click(function () {
+            layui.$("#mainContent").attr("src", "/table/from_dsp?type=from");
+        });
+        layui.$("#to_dsp").click(function () {
+            layui.$("#mainContent").attr("src", "/table/from_dsp?type=to");
+        });
+        layui.$("#myShenPi").click(function () {
+            layui.$("#mainContent").attr("src", "/approve");
+        });
+        layui.$("#dep_manage").click(function () {
+            layui.$("#mainContent").attr("src", "/dep_manage");
+        });
+        layui.$("#change_password").click(function () {
+            layui.$("#mainContent").attr("src", "/change_password");
+        });
+        layui.$("#person_manage").click(function () {
+            layui.$("#mainContent").attr("src", "/person_manage");
+        });
+    });
+
+    function httpReplace() {
+        window.location.replace("/");
+    }
+
+</script>
+</body>
+</html>

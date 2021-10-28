@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/static/layui/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body style="height: 100%">
+<div class="layui-tab" style="height: 100%;margin-top: 3px">
+    <ul class="layui-tab-title">
+        <li class="layui-this">待审核</li>
+        <li>待审核</li>
+    </ul>
+    <div class="layui-tab-content" style="width: 100% ; height: 100%;margin-top: 0px;padding-top: 0px">
+        <div class="layui-tab-item layui-show" style="width: 100% ; height: 100%">
+            <table class="layui-hide" id="shuju" lay-filter="test" lay-filter="user"></table>
+
+            <script type="text/html" id="toolbarDemo" style="padding-top: 0;margin-top: 0">
+                <div class="demoTable" style="padding-top: 0;margin-top: 0">
+                    <div class="layui-input-inline" style="width: 100px">
+                        <select name="modules" lay-verify="required" id="sele" lay-search="">
+                            <option value="1">会诊号</option>
+                            <option value="2">姓名</option>
+                            <option value="3">住院号</option>
+                            <option value="4">科室</option>
+                        </select>
+                    </div>
+                    <div class="layui-inline">
+                        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+                    </div>
+                    <button class="layui-btn" data-type="reload" lay-event="sousuo">搜索</button>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 90px">开始时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="date" id="date" lay-verify="date" placeholder="" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 90px">结束时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="date" id="date1" lay-verify="date" placeholder="" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="layui-btn-container">
+                    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">新建会诊</button>
+                    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+                    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+                </div>-->
+            </script>
+
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">审核</a>
+                <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="detail">查看</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">提交</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+
+
+            <script src="/static/layui/layui.js" charset="utf-8"></script>
+            <script src="/static/js/JQuery.min.js"></script>
+
+            <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+
+            <script>
+                layui.use('table', function () {
+                    var table = layui.table,
+                        layer = layui.layer
+                        ,laydate = layui.laydate;
+
+                    table.render({
+                        elem: '#shuju'
+                        , url: '/get_form'
+                        , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                        , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                            title: '提示'
+                            , layEvent: 'LAYTABLE_TIPS'
+                            , icon: 'layui-icon-tips'
+                        }]
+                        , title: '用户数据表'
+                        , cols: [[
+                            /*
+                                            {type: 'checkbox', fixed: 'left'},
+                            */
+                            {field: 'JYConNum', title: '申请单号', width: 120, fixed: 'left', unresize: true, sort: true}
+                            , {field: 'JYConSickName', title: '患者姓名', width: 100, edit: 'text'}
+                            , {field: 'JYConSickSex', title: '性别', width: 80, edit: 'text', sort: true}
+                            , {field: 'JYConSickAge', title: '年龄', width: 100, edit: 'text'}
+                            , {field: 'JYConSickDep', title: '申请科室', width: 120}
+                            , {field: 'JYConDate', title: '申请时间', sort: true, width: 120,}
+                            , {field: 'JYConOppHos', title: '拟邀医院', width: 120}
+                            , {field: 'JYConOppDep', title: '拟邀科室', width: 120,}
+                            , {field: 'JYConType', title: '会诊类型', width: 100}
+                            , {field: 'JYConFormPolicy', title: '审批进度', width: 100}
+                            , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
+                        ]]
+                        , id: 'testReload'
+                        , page: true
+                    });
+                    //日期
+                    laydate.render({
+                        elem: '#date'
+                    });
+                    laydate.render({
+                        elem: '#date1'
+                    });
+                    //头工具栏事件
+                    table.on('toolbar(test)', function (obj) {
+                        var checkStatus = table.checkStatus(obj.config.id);
+
+                        switch (obj.event) {
+                            /*          case 'getCheckData':
+                                          var data = checkStatus.data;
+                                          layer.alert(JSON.stringify(data));
+                                          break;
+                                      case 'getCheckLength':
+                                          var data = checkStatus.data;
+                                          layer.msg('选中了：'+ data.length + ' 个');
+                                          break;
+                                      case 'isAll':
+                                          layer.msg(checkStatus.isAll ? '全选': '未全选');
+                                          break;
+
+                                      //自定义头工具栏右侧图标 - 提示
+                                      case 'LAYTABLE_TIPS':
+                                          layer.alert('这是工具栏右侧自定义的一个图标按钮');
+                                          break;*/
+                            case 'sousuo':
+                                var type = $(this).data('type');
+                                active[type] ? active[type].call(this) : '';
+                                break;
+                        }
+                        ;
+                    });
+
+                    //监听行工具事件
+                    table.on('tool(test)', function (obj) {
+                        var data = obj.data;
+                        //console.log(obj)
+                        if (obj.event === 'detail') {
+                            var othis = $(this), method = othis.data('method');
+                            active1[method] ? active1[method].call(this, othis) : '';
+                            /*
+                                            layer.msg('ID：'+ data.id + ' 的查看操作');
+                            */
+                        } else if (obj.event === 'del') {
+                            layer.confirm('确定删除', function (index) {
+                                obj.del();
+                                layer.close(index);
+                            });
+                        } else if (obj.event === 'edit') {
+                            layer.prompt({
+                                formType: 2
+                                , value: data.email
+                            }, function (value, index) {
+                                obj.update({
+                                    email: value
+                                });
+                                layer.close(index);
+                            });
+                        }
+                    });
+
+
+                    var $ = layui.$, active = {
+                        reload: function () {
+                            var demoReload = $('#demoReload');
+
+                            //执行重载
+                            table.reload('testReload', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                                , where: {
+                                    key: {
+                                        id: demoReload.val(),
+                                        sel: $('#sele').val()
+
+                                    }
+                                    /*,select:{
+                                        sel:$('#sele').val()
+                                    }*/
+                                }
+                            });
+                        }
+                    };
+
+                    /*
+                            $('.demoTable .layui-btn').on('click', function(){
+                                var type = $(this).data('type');
+                                active[type] ? active[type].call(this) : '';
+                            });
+                    */
+                    var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+                            var active1 = {
+                                offset: function (othis) {
+                                    var type = othis.data('type')
+                                    layer.open({
+                                        type: 1
+                                        , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                                        , id: 'layerDemo' + type //防止重复弹出
+                                        , title: ['四川省精神医学中心与成都市温江区人民医院院际间会诊申请表\n', 'font-size:21px;text-align:center;']
+                                        , content: '<!DOCTYPE html>\n' +
+                                            '<html lang="en">\n' +
+                                            '<head>\n' +
+                                            '    <meta charset="UTF-8">\n' +
+                                            '    <title>个人简历</title>\n' +
+                                            '</head>\n' +
+                                            '<style>\n' +
+                                            '    td{\n' +
+                                            '        width: 80px;\n' +
+                                            '    }\n' +
+                                            '</style>\n' +
+                                            '<body>\n' +
+                                            '<table border="1" width="650" height="680" align="center" cellspacing="0">\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed">患者姓名</td>\n' +
+                                            '        <td>徐生</td>\n' +
+                                            '        <td bgcolor="#ededed">性别</td>\n' +
+                                            '        <td>男</td>\n' +
+                                            '        <td bgcolor="#ededed">年龄</td>\n' +
+                                            '        <td>38</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed">科室</td>\n' +
+                                            '        <td>神经心理科</td>\n' +
+                                            '        <td bgcolor="#ededed">床号</td>\n' +
+                                            '        <td>12</td>\n' +
+                                            '        <td bgcolor="#ededed">住院号</td>\n' +
+                                            '        <td>1255764</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed" >科室位置</td>\n' +
+                                            '        <td colspan="7">第一住院大楼2楼1线医生办公室</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed">主管医师</td>\n' +
+                                            '        <td colspan="2">将富贵</td>\n' +
+                                            '        <td bgcolor="#ededed">医师电话号码</td>\n' +
+                                            '        <td colspan="2">18988888888</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed" align="center">目前诊断</td>\n' +
+                                            '        <td colspan="7">“身体不适”</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed" align="center">简要病情(含主诉、病例特征等)</td>\n' +
+                                            '        <td colspan="7">身体不适，一点都不输入</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed" align="center">请求会诊目的</td>\n' +
+                                            '        <td colspan="7">诊断该病人病情</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed">拟邀请科室</td>\n' +
+                                            '        <td colspan="2">呼吸科</td>\n' +
+                                            '        <td bgcolor="#ededed">申请时间</td>\n' +
+                                            '        <td colspan="2">2021-09-21</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed">科室意见</td>\n' +
+                                            '        <td colspan="2">同意</td>\n' +
+                                            '        <td bgcolor="#ededed">审批时间</td>\n' +
+                                            '        <td colspan="2">2021-09-21</td>\n' +
+                                            '    </tr>\n' +
+                                            '    <tr align="center">\n' +
+                                            '        <td bgcolor="#ededed">医务部意见</td>\n' +
+                                            '        <td colspan="2">同意</td>\n' +
+                                            '        <td bgcolor="#ededed">审批时间</td>\n' +
+                                            '        <td colspan="2">2021-09-21</td>\n' +
+                                            '    </tr>\n' +
+                                            '</table>\n' +
+                                            '</body>\n' +
+                                            '</html>'
+                                        , btn: '关闭'
+                                        , btnAlign: 'c' //按钮居中
+                                        , shade: 0 //不显示遮罩
+                                        , yes: function () {
+                                            layer.closeAll();
+                                        }
+                                    });
+                                }
+                            };
+
+                    /*   $('#layerDemo .layui-btn').on('click', function(){
+                           var othis = $(this), method = othis.data('method');
+                           active[method] ? active[method].call(this, othis) : '';
+                       });*/
+
+                });
+            </script>
+        </div>
+        <div class="layui-tab-item" style="width: 100% ; height: 100%">
+            呵呵
+<!--
+            <iframe src="/shenqing" style="width: 100% ; height: 100%"></iframe>
+-->
+        </div>
+        <div class="layui-tab-item">内容4</div>
+        <div class="layui-tab-item">内容5</div>
+    </div>
+</div>
+
+<!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>动态操作Tab</legend>
+</fieldset>
+
+<div class="layui-tab" lay-filter="demo" lay-allowclose="true">
+    <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="11">网站设置</li>
+        <li lay-id="22">用户管理</li>
+        <li lay-id="33">权限分配</li>
+        <li lay-id="44">商品管理</li>
+        <li lay-id="55">订单管理</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">内容1</div>
+        <div class="layui-tab-item">内容2</div>
+        <div class="layui-tab-item">内容3</div>
+        <div class="layui-tab-item">内容4</div>
+        <div class="layui-tab-item">内容5</div>
+    </div>
+</div>
+<div class="site-demo-button" style="margin-bottom: 0;">
+    <button class="layui-btn site-demo-active" data-type="tabAdd">新增Tab项</button>
+    <button class="layui-btn site-demo-active" data-type="tabDelete">删除：商品管理</button>
+    <button class="layui-btn site-demo-active" data-type="tabChange">切换到：用户管理</button>
+</div>-->
+
+
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+    layui.use('element', function(){
+        var $ = layui.jquery
+            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //触发事件
+        var active = {
+            tabAdd: function(){
+                //新增一个Tab项
+                element.tabAdd('demo', {
+                    title: '新选项'+ (Math.random()*1000|0) //用于演示
+                    ,content: '内容'+ (Math.random()*1000|0)
+                    ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+            }
+            ,tabDelete: function(othis){
+                //删除指定Tab项
+                element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+                othis.addClass('layui-btn-disabled');
+            }
+            ,tabChange: function(){
+                //切换到指定Tab项
+                element.tabChange('demo', '22'); //切换到：用户管理
+            }
+        };
+
+        $('.site-demo-active').on('click', function(){
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#test=/, '');
+        element.tabChange('test', layid);
+
+        element.on('tab(test)', function(elem){
+            location.hash = 'test='+ $(this).attr('lay-id');
+        });
+
+    });
+</script>
+
+</body>
+</html>

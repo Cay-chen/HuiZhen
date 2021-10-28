@@ -1,0 +1,15 @@
+.abc{
+    background-image: url("/static/img/backgroup.jpg");
+    background-size: cover;
+}
+.divlogo{
+    position: fixed;
+    margin-top: 15px;
+    margin-left: 15px;
+    width: 30%;
+    height: 30%;
+}
+.divlogo img{
+    height: auto;
+    width: 100%;
+}

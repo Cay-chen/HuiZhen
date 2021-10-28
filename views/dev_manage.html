@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>科室管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <style type="text/css">
+        .change-person{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            display:none;
+            z-index: 999;
+
+        }
+        .change-person-data {
+            position: absolute;
+            padding: 15px;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            min-width: 400px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            background: whitesmoke;
+
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <h1 align="center">科 室 管 理</h1>
+</div>
+<div class="change-person" id="change-person">
+    <div class="change-person-data" >
+        <table action="" method="post" class="layui-form" >
+            <h1 align="center">信息修改</h1>
+            <div class="layui-form-item" style="margin-top: 15px">
+                <label class="layui-form-label" style="width: 60px;text-align: left">科室编码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="JYConDepCode" lay-verify="title" disabled placeholder="" autocomplete="off"
+                           class="layui-input" style="width: 285px" id="JYConDepCode"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 60px;text-align: left">科室名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="JYConDepName" lay-verify="title" placeholder="请输科室名称" autocomplete="off"
+                           class="layui-input" style="width: 285px" id="JYConDepName"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 60px;text-align: left" >科室电话</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="JYConDepPhone" lay-verify="title" placeholder="请输入手机号码" autocomplete="off"
+                           class="layui-input" style="width: 285px"  id="JYConDepPhone" oninput="value=value.replace(/[^\d]/g,'')"/>
+                </div>
+            </div><div class="layui-form-item">
+                <label class="layui-form-label" style="width: 60px;text-align: left" >科室地址</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="JYConDepLocalhost" lay-verify="title" placeholder="请输入科室地址" autocomplete="off"
+                           class="layui-input" style="width: 285px"  id="JYConDepLocalhost" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="width:100%;height:35px;text-align: center">
+                    <button  class="layui-btn" style="width:20%;height:35px;margin-right: 15px" onclick="changeMesg()">
+                        修改
+                    </button>
+                    <button  class="layui-btn" style="width:20%;height:35px;margin-left: 15px" onclick="hidd()">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </table>
+    </div>
+
+</div>
+
+
+<table class="layui-hide" id="person_table" lay-filter="test" lay-filter="user"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="demoTable">
+       <!-- <div class="layui-input-inline" style="width: 150px">
+            <select name="modules" lay-verify="required" id="select_belong_dev" lay-search="">
+                <option value="">全部</option>
+                {{range .DepList}}
+                <option value="{{.JYConDepCode}}">{{.JYConDepName}}</option>
+                {{end}}
+            </select>
+        </div>
+        <div class="layui-inline">
+            <input class="layui-input" name="id" id="in_person_code" autocomplete="off" placeholder="请输入工号">
+        </div>
+        <button class="layui-btn" data-type="reload" lay-event="sousuo">搜索</button>-->
+        <button class="layui-btn" lay-event="xinjian">新建</button>
+    </div>
+
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="jihuo">激活</a>
+    <a data-method="offset" class="layui-btn  layui-btn-xs  layui-btn-danger" data-type="auto"
+       lay-event="tingyong">停用</a>
+    <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="xiu_gai">修改</a>
+
+</script>
+
+
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+
+<script>
+    layui.use('table', function () {
+        var table = layui.table,
+            layer = layui.layer
+            , laydate = layui.laydate;
+
+        table.render({
+            elem: '#person_table'
+            , url: '/get_dev'
+            , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+            , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                title: '提示'
+                , layEvent: 'LAYTABLE_TIPS'
+                , icon: 'layui-icon-tips'
+            }]
+            , title: '用户数据表'
+            , cols: [[
+                {field: 'JYConDepCode', title: '科室编码', cellMinWidth: 100, fixed: 'left', unresize: true, sort: true}
+                , {field: 'JYConDepName', title: '科室名称', cellMinWidth: 120}
+                , {field: 'JYConDepPhone', title: '科室电话', cellMinWidth: 150}
+                , {field: 'JYConDepLocalhost', title: '科室地址', cellMinWidth: 180}
+                , {field: 'JYConDepIsActive', title: '是否激活', cellMinWidth: 120}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 200}
+            ]]
+            , id: 'personInfo'
+            , page: true
+        });
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+        //头工具栏事件
+        table.on('toolbar(test)', function (obj) {
+            switch (obj.event) {
+
+                case 'sousuo':
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                    console.log(select_belong_dev)
+                    break;
+                case 'xinjian':
+
+                    //页面层-自定义
+                    layer.open({
+                        type: 2
+                        , offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                        , id: 'layerDemo' + type //防止重复弹出
+                        , title: ['科室新建', 'font-size:21px;text-align:center;']
+                        , content: ['/register/dep', 'no']
+
+                        /*
+                                            , btn: '关闭'
+                        */
+                        , btnAlign: 'c' //按钮居中
+                        , shade: 0 //不显示遮罩
+                        , area: ['100%', '100%']
+                        , yes: function () {
+                            layer.closeAll();
+                        }, cancel: function () {
+                            //执行重载
+                            table.reload('personInfo', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            });
+                            layer.close();
+                            //右上角关闭回调
+
+                            //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+                    break;
+            }
+
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            switch (obj.event) {
+                case 'tingyong':
+                    layer.confirm('确定停用科室:' + data.JYConDepName, {
+                        title: "警告"
+                        , btn: ['停用', '取消'] //按钮
+                    }, function () {
+                        layui.$.ajax({
+                            url: "/change_msg/active_dep?JYConDepCode=" + data.JYConDepCode + "&action=0",
+                            success: function (result) {
+                                var res = JSON.parse(result)
+                                if (res.code === 0) {
+                                    //执行重载
+                                    table.reload('personInfo', {
+                                        page: {
+                                            curr: 1 //重新从第 1 页开始
+                                        }
+                                    });
+                                    layer.msg(res.msg, {icon: 1});
+                                } else {
+                                    alert(res.code)
+                                }
+                            },
+                            error: function (xhr) {
+                                alert("系统异常");
+                                layer.close();
+                            }
+                        });
+
+                    }, function () {
+                        layer.close()
+                    });
+                    break;
+                case 'jihuo':
+                    layer.confirm('确定激活科室:' + data.JYConDepName , {
+                        title: "警告"
+                        , btn: ['激活', '取消'] //按钮
+                    }, function () {
+                        layui.$.ajax({
+                            url: "/change_msg/active_dep?JYConDepCode=" + data.JYConDepCode + "&action=1",
+                            success: function (result) {
+                                var res = JSON.parse(result)
+                                if (res.code === 0) {
+                                    //执行重载
+                                    table.reload('personInfo', {
+                                        page: {
+                                            curr: 1 //重新从第 1 页开始
+                                        }
+                                    });
+                                    layer.msg(res.msg, {icon: 1});
+                                } else {
+                                    alert(res.code)
+                                }
+                            },
+                            error: function (xhr) {
+                                alert("系统异常");
+                                layer.close();
+                            }
+                        });
+
+                    }, function () {
+                        layer.close()
+                    });
+                    break;
+                case "xiu_gai":
+                    layui.$("#JYConDepCode").val(data.JYConDepCode);
+                    layui.$("#JYConDepName").val(data.JYConDepName);
+                    layui.$("#JYConDepPhone").val(data.JYConDepPhone);
+                    layui.$("#JYConDepLocalhost").val(data.JYConDepLocalhost);
+                    layui.$("#change-person").css("display", "block");
+                    layui.$("#change-person").focus().select();
+                    break;
+            }
+        });
+        var $ = layui.$, active = {
+            reload: function () {
+                //执行重载
+                table.reload('personInfo', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                       /* key: {
+                            JYConPersonCode: layui.$('#in_person_code').val(),
+                            JYConDepCode: layui.$('#select_belong_dev').val()
+
+                        }
+                        , select: {
+                            sel: layui.$('#select_belong_dev').val()
+                        }*/
+                    }
+                });
+            }
+        };
+    });
+
+
+</script>
+
+<script type="text/javascript">
+  /*  function show() {
+        document.getElementById('div').style.display = "block";
+    }
+*/
+    function hidd() {
+        document.getElementById('change-person').style.display = "none";
+    }
+    function changeMesg(){
+        if (layui.$("#JYConDepPhone").val().length>11||layui.$("#JYConDepPhone").val().length<8){
+            layer.msg("电话号码不正确", {icon: 1});
+            return
+        }
+        var JYConDepCode=layui.$("#JYConDepCode").val()
+        var JYConDepName=layui.$("#JYConDepName").val()
+        var JYConDepPhone=layui.$("#JYConDepPhone").val()
+        var JYConDepLocalhost=layui.$("#JYConDepLocalhost").val()
+        layui.$.ajax({
+            url: "/change_msg/change_dep?JYConDepCode=" + JYConDepCode + "&JYConDepName=" + JYConDepName + "&JYConDepPhone=" + JYConDepPhone+ "&JYConDepLocalhost=" + JYConDepLocalhost,
+            success: function (result) {
+                var res = JSON.parse(result)
+                if (res.code === 0) {
+                    layer.msg(res.msg, {icon: 1});
+                    hidd();
+                    //执行重载
+                    layui.table.reload('personInfo', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    //layer.msg(res.msg, {icon: 1});
+                    layui.$("#select_belong_dev").val(select_belong_dev)
+                } else {
+                    alert(res.code)
+                }
+            },
+            error: function (xhr) {
+                alert("系统异常");
+                layer.close();
+            }
+        });
+
+
+
+
+    }
+   /* function get() {
+        var tt = document.form.txt.value;
+        if (tt.length > 0) {
+            document.getElementById('div').style.display = "none";
+        } else {
+            alert('不能为空');
+            return false;
+        }
+        return true;
+    }*/
+</script>
+</body>
+</html>
