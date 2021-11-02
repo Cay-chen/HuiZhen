@@ -61,14 +61,13 @@
                        class="layui-input" value="{{.JYConSickAge}}">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">科室</label>
-            <div class="layui-input-inline">
-                <input type="text" name="JYConSickDep" lay-verify="title" autocomplete="off" class="layui-input"
-                       value="{{.JYConSickDep}}">
-            </div>
-        </div>
-
+        <!-- <div class="layui-inline">
+             <label class="layui-form-label">科室</label>
+             <div class="layui-input-inline">
+                 <input type="text" name="JYConSickDep" lay-verify="title" autocomplete="off" class="layui-input"
+                        value="{{.JYConSickDep}}">
+             </div>
+         </div>-->
         <div class="layui-inline">
             <label class="layui-form-label">床号</label>
             <div class="layui-input-inline">
@@ -76,14 +75,33 @@
                        class="layui-input" value="{{.JYConSickBedNo}}">
             </div>
         </div>
-
+        <div class="layui-inline" >
+            <label class="layui-form-label">科室</label>
+            <div class="layui-inline" >
+                <select name="JYConSickDep" lay-verify="required" id="JYConSickDep" lay-search=""  lay-filter="JYConSickDep">
+                    {{range .DepList}}
+                    <option value="{{.JYConDepCode}}">{{.JYConDepName}}</option>
+                    {{end}}
+                    <!--  <option value="SJXLK">精医神经心理科</option>
+                      <option value="PICU">精医PICU</option>
+                      <option value="TTYXZX">精医疼痛医学中心</option>
+                      <option value="SJNK5">精医疼神经内科5</option>-->
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline" style="display: none">
+            <div class="layui-input-inline">
+                <input type="tel" name="JYConSickDepId" lay-verify="required|number" id="JYConSickDepId" autocomplete="off" value=""
+                       class="layui-input">
+            </div>
+        </div>
     </div>
 
 
     <div class="layui-form-item">
         <label class="layui-form-label">科室地址</label>
         <div class="layui-input-block">
-            <input type="text" name="JYConDepLocaltion" lay-verify="title" placeholder="" autocomplete="off"
+            <input type="text" name="JYConDepLocaltion" lay-verify="title" placeholder="" autocomplete="off" id="JYConDepLocaltion"
                    class="layui-input" value="{{.JYConDepLocaltion}}">
         </div>
     </div>
@@ -94,6 +112,12 @@
             <div class="layui-input-inline">
                 <input type="text" name="JYConSickDoc" lay-verify="title" autocomplete="off" class="layui-input"
                        value="{{.JYConSickDoc}}">
+            </div>
+        </div>
+        <div class="layui-inline" style="display: none">
+            <div class="layui-input-inline">
+                <input type="tel" name="JYConSickDocId" lay-verify="required|number" id="JYConSickDocId" autocomplete="off" value=""
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
@@ -107,28 +131,31 @@
     <div class="layui-form-item">
         <label class="layui-form-label">会诊类型</label>
         <div class="layui-input-block">
-            <input type="radio" name="JYConType" value="1" title="平会诊"  {{.ConType1}}>
-            <input type="radio" name="JYConType" value="2" title="急会诊"  {{.ConType2}}>
+            <input type="radio" name="JYConType" value="1" title="平会诊" {{.ConType1}}>
+            <input type="radio" name="JYConType" value="2" title="急会诊" {{.ConType2}}>
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">目前诊断</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入内容" class="layui-textarea" name="JYConSickDia" lay-verify="title" id="JYConSickDia"
+            <textarea placeholder="请输入内容" class="layui-textarea" name="JYConSickDia" lay-verify="title"
+                      id="JYConSickDia"
                       value="{{.JYConSickDia}}"></textarea>
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">简要病情</label>
         <div class="layui-input-block">
-            <textarea placeholder="含主诉、病例特征等" class="layui-textarea" name="JYConSickCase" lay-verify="title" id="JYConSickCase"
+            <textarea placeholder="含主诉、病例特征等" class="layui-textarea" name="JYConSickCase" lay-verify="title"
+                      id="JYConSickCase"
                       value="{{.JYConSickCase}}"></textarea>
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">请求会诊目的</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入内容" class="layui-textarea" name="JYConPurpose" lay-verify="title" id="JYConPurpose"
+            <textarea placeholder="请输入内容" class="layui-textarea" name="JYConPurpose" lay-verify="title"
+                      id="JYConPurpose"
                       value="哈哈哈哈"></textarea>
         </div>
     </div>
@@ -150,7 +177,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">拟邀请科室</label>
         <div class="layui-input-inline">
-            <select name="JYConOppHos" id="JYConOppHos">
+            <select name="JYConOppHos" id="JYConOppHos" lay-filter="JYConOppHos">
                 <option value="">请选院区</option>
                 <option value="JYZX">精医中心</option>
                 <option value="WJQY" selected="">温江区医院</option>
@@ -158,13 +185,13 @@
         </div>
         <div class="layui-input-inline">
             <select name="JYConOppDepId" id="JYConOppDepId">
-                <option value="">请选取科室</option>
+                <!--<option value="">请选取科室</option>
                 <option value="F001">呼吸科</option>
-                <!--
+                &lt;!&ndash;
                                 <option value="宁波" disabled="">宁波</option>
-                -->
+                &ndash;&gt;
                 <option value="G002">骨科</option>
-                <option value="N003">内分泌科</option>
+                <option value="N003">内分泌科</option>-->
             </select>
         </div>
         <div class="layui-inline">
@@ -207,7 +234,7 @@
         //日期
         laydate.render({
             elem: '#date'
-            ,type: 'datetime'
+            , type: 'datetime'
         });
         laydate.render({
             elem: '#date1'
@@ -271,17 +298,75 @@
             });
         });
 
+
+        form.on('select(JYConSickDep)', function (data) {
+           // layui.layer.msg(data.value);//得到被选中的值
+          //  layui.layer.msg(data.elem); //得到select原始DOM对象
+
+                layui.$.ajax({
+                    url: "/data/depLocation?JYConDepCode=" + data.value,
+                    success: function (result) {
+                        var res = JSON.parse(result)
+                        if (res.flag === "true") {
+                            layui.$('#JYConDepLocaltion').val(res.JYConDepLocalhost)
+                            layui.$('#JYConSickDepId').val(res.JYConDepCode)
+                        } else {
+                            alert(res.mesg)
+                        }
+                    },
+                    error: function (xhr) {
+                        alert("系统异常");
+                        layer.close();
+                    }
+                });
+
+            console.log(data.value)
+        })
+        form.on('select(JYConOppHos)', function (data) {
+            layui.$("#JYConOppDepId").empty();
+            // layui.layer.msg(data.value);//得到被选中的值
+            //  layui.layer.msg(data.elem); //得到select原始DOM对象
+            if (data.value!==""){
+            layui.$.ajax({
+                url: "/data/depList?JYConDepBelongHos=" + data.value,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    layui.$.each(res.data, function(index, value) {
+                        console.log(value.JYConDepName)
+                        console.log(value.JYConDepCode)
+                        layui.$("#JYConOppDepId").append("<option value='"+value.JYConDepCode+"'>"+value.JYConDepName+"</option>");
+                      //  alert(index + ': ' + value);
+                    });
+                    form.render('select');
+                    /* if (res.flag === "true") {
+                         layui.$('#JYConDepLocaltion').val(res.JYConDepLocalhost)
+                         layui.$('#JYConSickDepId').val(res.JYConDepCode)
+                     } else {
+                         alert(res.mesg)
+                     }*/
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
+            }
+        })
+
+
         //表单取值
         layui.$('#LAY-component-form-getval').on('click', function () {
             var data = form.val('example');
             alert(JSON.stringify(data));
         });
 
+
+
         {{if .Msg_ture}}
         layer.open({
             type: 0,
             content: {{.Msg_notice}} //这里content是一个普通的String
-        });
+    });
         {{end}}
 
     });

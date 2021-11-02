@@ -48,6 +48,7 @@ type Info struct {
 
 func (c *ApplyController) Get() {
 	if c.IsLogin {
+		c.Data["DepList"] = date.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
 		flash := beego.ReadFromRequest(&c.Controller)
 		if n, ok := flash.Data["notice"]; ok {
 			fmt.Println("notice:" + n)
@@ -128,12 +129,12 @@ func (c *ApplyController) Post() {
 		JYConSickName := c.GetString("JYConSickName")
 		JYConSickSex := c.GetString("JYConSickSex")
 		JYConSickAge := c.GetString("JYConSickAge")
-		//	JYConSickDepId:=c.GetString("JYConSickDepId")
+		JYConSickDepId := c.GetString("JYConSickDepId")
 		JYConSickDep := c.GetString("JYConSickDep")
 		JYConSickBedNo := c.GetString("JYConSickBedNo")
 		JYConSickAd := c.GetString("JYConSickAd")
 		JYConDepLocaltion := c.GetString("JYConDepLocaltion")
-		//JYConSickDocId:=c.GetString("JYConSickDocId")
+		JYConSickDocId := c.GetString("JYConSickDocId")
 		JYConSickDoc := c.GetString("JYConSickDoc")
 		JYConSickDocPhone := c.GetString("JYConSickDocPhone")
 		JYConType := c.GetString("JYConType")
@@ -151,13 +152,13 @@ func (c *ApplyController) Post() {
 		parameterMap["JYConSickName"] = JYConSickName
 		parameterMap["JYConSickSex"] = JYConSickSex
 		parameterMap["JYConSickAge"] = JYConSickAge //性别
-		parameterMap["JYConSickDepId"] = "H401"
+		parameterMap["JYConSickDepId"] = JYConSickDepId
 		parameterMap["JYConSickDep"] = JYConSickDep //科室名称
 		parameterMap["JYConSickBelongHos"] = c.PersonUer.JYConPersonBelongHos
 		parameterMap["JYConSickBedNo"] = JYConSickBedNo
 		parameterMap["JYConSickAd"] = JYConSickAd
 		parameterMap["JYConDepLocaltion"] = JYConDepLocaltion
-		parameterMap["JYConSickDocId"] = "001"
+		parameterMap["JYConSickDocId"] = JYConSickDocId
 		parameterMap["JYConSickDoc"] = JYConSickDoc //医生姓名
 		parameterMap["JYConSickDocPhone"] = JYConSickDocPhone
 		parameterMap["JYConType"] = JYConType

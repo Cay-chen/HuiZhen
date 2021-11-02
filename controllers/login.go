@@ -3,6 +3,7 @@ package controllers
 import (
 	"HuiZhen/models/utils"
 	"fmt"
+	"github.com/beego/beego/v2/adapter/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"time"
 )
@@ -57,6 +58,7 @@ func (c *LoginController) Post() {
 	flash := beego.NewFlash()
 
 	if res.Flag == "true" {
+		logs.Debug("sesson设置：" + resmsg)
 		err := c.SetSession("loginUser", resmsg)
 		fmt.Println(time.Now().Format("2006-01-02 15:04:05") + "  " + JYConPersonCode + " 登录成功" + JYConPersonPassword)
 		if err != nil {

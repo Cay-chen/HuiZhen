@@ -21,7 +21,7 @@ func (this *BaseController) Prepare() {
 	loginuser := this.GetSession("loginUser")
 	if loginuser != nil {
 		this.IsLogin = true
-		this.LoginUser = loginuser
+		//this.LoginUser = loginuser
 		this.PersonUer = getPerson(loginuser.(string))
 		switch this.PersonUer.JYConPersonType {
 		case "0":
