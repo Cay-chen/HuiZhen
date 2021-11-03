@@ -141,7 +141,7 @@ func (c *ApplyController) Post() {
 		JYConSickDia := c.GetString("JYConSickDia")
 		JYConSickCase := c.GetString("JYConSickCase")
 		JYConPurpose := c.GetString("JYConPurpose")
-		//JYConOppDep:=c.GetString("JYConOppDep")
+		JYConOppDep := c.GetString("JYConOppDep")
 		JYConOppHos := c.GetString("JYConOppHos")
 		flag := c.GetString("flag")
 		JYConOppDepId := c.GetString("JYConOppDepId")
@@ -165,11 +165,11 @@ func (c *ApplyController) Post() {
 		parameterMap["JYConSickDia"] = JYConSickDia
 		parameterMap["JYConSickCase"] = JYConSickCase
 		parameterMap["JYConPurpose"] = JYConPurpose
-		//parameterMap["JYConOppDepId"] = JYConOppDepId
+		parameterMap["JYConOppDep"] = JYConOppDep
 		parameterMap["JYConOppDepId"] = JYConOppDepId
 		parameterMap["flag"] = flag
 		parameterMap["JYConOppHos"] = JYConOppHos
-		parameterMap["JYConOppDep"] = "JYConOppDep" //你要科室
+		//	parameterMap["JYConOppDep"] = "JYConOppDep" //你要科室
 		parameterMap["JYConDate"] = JYConDate
 		parameterMap["JYConFormCreatePersonId"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConFormCreatePersonName"] = c.PersonUer.JYConPersonName

@@ -61,13 +61,6 @@
                        class="layui-input" value="{{.JYConSickAge}}">
             </div>
         </div>
-        <!-- <div class="layui-inline">
-             <label class="layui-form-label">科室</label>
-             <div class="layui-input-inline">
-                 <input type="text" name="JYConSickDep" lay-verify="title" autocomplete="off" class="layui-input"
-                        value="{{.JYConSickDep}}">
-             </div>
-         </div>-->
         <div class="layui-inline">
             <label class="layui-form-label">床号</label>
             <div class="layui-input-inline">
@@ -78,20 +71,17 @@
         <div class="layui-inline" >
             <label class="layui-form-label">科室</label>
             <div class="layui-inline" >
-                <select name="JYConSickDep" lay-verify="required" id="JYConSickDep" lay-search=""  lay-filter="JYConSickDep">
+                <select name="JYConSickDepId" lay-verify="required" id="JYConSickDepId" lay-search=""  lay-filter="JYConSickDepId">
+                    <option value="">请选科室</option>
                     {{range .DepList}}
                     <option value="{{.JYConDepCode}}">{{.JYConDepName}}</option>
                     {{end}}
-                    <!--  <option value="SJXLK">精医神经心理科</option>
-                      <option value="PICU">精医PICU</option>
-                      <option value="TTYXZX">精医疼痛医学中心</option>
-                      <option value="SJNK5">精医疼神经内科5</option>-->
                 </select>
             </div>
         </div>
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickDepId" lay-verify="required|number" id="JYConSickDepId" autocomplete="off" value=""
+                <input type="tel" name="JYConSickDep"  id="JYConSickDep" autocomplete="off" value=""
                        class="layui-input">
             </div>
         </div>
@@ -110,13 +100,17 @@
         <div class="layui-inline">
             <label class="layui-form-label">主管医师</label>
             <div class="layui-input-inline">
+                <select name="JYConSickDocId" id="JYConSickDocId" lay-search="">
+                </select>
+            </div>
+            <!--<div class="layui-input-inline">
                 <input type="text" name="JYConSickDoc" lay-verify="title" autocomplete="off" class="layui-input"
                        value="{{.JYConSickDoc}}">
-            </div>
+            </div>-->
         </div>
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickDocId" lay-verify="required|number" id="JYConSickDocId" autocomplete="off" value=""
+                <input type="tel" name="JYConSickDoc" id="JYConSickDoc"  value=""
                        class="layui-input">
             </div>
         </div>
@@ -159,40 +153,23 @@
                       value="哈哈哈哈"></textarea>
         </div>
     </div>
-    <!--   <div class="layui-form-item">
-           <div class="layui-inline">
-               <label class="layui-form-label">拟邀请科室</label>
-               <div class="layui-input-inline">
-                   <input type="tel" name="JYConOppDep" lay-verify="title" autocomplete="off" class="layui-input">
-               </div>
-           </div>
-           <div class="layui-inline">
-               <label class="layui-form-label">申请时间</label>
-               <div class="layui-input-inline">
-                   <input type="text" name="JYConDate" id="date" lay-verify="date" placeholder="yyyy-MM-dd"
-                          autocomplete="off" class="layui-input">
-               </div>
-           </div>
-       </div>-->
     <div class="layui-form-item">
         <label class="layui-form-label">拟邀请科室</label>
         <div class="layui-input-inline">
-            <select name="JYConOppHos" id="JYConOppHos" lay-filter="JYConOppHos">
+            <select name="JYConOppHos" id="JYConOppHos" lay-filter="JYConOppHos" lay-verify="required" lay-search="">
                 <option value="">请选院区</option>
                 <option value="JYZX">精医中心</option>
-                <option value="WJQY" selected="">温江区医院</option>
+                <option value="WJQY">温江区医院</option>
             </select>
         </div>
         <div class="layui-input-inline">
-            <select name="JYConOppDepId" id="JYConOppDepId">
-                <!--<option value="">请选取科室</option>
-                <option value="F001">呼吸科</option>
-                &lt;!&ndash;
-                                <option value="宁波" disabled="">宁波</option>
-                &ndash;&gt;
-                <option value="G002">骨科</option>
-                <option value="N003">内分泌科</option>-->
+            <select name="JYConOppDepId" id="JYConOppDepId" lay-search="" lay-verify="required" lay-filter="JYConOppDepId">
             </select>
+        </div>
+        <div class="layui-inline" style="display: none">
+            <div class="layui-input-inline">
+                <input type="tel" name="JYConOppDep" id="JYConOppDep" autocomplete="off" value="">
+            </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">申请时间</label>
@@ -203,7 +180,7 @@
         </div>
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
-                <input type="tel" name="flag" lay-verify="required|number" id="flag" autocomplete="off" value="1"
+                <input type="tel" name="flag"  id="flag" autocomplete="off" value="1"
                        class="layui-input">
             </div>
         </div>
@@ -212,11 +189,7 @@
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc">暂存</button>
-            <!--
-                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            -->
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
-
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -278,11 +251,6 @@
         });
         form.on('submit(tj)', function (data) {
             layui.$("#flag").val("2");
-            //  layui.$("apply").submit();
-            /* layer.alert(JSON.stringify(data.field), {
-               title: '最终的提交信息'
-             })*/
-            // return false;
         });
 
         //表单赋值
@@ -298,11 +266,64 @@
             });
         });
 
+        form.on('select(JYConSickDocId)', function (data) {
+            console.log("elem:"+data.elem.name)
+            console.log("value:"+data.value)
+            layui.$('#JYConSickDoc').val(data.elem)
 
-        form.on('select(JYConSickDep)', function (data) {
-           // layui.layer.msg(data.value);//得到被选中的值
-          //  layui.layer.msg(data.elem); //得到select原始DOM对象
+        })
 
+        form.on('select(JYConOppDepId)', function (data) {
+            console.log("elem:"+data.elem)
+            console.log("value:"+data.value)
+            var sel = layui.$(this).children('option:selected').text();
+            console.log("elem:"+sel)
+
+            layui.$('#JYConOppDep').val(data.elem)
+        })
+
+        form.on('select(JYConOppHos)', function (data) {
+            layui.$("#JYConOppDepId").empty();
+            if (data.value!==""){
+            layui.$.ajax({
+                url: "/data/depList?JYConDepBelongHos=" + data.value,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    layui.$.each(res.data, function(index, value) {
+                        layui.$("#JYConOppDepId").append("<option value='"+value.JYConDepCode+"'>"+value.JYConDepName+"</option>");
+                        if (index===0){
+                            layui.$('#JYConOppDep').val(res.JYConDepName)
+                        }
+                    });
+                    form.render('select');
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
+            }
+        })
+        form.on('select(JYConSickDepId)', function (data) {
+            layui.$("#JYConSickDocId").empty();
+            if (data.value!==""){
+                layui.$.ajax({
+                    url: "/data/docList?JYConDepCode=" + data.value,
+                    success: function (result) {
+                        var res = JSON.parse(result)
+                        layui.$.each(res.data, function(index, value) {
+                            layui.$("#JYConSickDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
+                            if (index===0){
+                                layui.$('#JYConSickDoc').val(res.JYConPersonName)
+                            }
+                        });
+                        form.render('select');
+                    },
+                    error: function (xhr) {
+                        alert("系统异常");
+                        layer.close();
+                    }
+                });
                 layui.$.ajax({
                     url: "/data/depLocation?JYConDepCode=" + data.value,
                     success: function (result) {
@@ -319,37 +340,6 @@
                         layer.close();
                     }
                 });
-
-            console.log(data.value)
-        })
-        form.on('select(JYConOppHos)', function (data) {
-            layui.$("#JYConOppDepId").empty();
-            // layui.layer.msg(data.value);//得到被选中的值
-            //  layui.layer.msg(data.elem); //得到select原始DOM对象
-            if (data.value!==""){
-            layui.$.ajax({
-                url: "/data/depList?JYConDepBelongHos=" + data.value,
-                success: function (result) {
-                    var res = JSON.parse(result)
-                    layui.$.each(res.data, function(index, value) {
-                        console.log(value.JYConDepName)
-                        console.log(value.JYConDepCode)
-                        layui.$("#JYConOppDepId").append("<option value='"+value.JYConDepCode+"'>"+value.JYConDepName+"</option>");
-                      //  alert(index + ': ' + value);
-                    });
-                    form.render('select');
-                    /* if (res.flag === "true") {
-                         layui.$('#JYConDepLocaltion').val(res.JYConDepLocalhost)
-                         layui.$('#JYConSickDepId').val(res.JYConDepCode)
-                     } else {
-                         alert(res.mesg)
-                     }*/
-                },
-                error: function (xhr) {
-                    alert("系统异常");
-                    layer.close();
-                }
-            });
             }
         })
 
@@ -359,9 +349,6 @@
             var data = form.val('example');
             alert(JSON.stringify(data));
         });
-
-
-
         {{if .Msg_ture}}
         layer.open({
             type: 0,

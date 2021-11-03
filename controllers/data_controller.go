@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"HuiZhen/models"
 	"HuiZhen/models/date"
 	"HuiZhen/models/utils"
 	"encoding/json"
@@ -29,9 +30,15 @@ func (c *DataController) Get() {
 			data := date.GetDepList(JYConDepBelongHos, "1", "200")
 			res, _ := json.Marshal(data)
 			c.Ctx.WriteString(string(res))
+			break
+		case "docList":
+			JYConDepCode := c.GetString("JYConDepCode")
+			res := models.GetDocList(c.PersonUer.JYConPersonBelongHos, JYConDepCode, "", "200", "1")
+			c.Ctx.WriteString(res)
+			break
 		default:
 			c.Ctx.WriteString("{\"JYConDepLocalhost\":\"\",\"flag\":\"false\",\"JYConDepCode\":\"\",\"JYConDepName\":\"\",\"JYConDepBelongHos\":\"\",\"JYConDepPhone\":\"\",\"mesg\":\"没有数据\"}")
-
+			break
 		}
 	}
 }
