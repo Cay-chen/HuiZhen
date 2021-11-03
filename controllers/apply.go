@@ -169,7 +169,6 @@ func (c *ApplyController) Post() {
 		parameterMap["JYConOppDepId"] = JYConOppDepId
 		parameterMap["flag"] = flag
 		parameterMap["JYConOppHos"] = JYConOppHos
-		//	parameterMap["JYConOppDep"] = "JYConOppDep" //你要科室
 		parameterMap["JYConDate"] = JYConDate
 		parameterMap["JYConFormCreatePersonId"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConFormCreatePersonName"] = c.PersonUer.JYConPersonName

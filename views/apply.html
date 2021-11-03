@@ -81,8 +81,7 @@
         </div>
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickDep"  id="JYConSickDep" autocomplete="off" value=""
-                       class="layui-input">
+                <input  name="JYConSickDep"  id="JYConSickDep"  value="" lay-verify="required"  lay-search="" lay-filter="">
             </div>
         </div>
     </div>
@@ -100,13 +99,9 @@
         <div class="layui-inline">
             <label class="layui-form-label">主管医师</label>
             <div class="layui-input-inline">
-                <select name="JYConSickDocId" id="JYConSickDocId" lay-search="">
+                <select name="JYConSickDocId" id="JYConSickDocId"  lay-search="" lay-verify="required" lay-filter="JYConSickDocId">
                 </select>
             </div>
-            <!--<div class="layui-input-inline">
-                <input type="text" name="JYConSickDoc" lay-verify="title" autocomplete="off" class="layui-input"
-                       value="{{.JYConSickDoc}}">
-            </div>-->
         </div>
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
@@ -196,7 +191,6 @@
 </form>
 
 <script src="/static/layui/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
         var form = layui.form
@@ -218,16 +212,17 @@
         //自定义验证规则
         form.verify({
             title: function (value) {
-                if (value.length < 2) {
-                    return '标题至少得2个字符啊';
+                if (value.length < 1) {
+                    return '不能为空';
                 }
             }
-            , pass: [
-                /^[\S]{6,12}$/
-                , '密码必须6到12位，且不能出现空格'
-            ]
             , content: function (value) {
                 layedit.sync(editIndex);
+            }
+            ,datetime:function (value) {
+                if (value.length < 2) {
+                    return '请填写时间';
+                }
             }
         });
 
@@ -267,19 +262,13 @@
         });
 
         form.on('select(JYConSickDocId)', function (data) {
-            console.log("elem:"+data.elem.name)
-            console.log("value:"+data.value)
-            layui.$('#JYConSickDoc').val(data.elem)
-
+            var sel = layui.$("#JYConSickDocId option:selected").text();
+            layui.$('#JYConSickDoc').val(sel)
         })
 
         form.on('select(JYConOppDepId)', function (data) {
-            console.log("elem:"+data.elem)
-            console.log("value:"+data.value)
-            var sel = layui.$(this).children('option:selected').text();
-            console.log("elem:"+sel)
-
-            layui.$('#JYConOppDep').val(data.elem)
+            var sel = layui.$("#JYConOppDepId option:selected").text();
+            layui.$('#JYConOppDep').val(sel)
         })
 
         form.on('select(JYConOppHos)', function (data) {
@@ -292,7 +281,7 @@
                     layui.$.each(res.data, function(index, value) {
                         layui.$("#JYConOppDepId").append("<option value='"+value.JYConDepCode+"'>"+value.JYConDepName+"</option>");
                         if (index===0){
-                            layui.$('#JYConOppDep').val(res.JYConDepName)
+                            layui.$('#JYConOppDep').val(value.JYConDepName)
                         }
                     });
                     form.render('select');
@@ -305,6 +294,8 @@
             }
         })
         form.on('select(JYConSickDepId)', function (data) {
+            var sel = layui.$("#JYConSickDepId option:selected").text();
+            layui.$('#JYConSickDep').val(sel)
             layui.$("#JYConSickDocId").empty();
             if (data.value!==""){
                 layui.$.ajax({
@@ -314,7 +305,7 @@
                         layui.$.each(res.data, function(index, value) {
                             layui.$("#JYConSickDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
                             if (index===0){
-                                layui.$('#JYConSickDoc').val(res.JYConPersonName)
+                                layui.$('#JYConSickDoc').val(value.JYConPersonName)
                             }
                         });
                         form.render('select');
