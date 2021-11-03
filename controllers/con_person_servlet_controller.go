@@ -3,6 +3,7 @@ package controllers
 import (
 	"HuiZhen/models/utils"
 	"fmt"
+	"github.com/beego/beego/v2/adapter/logs"
 )
 
 type ConPersonServerController struct {
@@ -12,8 +13,66 @@ type ConPersonServerController struct {
 func (c *ConPersonServerController) Get() {
 
 	if c.IsLogin {
+		id := c.Ctx.Input.Param(":id")
+		logs.Debug("id:" + id)
+		switch id {
+		case "deleteForm":
+			serverName := "JYConFormServlet"
+			method := "deleteForm"
+			JYConNum := c.GetString("JYConNum")
+			parameterMap := make(map[string]string)
+			parameterMap["JYConNum"] = JYConNum
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			result := getPerson(resMsg)
+			if result.Flag == "true" {
+				c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
+				return
+			} else {
+				c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
+				return
+			}
+			break
+		case "changeFormState":
+			serverName := "JYConFormServlet"
+			method := "changeFormState"
+			flag := c.GetString("flag")
+			JYConOppDocId := c.GetString("JYConOppDocId")               //设定的会诊医生ID--在状态为4提升时需要
+			JYConOppDocName := c.GetString("JYConOppDocName")           // 设定的会诊医生姓名--在状态为4提升时需要
+			JYConOppDocPhone := c.GetString("JYConOppDocPhone")         //设定的会诊医生电话--在状态为4提升时需要
+			JYConPersonBelongDep := c.GetString("JYConPersonBelongDep") //拟邀科室代号--在状态为4提升时需要
+			JYConPersonBelongHos := c.GetString("JYConPersonBelongHos") //拟邀科室院区--在状态为4提升时需要
+			JYConFormApproveComment := c.GetString("JYConFormApproveComment")
+			JYConFormApprovePersonId := c.PersonUer.JYConPersonCode
+			JYConFormApprovePersonName := c.PersonUer.JYConPersonName
+			JYConNum := c.GetString("JYConNum")
+			parameterMap := make(map[string]string)
+			parameterMap["JYConNum"] = JYConNum
+			parameterMap["flag"] = flag
+			parameterMap["JYConOppDocId"] = JYConOppDocId
+			parameterMap["JYConOppDocName"] = JYConOppDocName
+			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
+			parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
+			parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
+			parameterMap["JYConFormApproveComment"] = JYConFormApproveComment
+			parameterMap["JYConFormApprovePersonId"] = JYConFormApprovePersonId
+			parameterMap["JYConFormApprovePersonName"] = JYConFormApprovePersonName
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			result := getPerson(resMsg)
+			if result.Flag == "true" {
+				c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
+				return
+			} else {
+				c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
+				return
+			}
+			break
+		default:
+			c.TplName = "500.html"
+			break
+
+		}
+
 		if c.IsAdmin || c.IsYwb {
-			id := c.Ctx.Input.Param(":id")
 			switch id {
 			case "active_person":
 				serverName := "JYConPersonServlet"
@@ -97,54 +156,6 @@ func (c *ConPersonServerController) Get() {
 				parameterMap["JYConDepCode"] = JYConDepCode
 				parameterMap["action"] = action
 				parameterMap["JYConDepBelongHos"] = JYConDepBelongHos
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
-				result := getPerson(resMsg)
-				if result.Flag == "true" {
-					c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
-				} else {
-					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
-				}
-				fmt.Println(result)
-				break
-			case "deleteForm":
-				serverName := "JYConFormServlet"
-				method := "deleteForm"
-				JYConNum := c.GetString("JYConNum")
-				parameterMap := make(map[string]string)
-				parameterMap["JYConNum"] = JYConNum
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
-				result := getPerson(resMsg)
-				if result.Flag == "true" {
-					c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
-				} else {
-					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
-				}
-				fmt.Println(result)
-				break
-			case "changeFormState":
-				serverName := "JYConFormServlet"
-				method := "changeFormState"
-				flag := c.GetString("flag")
-				JYConOppDocId := c.GetString("JYConOppDocId")               //设定的会诊医生ID--在状态为4提升时需要
-				JYConOppDocName := c.GetString("JYConOppDocName")           // 设定的会诊医生姓名--在状态为4提升时需要
-				JYConOppDocPhone := c.GetString("JYConOppDocPhone")         //设定的会诊医生电话--在状态为4提升时需要
-				JYConPersonBelongDep := c.GetString("JYConPersonBelongDep") //拟邀科室代号--在状态为4提升时需要
-				JYConPersonBelongHos := c.GetString("JYConPersonBelongHos") //拟邀科室院区--在状态为4提升时需要
-				JYConFormApproveComment := c.GetString("JYConFormApproveComment")
-				JYConFormApprovePersonId := c.PersonUer.JYConPersonCode
-				JYConFormApprovePersonName := c.PersonUer.JYConPersonName
-				JYConNum := c.GetString("JYConNum")
-				parameterMap := make(map[string]string)
-				parameterMap["JYConNum"] = JYConNum
-				parameterMap["flag"] = flag
-				parameterMap["JYConOppDocId"] = JYConOppDocId
-				parameterMap["JYConOppDocName"] = JYConOppDocName
-				parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
-				parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
-				parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
-				parameterMap["JYConFormApproveComment"] = JYConFormApproveComment
-				parameterMap["JYConFormApprovePersonId"] = JYConFormApprovePersonId
-				parameterMap["JYConFormApprovePersonName"] = JYConFormApprovePersonName
 				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
 				result := getPerson(resMsg)
 				if result.Flag == "true" {

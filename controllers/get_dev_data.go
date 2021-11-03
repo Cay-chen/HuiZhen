@@ -1,9 +1,8 @@
 package controllers
 
 import (
-	"HuiZhen/models/date"
+	"HuiZhen/models"
 	"encoding/json"
-	"fmt"
 )
 
 //设置返回类型为string
@@ -18,10 +17,8 @@ func (c *GetDevDataController) Get() {
 			limit := c.GetString("limit")
 			page := c.GetString("page")
 			JYConPersonBelongHos := c.PersonUer.JYConPersonBelongHos
-			date.GetDepList(JYConPersonBelongHos, page, limit)
-			body, _ := json.Marshal(date.GetDepList(JYConPersonBelongHos, page, limit))
-			fmt.Println("ABCDE" + string(body))
-
+			models.GetDepList(JYConPersonBelongHos, page, limit)
+			body, _ := json.Marshal(models.GetDepList(JYConPersonBelongHos, page, limit))
 			c.Ctx.WriteString(string(body))
 		}
 	} else {

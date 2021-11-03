@@ -1,4 +1,4 @@
-package date
+package models
 
 import (
 	"HuiZhen/models/utils"

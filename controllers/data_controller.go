@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"HuiZhen/models"
-	"HuiZhen/models/date"
 	"HuiZhen/models/utils"
 	"encoding/json"
 )
@@ -27,7 +26,7 @@ func (c *DataController) Get() {
 			break
 		case "depList":
 			JYConDepBelongHos := c.GetString("JYConDepBelongHos")
-			data := date.GetDepList(JYConDepBelongHos, "1", "200")
+			data := models.GetDepList(JYConDepBelongHos, "1", "200")
 			res, _ := json.Marshal(data)
 			c.Ctx.WriteString(string(res))
 			break

@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"HuiZhen/models/date"
+	"HuiZhen/models"
 	"HuiZhen/models/utils"
 	"encoding/json"
 	"fmt"
@@ -12,43 +12,9 @@ type ApplyController struct {
 	BaseController
 }
 
-type Info struct {
-	JYConSickDocPhone         string      `json:"JYConSickDocPhone"`
-	JYConSickDepId            string      `json:"JYConSickDepId"`
-	JYConSickCase             string      `json:"JYConSickCase"`
-	JYConOppDocPhone          interface{} `json:"JYConOppDocPhone"`
-	Flag                      string      `json:"flag"`
-	JYConSickDep              string      `json:"JYConSickDep"`
-	JYConFormCreateDate       string      `json:"JYConFormCreateDate"`
-	JYConSickBedNo            string      `json:"JYConSickBedNo"`
-	JYConSickDia              string      `json:"JYConSickDia"`
-	JYConOppDocId             interface{} `json:"JYConOppDocId"`
-	JYConNum                  string      `json:"JYConNum"`
-	JYConSickAge              string      `json:"JYConSickAge"`
-	JYConFormPolicy           string      `json:"JYConFormPolicy"`
-	JYConSickName             string      `json:"JYConSickName"`
-	JYConFormModifyDate       interface{} `json:"JYConFormModifyDate"`
-	JYConSickDocId            string      `json:"JYConSickDocId"`
-	Mesg                      string      `json:"mesg"`
-	JYConSickDoc              string      `json:"JYConSickDoc"`
-	JYConSickAd               string      `json:"JYConSickAd"`
-	JYConOppDocName           interface{} `json:"JYConOppDocName"`
-	JYConSickBelongHos        string      `json:"JYConSickBelongHos"`
-	JYConDepLocaltion         string      `json:"JYConDepLocaltion"`
-	JYConDate                 string      `json:"JYConDate"`
-	JYConSickSex              string      `json:"JYConSickSex"`
-	JYConOppDepId             string      `json:"JYConOppDepId"`
-	JYConFormCreatePersonName string      `json:"JYConFormCreatePersonName"`
-	JYConOppDep               string      `json:"JYConOppDep"`
-	JYConOppHos               string      `json:"JYConOppHos"`
-	JYConFormCreatePersonId   string      `json:"JYConFormCreatePersonId"`
-	JYConPurpose              string      `json:"JYConPurpose"`
-	JYConType                 string      `json:"JYConType"`
-}
-
 func (c *ApplyController) Get() {
 	if c.IsLogin {
-		c.Data["DepList"] = date.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
+		c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
 		flash := beego.ReadFromRequest(&c.Controller)
 		if n, ok := flash.Data["notice"]; ok {
 			fmt.Println("notice:" + n)
@@ -70,8 +36,8 @@ func (c *ApplyController) Get() {
 		selectedW := " "
 		selectedM := "selected"
 		if JYConNum != "" {
-			info := date.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "")
-			s := Info{}
+			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "")
+			s := models.FormInfo{}
 			err := json.Unmarshal([]byte(info), &s)
 			if err != nil {
 			}
@@ -116,7 +82,6 @@ func (c *ApplyController) Get() {
 		c.Data["ConType2"] = ConType2
 		c.Data["ConType1"] = ConType1
 		c.Data["EditInfo"] = editInfo
-
 		c.TplName = "apply.html"
 	} else {
 		c.Redirect("/error/56", 302)

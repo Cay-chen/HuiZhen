@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"HuiZhen/models/date"
+	"HuiZhen/models"
 	"HuiZhen/models/utils"
 	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
@@ -17,7 +17,7 @@ func (c *RegisterController) Get() {
 			id := c.Ctx.Input.Param(":id")
 			switch id {
 			case "person":
-				c.Data["DepList"] = date.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
+				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
 				flash := beego.ReadFromRequest(&c.Controller)
 				if n, ok := flash.Data["notice"]; ok {
 					fmt.Println("notice:" + n)

@@ -1,6 +1,9 @@
 package controllers
 
-import "HuiZhen/models/date"
+import (
+	"HuiZhen/models"
+	"github.com/beego/beego/v2/adapter/logs"
+)
 
 //设置返回类型为string
 
@@ -19,7 +22,8 @@ func (c *GetFormDataController) Get() {
 			JYConPersonType := c.PersonUer.JYConPersonType
 			JYConPersonBelongDep := c.PersonUer.JYConPersonBelongDep
 			JYConPersonCode := c.PersonUer.JYConPersonCode
-			res := date.GetFormList("many", JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, "", "getFormBySomething", "")
+			res := models.GetFormList("many", JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, "", "getFormBySomething", "")
+			logs.Debug("form：" + res)
 			c.Ctx.WriteString(res)
 			break
 		case "fromDsp":
@@ -30,7 +34,7 @@ func (c *GetFormDataController) Get() {
 			JYConPersonType := c.PersonUer.JYConPersonType
 			JYConPersonBelongDep := c.PersonUer.JYConPersonBelongDep
 			JYConPersonCode := c.PersonUer.JYConPersonCode
-			res := date.GetFormList("", JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, "", "getMyApprovalForm", type1)
+			res := models.GetFormList("", JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, "", "getMyApprovalForm", type1)
 			c.Ctx.WriteString(res)
 		}
 
