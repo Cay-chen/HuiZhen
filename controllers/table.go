@@ -24,6 +24,11 @@ func (c *TableController) Get() {
 			c.Data["Type"] = Type
 			c.TplName = "table_from.html"
 			break
+		case "from_ysp":
+			Type := c.GetString("type")
+			c.Data["Type"] = Type
+			c.TplName = "table_approve.html"
+			break
 		}
 	} else {
 		c.Redirect("/error/1245", 302)

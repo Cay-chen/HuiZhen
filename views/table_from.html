@@ -79,18 +79,11 @@
 
         table.render({
             elem: '#shuju'
-            , url: '/get_form/fromDsp?type={{.Type}}'
+            , url: '/get_form/fromYsp?type={{.Type}}'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-            , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-                title: '提示'
-                , layEvent: 'LAYTABLE_TIPS'
-                , icon: 'layui-icon-tips'
-            }]
+            , defaultToolbar: ['filter', 'exports', 'print',]
             , title: '用户数据表'
             , cols: [[
-                /*
-                                {type: 'checkbox', fixed: 'left'},
-                */
                 {field: 'JYConNum', title: '申请单号', width: 152, fixed: 'left', unresize: true, sort: true}
                 , {field: 'JYConSickName', title: '患者姓名', cellMinWidth: 90}
                 , {field: 'JYConSickSex', title: '性别', cellMinWidth: 50}
@@ -109,17 +102,9 @@
         //日期
         laydate.render({
             elem: '#date'
-            //设置开始日期、日期日期的 input 选择器
-            //数组格式为 5.3.0 开始新增，之前版本直接配置 true 或任意分割字符即可
             ,range: ['#date1', '#date2']
         });
-       /* laydate.render({
-            elem: '#date'
-        });
-        laydate.render({
-            elem: '#date'
-        });*/
-        //头工具栏事件
+
         table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
 
@@ -162,35 +147,6 @@
                         });
 
                     });
-                   /* layer.confirm('确定删除' + data.JYConSickName + '会诊申请', {
-                        title: "警告"
-                        , btn: ['删除', '取消'] //按钮
-                    }, function () {
-                        layui.$.ajax({
-                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&JYConFormApproveComment=提交&flag=approve,
-                            success: function (result) {
-                                var res = JSON.parse(result)
-                                if (res.code === 0) {
-                                    //执行重载
-                                    table.reload('formInfo', {
-                                        page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
-                                    });
-                                    layer.msg(res.msg, {icon: 1});
-                                } else {
-                                    alert(res.code)
-                                }
-                            },
-                            error: function (xhr) {
-                                alert("系统异常");
-                                layer.close();
-                            }
-                        });
-
-                    }, function () {
-                        layer.close()
-                    });*/
                     break;
                 case 'pass':
                     layer.prompt({title:'审批理由',formType:2},function (text,index) {
@@ -219,39 +175,6 @@
 
                     });
 
-
-                  /*  layer.confirm('确定提交' + data.JYConSickName + '会诊申请', {
-                        title: "警告"
-                        , btn: ['提交', '取消'] //按钮
-                    }, function () {
-                        layui.$.ajax({
-                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&JYConFormApproveComment=提交&flag=approve",
-                            success: function (result) {
-                                var res = JSON.parse(result)
-
-
-
-                                if (res.code === 0) {
-                                    //执行重载
-                                    table.reload('formInfo', {
-                                        page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
-                                    });
-                                    layer.msg(res.msg, {icon: 1});
-                                } else {
-                                    alert(res.code)
-                                }
-                            },
-                            error: function (xhr) {
-                                alert("系统异常");
-                                layer.close();
-                            }
-                        });
-
-                    }, function () {
-                        layer.close()
-                    });*/
                     break;
                 case 'check':
                     layer.open({
@@ -312,12 +235,7 @@
             }
         };
 
-        /*
-                $('.demoTable .layui-btn').on('click', function(){
-                    var type = $(this).data('type');
-                    active[type] ? active[type].call(this) : '';
-                });
-        */
+
         var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
 
         var active1 = {
@@ -339,11 +257,6 @@
                 });
             }
         };
-
-        /*   $('#layerDemo .layui-btn').on('click', function(){
-               var othis = $(this), method = othis.data('method');
-               active[method] ? active[method].call(this, othis) : '';
-           });*/
 
     });
 </script>

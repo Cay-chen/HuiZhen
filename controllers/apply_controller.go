@@ -5,6 +5,7 @@ import (
 	"HuiZhen/models/utils"
 	"encoding/json"
 	"fmt"
+	"github.com/beego/beego/v2/adapter/logs"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -14,7 +15,8 @@ type ApplyController struct {
 
 func (c *ApplyController) Get() {
 	if c.IsLogin {
-		c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
+		depList := models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
+		//c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
 		flash := beego.ReadFromRequest(&c.Controller)
 		if n, ok := flash.Data["notice"]; ok {
 			fmt.Println("notice:" + n)
@@ -35,7 +37,14 @@ func (c *ApplyController) Get() {
 		ConType2 := " "
 		selectedW := " "
 		selectedM := "selected"
+		JYConOppHos := ""
+		DepListS := ""
+		Y1 := false
+		for i := 0; i < len(depList); i++ {
+			DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" >" + depList[i].JYConDepName + "</option>\n"
+		}
 		if JYConNum != "" {
+			DepListS = ""
 			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "")
 			s := models.FormInfo{}
 			err := json.Unmarshal([]byte(info), &s)
@@ -51,7 +60,18 @@ func (c *ApplyController) Get() {
 				selectedM = " "
 				selectedW = "selected"
 			}
+
+			for i := 0; i < len(depList); i++ {
+				if s.JYConSickDepId == depList[i].JYConDepCode {
+					DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" selected>" + depList[i].JYConDepName + "</option>\n"
+				} else {
+					DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" >" + depList[i].JYConDepName + "</option>\n"
+				}
+
+			}
+
 			editInfo = true
+			Y1 = true
 			c.Data["SexW"] = selectedW
 			c.Data["JYConNum"] = JYConNum
 			c.Data["SexM"] = selectedM
@@ -71,17 +91,24 @@ func (c *ApplyController) Get() {
 				ConType2 = "checked"
 			}
 			c.Data["JYConSickDia"] = s.JYConSickDia
+			c.Data["JYConSickDepId"] = s.JYConSickDepId
 			c.Data["JYConSickCase"] = s.JYConSickCase
 			c.Data["JYConPurpose"] = s.JYConPurpose
-			c.Data["JYConOppHos"] = s.JYConOppHos
+			c.Data["JYConSickDocId"] = s.JYConSickDocId
+			JYConOppHos = s.JYConOppHos
 			c.Data["JYConOppDepId"] = s.JYConOppDepId
-			c.Data["JYConDate"] = s.JYConDate
+			c.Data["JYConDate"] = string([]byte(s.JYConDate)[:19])
+			c.Data["JYConOppDep"] = s.JYConOppDep
 		}
+		c.Data["JYConOppHos"] = JYConOppHos
 		c.Data["SexW"] = selectedW
 		c.Data["SexM"] = selectedM
 		c.Data["ConType2"] = ConType2
 		c.Data["ConType1"] = ConType1
 		c.Data["EditInfo"] = editInfo
+		c.Data["Y1"] = Y1
+		c.Data["DepListS"] = DepListS
+		logs.Debug("depListS:" + DepListS)
 		c.TplName = "apply.html"
 	} else {
 		c.Redirect("/error/56", 302)
