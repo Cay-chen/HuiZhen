@@ -44,6 +44,7 @@ func (c *ConPersonServerController) Get() {
 			JYConFormApproveComment := c.GetString("JYConFormApproveComment")
 			JYConFormApprovePersonId := c.PersonUer.JYConPersonCode
 			JYConFormApprovePersonName := c.PersonUer.JYConPersonName
+			JYConFormApproveBelongHos := c.PersonUer.JYConPersonBelongHos
 			JYConNum := c.GetString("JYConNum")
 			parameterMap := make(map[string]string)
 			parameterMap["JYConNum"] = JYConNum
@@ -56,6 +57,7 @@ func (c *ConPersonServerController) Get() {
 			parameterMap["JYConFormApproveComment"] = JYConFormApproveComment
 			parameterMap["JYConFormApprovePersonId"] = JYConFormApprovePersonId
 			parameterMap["JYConFormApprovePersonName"] = JYConFormApprovePersonName
+			parameterMap["JYConFormApproveBelongHos"] = JYConFormApproveBelongHos
 			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
 			result := getPerson(resMsg)
 			if result.Flag == "true" {

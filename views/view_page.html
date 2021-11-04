@@ -56,19 +56,25 @@
         <td bgcolor="#ededed">拟邀请科室</td>
         <td colspan="2">{{.Form.JYConOppDep}}</td>
         <td bgcolor="#ededed">会诊时间</td>
-        <td colspan="2">{{.Form.JYConDate}}</td>
+        <td colspan="2">{{.JYConDate}}</td>
+    </tr>
+    <tr align="center">
+        <td bgcolor="#ededed">申请人</td>
+        <td colspan="2">{{.Form.JYConFormCreatePersonName}}</td>
+        <td bgcolor="#ededed">申请时间</td>
+        <td colspan="2">{{.JYConFormCreateDate}}</td>
     </tr>
     <tr align="center">
         <td bgcolor="#ededed">科室意见</td>
-        <td colspan="2">同意</td>
+        <td colspan="2">{{.JYConFormApproveCommentK}}</td>
         <td bgcolor="#ededed">审批时间</td>
-        <td colspan="2">2021-09-21</td>
+        <td colspan="2">{{.JYConFormApproveDateK}}</td>
     </tr>
     <tr align="center">
         <td bgcolor="#ededed">医务部意见</td>
-        <td colspan="2">同意</td>
+        <td colspan="2">{{.JYConFormApproveCommentY}}</td>
         <td bgcolor="#ededed">审批时间</td>
-        <td colspan="2">2021-09-21</td>
+        <td colspan="2">{{.JYConFormApproveDateY}}</td>
     </tr>
 </table>
 </body>
