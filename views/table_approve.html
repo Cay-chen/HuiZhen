@@ -83,11 +83,14 @@
             , title: '用户数据表'
             , cols: [[
                 {field: 'JYConNum', title: '申请单号', width: 152, fixed: 'left', unresize: true, sort: true}
+                , {field: 'JYConFormApproveOldState', title: '审批部门', cellMinWidth: 90,templet: '#approveOldState'}
                 , {field: 'JYConFormApprovePersonName', title: '审批人', cellMinWidth: 90}
                 , {field: 'JYConFormApproveComment', title: '审批意见', cellMinWidth: 50}
+                , {field: 'JYConFormApproveState', title: '审批结果', cellMinWidth: 50,templet: '#approveState'}
                 , {field: 'JYConFormApproveDate', title: '审批时间', cellMinWidth: 50}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 70}
             ]]
+            ,height:'full-20'
             , id: 'formInfo'
             , page: true
         });
@@ -215,11 +218,11 @@
 
     });
 </script>
-<script type="text/html" id="formPolocyTpl">
-    {{.A4}}
+<script type="text/html" id="approveOldState">
+    {{.approveOldState}}
 </script>
-<script type="text/html" id="formHos">
-    {{.A5}}'WJQY'{{.A6}}'JYZX'{{.A7}}
+<script type="text/html" id="approveState">
+    {{str2html .approveState}}
 </script>
 </body>
 </html>
