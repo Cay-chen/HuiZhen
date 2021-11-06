@@ -152,11 +152,7 @@
             elem: '#person_table'
             , url: '/get_person'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-            , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-                title: '提示'
-                , layEvent: 'LAYTABLE_TIPS'
-                , icon: 'layui-icon-tips'
-            }]
+            , defaultToolbar: ['filter', 'exports', 'print']
             , title: '用户数据表'
             , cols: [[
                 {field: 'JYConPersonCode', title: '工号', cellMinWidth: 100, fixed: 'left', unresize: true, sort: true}

@@ -33,7 +33,7 @@ func (c *TableController) Get() {
 			IsTO := false
 			Type := c.GetString("type")
 			c.Data["Type"] = Type
-			if c.IsKszr || c.IsYwb {
+			if c.IsKszr {
 				isKsfz = true
 				if Type == "to" {
 					IsTO = true

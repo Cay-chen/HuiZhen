@@ -47,16 +47,25 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <!--
-                                <li class="layui-nav-item " id="newHuiZhen"><a>新建会诊</a></li>
-                -->
                 <li class="layui-nav-item layui-this" id="myHuiZhen"><a>我的会诊</a></li>
                 {{if .List2}}
                 <li class="layui-nav-item">
                     <a href="javascript:;">我的审批</a>
                     <dl class="layui-nav-child  ">
-                        <dd><a href="javascript:;" id="dai_shenpi">待审批</a></dd>
-                        <dd><a href="javascript:;" id="yi_shenpi">已审批</a></dd>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">&#12288;待审批</a>
+                            <dl class="layui-nav-child  ">
+                                <dd><a href="javascript:;" id="from_dsp">&#12288;&#12288;form待审批</a></dd>
+                                <dd><a href="javascript:;" id="to_dsp">&#12288;&#12288;to待审批</a></dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a href="javascript:;">&#12288;已审批</a>
+                            <dl class="layui-nav-child  ">
+                                <dd><a href="javascript:;" id="from_ysp">&#12288;&#12288;form已审批</a></dd>
+                                <dd><a href="javascript:;" id="to_ysp">&#12288;&#12288;to已审批</a></dd>
+                            </dl>
+                        </li>
                     </dl>
                 </li>
                 {{end}}

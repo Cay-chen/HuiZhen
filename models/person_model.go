@@ -68,6 +68,16 @@ func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonCode, limit, page
 		return ""
 	}
 }
+func GetDocInfo(JYConPersonCode, JYConPersonBelongHos string) string {
+	serverName := "JYConPersonServlet"
+	method := "getPersonInfoByAccount"
+	parameterMap := make(map[string]string)
+	parameterMap["JYConPersonCode"] = JYConPersonCode
+	parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
+	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	return resMsg
+
+}
 
 //设置返回类型为string
 func Data1ToDataJson(c Person1) string {

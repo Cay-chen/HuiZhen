@@ -10,6 +10,7 @@ func init() {
 	beego.Router("/table/:id", &controllers.TableController{})
 	beego.Router("/getdate", &controllers.GetDateController{})
 	beego.Router("/apply", &controllers.ApplyController{})
+	beego.Router("/apply_et", &controllers.ApplicationFormEtController{})
 	beego.Router("/getdate1", &controllers.GetDate1Controller{})
 	beego.Router("/", &controllers.LoginController{})
 	beego.Router("/register/:id", &controllers.RegisterController{})
@@ -25,5 +26,6 @@ func init() {
 	beego.Router("/person_manage", &controllers.PersonManageController{})
 	beego.Router("/dep_manage", &controllers.DepMangeController{})
 	beego.Router("/check", &controllers.CheckController{})
+	beego.Router("/approve56", &controllers.Approve5To6Controller{})
 
 }

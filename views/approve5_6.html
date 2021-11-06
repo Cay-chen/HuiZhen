@@ -1,140 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>注册页面</title>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="/static/layui/css/layui.css"/>
-  <style type="text/css">
-    body {
-      padding-top: 4px;
-      padding-bottom: 40px;
-      background-color: #f5f5f5;
-      font-family: "微软雅黑";
-/*
-      background-color: buttonhighlight;
-*/
-    }
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <style>
+        html, body {
+            width: auto;
+            height: auto;
+            margin: 0;
+            padding: 0;
+        }
 
-    .form-signin {
-      max-width: 400px;
-      padding: 19px 29px 29px;
-      margin: 0 auto 20px;
-      background-color: #fff;
-      border: 1px solid #e5e5e5;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      border-radius: 5px;
-      -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-      -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-      background: rgba(255, 255, 255, 0.5);
-    }
+        h1 {
+            color: rgb(43, 43, 43);
+            text-align: center;
+        }
 
-    #message {
-      font-size: 14px;
-      color: red;
-      margin-left: 40px;
-    }
+        form {
+            width: 400px;
+            min-width: 400px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+        }
 
-
-  </style>
+        form div {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
-<body>
-<div class="form-signin">
-  <form action="/register/person" method="post" class="layui-form">
-    <input type="hidden" name="method" value="createAccount">
-    <!--<div style="width: 100%;text-align: center;margin-bottom: 15px">
-      <h1 style="">{{.hospital}}员工注册</h1>
-    </div>-->
-      <!-- <div class="layui-form-item">
-    <label class="layui-form-label" style="width: 60px;text-align: left">院区选择</label>
-    <div class="layui-input-inline" style="width: 285px">
-      <select name="JYConPersonBelongHos" lay-verify="required" id="sele" lay-search="">
-        <option value="JYZX">精医中心</option>
-        <option value="WJQY">温江区医院</option>
-      </select>
-    </div>
-  </div>-->
-    <div class="layui-form-item">
-      <label class="layui-form-label" style="width: 60px;text-align: left">科室选择</label>
-      <div class="layui-input-inline" style="width: 285px">
-        <select name="JYConPersonBelongDep" lay-verify="required" id="kes" lay-search="">
-          {{range .DepList}}
-          <option value="{{.JYConDepCode}}">{{.JYConDepName}}</option>
-          {{end}}
-        <!--  <option value="SJXLK">精医神经心理科</option>
-          <option value="PICU">精医PICU</option>
-          <option value="TTYXZX">精医疼痛医学中心</option>
-          <option value="SJNK5">精医疼神经内科5</option>-->
-        </select>
-      </div>
-    </div>
-    <div class="layui-form-item">
-      <label class="layui-form-label" style="width: 60px;text-align: left">人员类型</label>
-      <div class="layui-input-inline" style="width: 285px">
-        <select name="JYConPersonType" lay-verify="required" id="类型" lay-search="">
-          <option value="1">科室主任</option>
-          <option value="2">科室负责人</option>
-          <option value="3">科室一线医生</option>
-          <option value="4">医务部人员</option>
-        </select>
-      </div>
-    </div>
+<body class="abc">
+<div>
+    <form method="post" class="layui-form">
+        <div class="layui-form-item" >
+            <label class="layui-form-label" style="width: 60px;text-align: left">审批理由</label>
+            <div class="layui-input-inline">
+                <textarea placeholder="审批理由" class="layui-textarea" name="JYConFormApproveComment" lay-verify="title"
+                          id="JYConFormApproveComment"
+                          value="" style="width: 285px">
+                    </textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px;text-align: left">选择医师</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="switch" lay-skin="switch" lay-filter="is_auto" lay-text="自动|手动" checked>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px;text-align: left">会诊医师</label>
+            <div class="layui-input-inline" style="width: 285px" id="is_auto">
+                <select name="JYConOppDocId" lay-verify="required" id="JYConOppDocId" lay-search="" style="display: none" lay-filter="JYConOppDocId">
+                    <option value="">选择医师</option>
+                    {{range .DocList}}
+                    <option value="{{.JYConPersonCode}}">{{.JYConPersonName}}</option>
+                    {{end}}
+                </select>
 
-    <div class="layui-form-item">
-      <label class="layui-form-label" style="width: 60px;text-align: left">工号</label>
-      <div class="layui-input-inline">
-        <input type="text" name="JYConPersonCode" lay-verify="gonghao" placeholder="请输工号" autocomplete="off"
-               class="layui-input" style="width: 285px"/>
-      </div>
-    </div>
+            </div>
+            <div class="layui-input-inline" style="width: 285px;margin-bottom: 20px;display: none" id="no_auto">
+                <input type="text" name="JYConOppDocName" lay-verify="title" placeholder="请输医生姓名" autocomplete="off" id="JYConOppDocName"
+                       class="layui-input" style="width: 285px" value="1"/>
+            </div>
 
-    <br>
-    <div class="layui-form-item">
-      <div class="layui-input-inline" style="width:100%;height:35px;text-align: center">
-        <button type="submit" class="layui-btn" lay-submit="" lay-filter="register" style="width:80%;height:35px;">
-          提交
-        </button>
-      </div>
-    </div>
-  </form>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 60px;text-align: left">电话号码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="JYConOppDocPhone" lay-verify="required|phone" autocomplete="off" id="JYConOppDocPhone"
+                       placeholder="请输入电话号码"
+                       class="layui-input" style="width: 285px"/>
+            </div>
+        </div>
+        <br>
+        <div class="layui-form-item">
+            <div class="layui-input-inline" style="width:100%;height:35px;text-align: center">
+                <button type="button" class="layui-btn" lay-submit="" lay-filter="agree"
+                        style="width:80%;height:35px;">
+                    同意
+                </button>
+            </div>
+        </div>
+    </form>
 </div>
-<script src="/static/layui/layui.js" charset="utf-8"></script>
-<script type="text/javascript">
-  layui.use(['form', 'layedit', 'laydate'], function () {
-    var form = layui.form
-    //自定义验证规则
-    form.verify({
-      confirmPass:function(value){
-        if(layui.$('input[name=JYConPersonPassword]').val() !== value)
-          return '提示：两次输入密码不一致！';
-      },
-      gonghao: function (value) {
-        if (value.length < 1) {
-          return '请输入工号';
-        }
-      }
-      , pass: [
-        /^[\S]{1,30}$/
-        , '请输入密码'
-      ]
-      ,phone:function (v){
-        if (v.length!=11){
-          return '请输入正确手机号码';
-        }
-      }
-    });
-    {{if .Msg_ture}}
-
-      layer.open({
-      type: 0,
-      content: {{.Msg_notice}} //这里content是一个普通的String
-    });
-
-    {{end}}
-
-  });
-</script>
-
 </body>
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 1) {
+                    return '请输入工号';
+                }
+            }
+            , pass: [
+                /^[\S]{1,30}$/
+                , '请输入密码'
+            ]
+        });
+
+
+        //监听提交
+        form.on('submit(agree)', function (data) {
+            var JYConFormApproveComment = layui.$("#JYConFormApproveComment").val();
+            var JYConOppDocId = "";
+            var JYConOppDocName;
+            var JYConOppDocPhone = layui.$("#JYConOppDocPhone").val();
+            if (data.elem.checked){
+                 JYConOppDocId = layui.$("#JYConOppDocId").val();
+                JYConOppDocName=layui.$("#JYConOppDocId").find("option:selected").text();
+            }else {
+                JYConOppDocName=layui.$("#JYConOppDocName").val();
+            }
+            layui.$.ajax({
+                url: "/change_msg/changeFormState?JYConNum={{.JYConNum}}&JYConPersonBelongDep={{.JYConPersonBelongDep}}&JYConPersonBelongHos={{.JYConPersonBelongHos}}&flag=approve&JYConFormApproveComment="+JYConFormApproveComment+"&JYConOppDocId="+JYConOppDocId+"&JYConOppDocName="+JYConOppDocName+"&JYConOppDocPhone="+JYConOppDocPhone,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    if (res.code === 0) {
+                        //执行重载
+                        table.reload('formInfo', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg(res.msg, {icon: 1});
+                    } else {
+                        alert(res.code)
+                    }
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
+
+            /* layer.alert(JSON.stringify(data.field), {
+                 title: '最终的提交信息'
+             })
+             return false;*/
+            var  index = parent.layer.getFrameIndex(window.name);  //先得到当前iframe层的索引
+            parent.layer.close(index);  //再执行关闭
+            parent.location.reload();
+        });
+        form.on('switch(is_auto)', function (data) {  // 监听 layui switch绑定事件； 特别注意 is_navigate 要跟上面的 lay-filter="is_navigate" 名称保持一致
+
+            if (data.elem.checked) {
+                layui.$("#is_auto").css("display", "block");
+                layui.$("#no_auto").css("display", "none");
+                layui.$("#JYConOppDocId").get(0).selectedIndex="";
+            } else {
+                layui.$("#is_auto").css("display", "none");
+                layui.$("#JYConOppDocId").get(0).selectedIndex=1;
+                layui.$("#no_auto").css("display", "block");
+            }
+
+        });
+        form.on('select(JYConOppDocId)',function (data){
+            layui.$.ajax({
+                url: "/data/docInfo?JYConPersonCode=" + data.value,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    layui.$('#JYConSickDoc').val(res.JYConPersonPhone)
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
+
+            });
+    })
+</script>
+<script>
+
+    function con() {
+        console.log("aaaa")
+    }
+
+    function con1() {
+        console.log("bbbb")
+    }
+</script>
 </html>

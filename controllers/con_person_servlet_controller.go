@@ -26,10 +26,10 @@ func (c *ConPersonServerController) Get() {
 			result := getPerson(resMsg)
 			if result.Flag == "true" {
 				c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
-				return
+
 			} else {
 				c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
-				return
+
 			}
 			break
 		case "changeFormState":
@@ -62,10 +62,10 @@ func (c *ConPersonServerController) Get() {
 			result := getPerson(resMsg)
 			if result.Flag == "true" {
 				c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
-				return
+
 			} else {
 				c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
-				return
+
 			}
 			break
 		default:

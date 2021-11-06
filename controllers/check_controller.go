@@ -12,7 +12,6 @@ type CheckController struct {
 
 func (c *CheckController) Get() {
 	if c.IsLogin {
-
 		JYConNum := c.GetString("JYConNum")
 		if JYConNum != "" {
 			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "")

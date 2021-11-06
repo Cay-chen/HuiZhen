@@ -218,7 +218,40 @@
                     break;
                 case 'pass':
                 {{if .IsTO}}
-                    layui.$("#change-person").css("display", "block");
+                    layer.open({
+                        type: 2
+                        , id: 'layerDemo'  //防止重复弹出
+                        , title: ['审批', 'font-size:21px;text-align:center;']
+                        , content: '/approve56?JYConNum=' + data.JYConNum
+
+                        /*
+                                            , btn: '关闭'
+                        */
+                        , btnAlign: 'c' //按钮居中
+                        , shade: 0 //不显示遮罩
+
+                        , area: ['460px', '500px']
+                        , scrollbar: false
+                        ,resize:false
+                        , yes: function () {
+                            layer.closeAll();
+                        } ,cancel: function () {
+                            //执行重载
+                            table.reload('formInfo', {
+                                page: {
+                                    curr: 1 //重新从第 1 页开始
+                                }
+                            });
+                            // layui.$("#select_belong_dev").val(select_belong_dev);
+                            layer.close();
+                            //右上角关闭回调
+
+                            //return false 开启该代码可禁止点击该按钮关闭
+                        }
+                    });
+
+
+                   // layui.$("#change-person").css("display", "block");
 
                 {{else}}
                     layer.prompt({title:'审批理由',formType:2},function (text,index) {
@@ -338,7 +371,7 @@
 <script type="text/html" id="formHos">
     {{.A5}}'WJQY'{{.A6}}'JYZX'{{.A7}}
 </script>
-
+{{if .IsKsfz}}
 <script type="text/javascript">
 
     function hidd() {
@@ -382,5 +415,6 @@
     }
 
 </script>
+{{end}}
 </body>
 </html>
