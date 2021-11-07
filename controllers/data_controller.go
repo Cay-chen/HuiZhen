@@ -44,7 +44,14 @@ func (c *DataController) Get() {
 			break
 		case "docInfo":
 			JYConPersonCode := c.GetString("JYConPersonCode")
-			res := models.GetDocInfo(JYConPersonCode, c.PersonUer.JYConPersonBelongHos)
+			yq := c.GetString("yq")
+			JYConPersonBelongHos := ""
+			if yq != "" {
+				JYConPersonBelongHos = yq
+			} else {
+				JYConPersonBelongHos = c.PersonUer.JYConPersonBelongHos
+			}
+			res := models.GetDocInfo(JYConPersonCode, JYConPersonBelongHos)
 			//res := models.GetDocList(c.PersonUer.JYConPersonBelongHos, JYConDepCode,"",  "200", "1")
 			c.Ctx.WriteString(res)
 			break

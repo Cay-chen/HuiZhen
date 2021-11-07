@@ -191,7 +191,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">会诊时间</label>
             <div class="layui-input-inline">
-                <input type="text" name="JYConDate" id="date" lay-verify="required|phone" autocomplete="off" placeholder=""
+                <input type="text" name="JYConDate" id="date" lay-verify="datetime" autocomplete="off" placeholder=""
                         class="layui-input" value="{{.JYConDate}}">
             </div>
         </div>
@@ -292,7 +292,7 @@
         form.on('select(JYConOppDocId)', function (data) {
             console.log(data)
             layui.$.ajax({
-                url: "/data/docInfo?JYConPersonCode=" + data.value,
+                url: "/data/docInfo?JYConPersonCode=" + data.value+"&yq="+yq,
                 success: function (result) {
                     var res = JSON.parse(result)
                     layui.$('#JYConOppDocPhone').val(res.JYConPersonPhone)
