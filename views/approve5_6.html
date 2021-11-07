@@ -91,7 +91,8 @@
 <script src="/static/layui/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form
+        var form = layui.form,
+            isSwitch=true;
         //自定义验证规则
         form.verify({
             title: function (value) {
@@ -112,7 +113,7 @@
             var JYConOppDocId = "";
             var JYConOppDocName;
             var JYConOppDocPhone = layui.$("#JYConOppDocPhone").val();
-            if (data.elem.checked){
+            if (isSwitch){
                  JYConOppDocId = layui.$("#JYConOppDocId").val();
                 JYConOppDocName=layui.$("#JYConOppDocId").find("option:selected").text();
             }else {
@@ -154,19 +155,22 @@
                 layui.$("#is_auto").css("display", "block");
                 layui.$("#no_auto").css("display", "none");
                 layui.$("#JYConOppDocId").get(0).selectedIndex="";
+                isSwitch=true;
             } else {
                 layui.$("#is_auto").css("display", "none");
                 layui.$("#JYConOppDocId").get(0).selectedIndex=1;
                 layui.$("#no_auto").css("display", "block");
+                isSwitch=false;
             }
 
         });
+
         form.on('select(JYConOppDocId)',function (data){
             layui.$.ajax({
                 url: "/data/docInfo?JYConPersonCode=" + data.value,
                 success: function (result) {
                     var res = JSON.parse(result)
-                    layui.$('#JYConSickDoc').val(res.JYConPersonPhone)
+                    layui.$('#JYConOppDocPhone').val(res.JYConPersonPhone)
                 },
                 error: function (xhr) {
                     alert("系统异常");

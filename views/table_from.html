@@ -8,76 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
-    {{if .IsKsfz }}
-    <style type="text/css">
-        .change-person{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3);
-            display:none;
-            z-index: 999;
-
-        }
-        .change-person-data {
-            position: absolute;
-            padding: 15px;
-            border: 1px solid #e5e5e5;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-            min-width: 400px;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            background: whitesmoke;
-
-        }
-
-    </style>
-    {{end}}
 </head>
 <body>
-{{if .IsKsfz}}
-<div class="change-person" id="change-person">
-    <div class="change-person-data" >
-        <table action="" method="post" class="layui-form" >
-            <h1 align="center">审批</h1>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 60px;text-align: left">审批理由</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="JYConPersonName" lay-verify="title" placeholder="请输入审批理由" autocomplete="off"
-                           class="layui-input" style="width: 285px" id="JYConPersonName"/>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 60px;text-align: left">会诊医师</label>
-                <div class="layui-input-inline" style="width: 285px">
-                    <select name="JYConPersonBelong" lay-verify="required" id="select_dev" lay-search="" class="layui-input">
-                        {{range .DocList}}
-                        <option value="{{.JYConPersonCode}}">{{.JYConPersonName}}</option>
-                        {{end}}
-                    </select>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <div class="layui-input-inline" style="width:100%;height:35px;text-align: center">
-                    <button  class="layui-btn" style="width:20%;height:35px;margin-right: 15px" onclick="changeMesg()">
-                        修改
-                    </button>
-                    <button  class="layui-btn" style="width:20%;height:35px;margin-left: 15px" onclick="hidd()">
-                        关闭
-                    </button>
-                </div>
-            </div>
-        </table>
-    </div>
-</div>
-{{end}}
 
 <table class="layui-hide" id="shuju" lay-filter="test" lay-filter="user"></table>
 <script type="text/html" id="toolbarDemo">
@@ -371,50 +303,5 @@
 <script type="text/html" id="formHos">
     {{.A5}}'WJQY'{{.A6}}'JYZX'{{.A7}}
 </script>
-{{if .IsKsfz}}
-<script type="text/javascript">
-
-    function hidd() {
-        document.getElementById('change-person').style.display = "none";
-    }
-    function changeMesg(){
-        if (layui.$("#JYConPersonPhone").val().length>11||layui.$("#JYConPersonPhone").val().length<8){
-            layer.msg("电话号码不正确", {icon: 1});
-            return
-        }
-        var JYConPersonCode=layui.$("#JYConPersonCode").val()
-        var JYConPersonName=layui.$("#JYConPersonName").val()
-        var JYConPersonPhone=layui.$("#JYConPersonPhone").val()
-        var JYConPersonType=layui.$("#select_person").val()
-        var JYConPersonBelongDep=layui.$("#select_dev").val()
-        var select_belong_dev = layui.$("#select_belong_dev").val();
-        layui.$.ajax({
-            url: "/change_msg/change_person?JYConPersonCode=" + JYConPersonCode + "&JYConPersonName=" + JYConPersonName + "&JYConPersonPhone=" + JYConPersonPhone+ "&JYConPersonType=" + JYConPersonType+ "&JYConPersonBelongDep=" + JYConPersonBelongDep,
-            success: function (result) {
-                var res = JSON.parse(result)
-                if (res.code === 0) {
-                    layer.msg(res.msg, {icon: 1});
-                    hidd();
-                    //执行重载
-                    layui.table.reload('personInfo', {
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    //layer.msg(res.msg, {icon: 1});
-                    layui.$("#select_belong_dev").val(select_belong_dev)
-                } else {
-                    alert(res.code)
-                }
-            },
-            error: function (xhr) {
-                alert("系统异常");
-                layer.close();
-            }
-        });
-    }
-
-</script>
-{{end}}
 </body>
 </html>

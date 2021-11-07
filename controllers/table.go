@@ -29,12 +29,10 @@ func (c *TableController) Get() {
 			c.TplName = "table.html"
 			break
 		case "from_dsp":
-			isKsfz := false
 			IsTO := false
 			Type := c.GetString("type")
 			c.Data["Type"] = Type
-			if c.IsKszr {
-				isKsfz = true
+			if c.IsKszr || c.IsFzr {
 				if Type == "to" {
 					IsTO = true
 				}
@@ -44,7 +42,6 @@ func (c *TableController) Get() {
 			_ = json.Unmarshal([]byte(docList), &res)
 			c.Data["DocList"] = res.Data
 			c.Data["IsTO"] = IsTO
-			c.Data["IsKsfz"] = isKsfz
 			c.TplName = "table_from.html"
 			break
 		case "from_ysp":

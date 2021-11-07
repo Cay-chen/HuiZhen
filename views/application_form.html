@@ -404,7 +404,7 @@
             event = window.event; //针对ie浏览器
             target = event.srcElement;
             code = event.keyCode;
-            if (code == 13) {
+            if (code === 13) {
                 tag = target.tagName;
                 if (tag == "TEXTAREA") { return true; }
                 else { return false; }
