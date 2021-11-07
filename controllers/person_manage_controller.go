@@ -16,7 +16,7 @@ func (c *PersonManageController) Get() {
 			c.Data["A12"] = "{ }}"
 			c.Data["A2"] = "{{d.JYConPersonIsActive}}"
 			c.Data["A3"] = "{{#  } else { }}\n    {{d.JYConPersonIsActive}}\n    {{#  } }}"
-			c.TplName = "person_manage.html"
+			c.TplName = "iframe_person_manage.html"
 		}
 	} else {
 		c.Redirect("/error/1245", 302)

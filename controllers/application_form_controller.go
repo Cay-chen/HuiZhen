@@ -112,7 +112,6 @@ func (c *ApplyController) Get() {
 		c.TplName = "application_form.html"
 	} else {
 		c.Redirect("/error/56", 302)
-		//	c.TplName = "error.html"
 	}
 }
 func (c *ApplyController) Post() {

@@ -44,7 +44,7 @@ func (c *CheckController) Get() {
 			c.Data["JYConFormApproveDateK"] = JYConFormApproveDateK
 			c.Data["JYConFormApproveCommentY"] = JYConFormApproveCommentY
 			c.Data["JYConFormApproveDateY"] = JYConFormApproveDateY
-			c.TplName = "view_page.html"
+			c.TplName = "check_view_page.html"
 
 		} else {
 			c.Redirect("/error", 302)

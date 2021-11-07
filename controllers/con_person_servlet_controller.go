@@ -69,7 +69,7 @@ func (c *ConPersonServerController) Get() {
 			}
 			break
 		default:
-			c.TplName = "500.html"
+			c.TplName = "600.html"
 			break
 
 		}
@@ -168,7 +168,7 @@ func (c *ConPersonServerController) Get() {
 				fmt.Println(result)
 				break
 			default:
-				c.TplName = "500.html"
+				c.TplName = "600.html"
 				break
 			}
 		}
