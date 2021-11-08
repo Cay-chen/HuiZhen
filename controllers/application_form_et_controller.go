@@ -108,7 +108,6 @@ func (c *ApplicationFormEtController) Get() {
 		c.Data["EditInfo"] = editInfo
 		c.Data["Y1"] = Y1
 		c.Data["DepListS"] = DepListS
-		logs.Debug("depListS:" + DepListS)
 		c.TplName = "emergency_treatment_form.html"
 	} else {
 		c.Redirect("/error/56", 302)
@@ -117,6 +116,7 @@ func (c *ApplicationFormEtController) Get() {
 func (c *ApplicationFormEtController) Post() {
 	if c.IsLogin {
 		JYConNum := c.GetString("JYConNum")
+		ISAutoDoc := c.GetString("ISAutoDoc")
 		JYConSickName := c.GetString("JYConSickName")
 		JYConSickSex := c.GetString("JYConSickSex")
 		JYConSickAge := c.GetString("JYConSickAge")
@@ -135,12 +135,21 @@ func (c *ApplicationFormEtController) Post() {
 		JYConOppDep := c.GetString("JYConOppDep")
 		JYConOppHos := c.GetString("JYConOppHos")
 		flag := c.GetString("flag")
-		JYConOppDepId := c.GetString("JYConOppDepId")
 		JYConDate := c.GetString("JYConDate")
+		JYConOppDepId := c.GetString("JYConOppDepId")
 		JYConOppDocName := c.GetString("JYConOppDocName")
+		JYConOppDocId1 := c.GetString("JYConOppDocId1")
+		JYConOppDocName1 := c.GetString("JYConOppDocName1")
 		JYConOppDocId := c.GetString("JYConOppDocId")
 		JYConOppDocPhone := c.GetString("JYConOppDocPhone")
+		JYConOppDocPhone1 := c.GetString("JYConOppDocPhone1")
 		//fmt.Println("JYConSickName:"+JYConSickName+" | JYConSickSex:"+JYConSickSex+" | JYConSickAge:"+JYConSickAge+" | JYConSickDepId:"+JYConSickDepId+" | JYConSickDep:"+JYConSickDep+" | JYConSickBelongHos:"+JYConSickBelongHos+" | JYConSickBedNo:"+JYConSickBedNo+" | JYConSickAd:"+JYConSickAd+" | JYConDepLocaltion:"+JYConDepLocaltion+" | JYConSickDocId:"+JYConSickDocId+" | JYConSickDoc:"+JYConSickDoc+" | JYConSickDocPhone:"+JYConSickDocPhone+" | JYConType:"+JYConType+" | JYConSickDia:"+JYConSickDia+" | JYConSickCase:"+JYConSickCase+" | JYConPurpose:"+JYConPurpose+" | JYConOppDep:"+JYConOppDep+" | JYConOppDepId:"+JYConOppDepId+" | JYConDate:"+JYConDate+" | JYConFormCreatePersonId:"+JYConFormCreatePersonId+" | JYConFormCreatePersonName:"+JYConFormCreatePersonName)
+
+		logs.Debug("ISAutoDoc:" + ISAutoDoc)
+		logs.Debug("JYConOppDocName:" + JYConOppDocName)
+		logs.Debug("JYConOppDocId:" + JYConOppDocId)
+		logs.Debug("JYConOppDocName1:" + JYConOppDocName1)
+		logs.Debug("JYConOppDocId1:" + JYConOppDocId1)
 
 		parameterMap := make(map[string]string)
 		parameterMap["JYConSickName"] = JYConSickName
@@ -164,9 +173,15 @@ func (c *ApplicationFormEtController) Post() {
 		parameterMap["flag"] = flag
 		parameterMap["JYConOppHos"] = JYConOppHos
 		parameterMap["JYConDate"] = JYConDate
-		parameterMap["JYConOppDocName"] = JYConOppDocName
-		parameterMap["JYConOppDocId"] = JYConOppDocId
-		parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
+		if ISAutoDoc == "1" {
+			parameterMap["JYConOppDocName"] = JYConOppDocName
+			parameterMap["JYConOppDocId"] = JYConOppDocId
+			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
+		} else {
+			parameterMap["JYConOppDocName"] = JYConOppDocName1
+			parameterMap["JYConOppDocId"] = JYConOppDocId1
+			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone1
+		}
 		parameterMap["JYConFormCreatePersonId"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConFormCreatePersonName"] = c.PersonUer.JYConPersonName
 		postResult := ""

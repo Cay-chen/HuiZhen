@@ -84,7 +84,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">科室地址</label>
         <div class="layui-input-block">
-            <input type="text" name="JYConDepLocaltion" lay-verify="title" placeholder="" autocomplete="off" id="JYConDepLocaltion"
+            <input type="text" name="JYConDepLocaltion" lay-verify="title"  autocomplete="off" id="JYConDepLocaltion"
                    class="layui-input" value="{{.JYConDepLocaltion}}">
         </div>
     </div>
@@ -171,7 +171,25 @@
                 <input type="tel" name="JYConOppDep" id="JYConOppDep" autocomplete="off" value="{{.JYConOppDep}}">
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">会诊时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="JYConDate" id="date" lay-verify="datetime" autocomplete="off"
+                       class="layui-input" value="{{.JYConDate}}">
+            </div>
+        </div>
+
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >选择医师</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="switch" lay-skin="switch" lay-filter="is_auto" lay-text="自动|手动" checked>
+            </div>
+    </div>
+    <div class="layui-form-item" id="is_auto">
         <!--选择医师-->
+        <label class="layui-form-label">医师姓名</label>
         <div class="layui-input-inline">
             <select name="JYConOppDocId" id="JYConOppDocId" lay-search="" lay-verify="required" lay-filter="JYConOppDocId">
             </select>
@@ -184,17 +202,11 @@
         <div class="layui-inline">
             <label class="layui-form-label">医师电话</label>
             <div class="layui-input-inline">
-                <input type="text" name="JYConOppDocPhone" id="JYConOppDocPhone" lay-verify="datetime" placeholder=""
+                <input type="text" name="JYConOppDocPhone" id="JYConOppDocPhone" lay-verify="datetime"
                        autocomplete="off" class="layui-input" value="{{.JYConOppDocPhone}}">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">会诊时间</label>
-            <div class="layui-input-inline">
-                <input type="text" name="JYConDate" id="date" lay-verify="datetime" autocomplete="off" placeholder=""
-                        class="layui-input" value="{{.JYConDate}}">
-            </div>
-        </div>
+
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
                 <input type="tel" name="flag"  id="flag" autocomplete="off" value="1"
@@ -202,10 +214,34 @@
             </div>
         </div>
     </div>
-
+    <div class="layui-form-item" id="no_auto" style="display: none" >
+        <!--选择医师-->
+        <label class="layui-form-label">医师姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="JYConOppDocName1" lay-verify="title"  autocomplete="off" id="JYConOppDocName1"
+                   class="layui-input" value="">
+        </div>
+        <div class="layui-inline" style="display: none">
+            <div class="layui-input-inline">
+                <input type="text" name="JYConOppDocId1" id="JYConOppDocId1" autocomplete="off" value="">
+            </div>
+        </div>
+        <div class="layui-inline" style="display: none">
+            <div class="layui-input-inline">
+                <input type="tel" name="ISAutoDoc" id="ISAutoDoc" autocomplete="off" value="1">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">医师电话</label>
+            <div class="layui-input-inline">
+                <input type="text" name="JYConOppDocPhone1" id="JYConOppDocPhone1" lay-verify="datetime"
+                       autocomplete="off" class="layui-input" value="{{.JYConOppDocPhone}}">
+            </div>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc">暂存</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc" style="display: none">暂存</button>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
@@ -267,7 +303,36 @@
         form.on('submit(tj)', function (data) {
             layui.$("#flag").val("2");
         });
+        //监听医师选择
+        form.on('switch(is_auto)', function (data) {  // 监听 layui switch绑定事件； 特别注意 is_navigate 要跟上面的 lay-filter="is_navigate" 名称保持一致
+            if (data.elem.checked) {
+                layui.$("#ISAutoDoc").val("1");
+                layui.$("#JYConOppDocName1").val("JYConOppDocName");
+                layui.$("#JYConOppDocName").val("");
+                layui.$("#JYConOppDocPhone1").val("19999999999");
+                layui.$("#JYConOppDocPhone").val("");
+                layui.$("#JYConOppDocId1").val("JYConOppDocPhone");
+                layui.$("#JYConOppDocId option[value='999']").remove();
+                layui.$("#JYConOppDocId").val("");
+                form.render('select');
+                layui.$("#no_auto").css("display", "none");
+                layui.$("#is_auto").css("display", "block");
+            } else {
+                layui.$("#ISAutoDoc").val("0");
+                layui.$("#JYConOppDocId").append("<option value='999'>999</option>");
+                layui.$("#JYConOppDocId").val(999)
+                form.render('select');
+                layui.$("#JYConOppDocName").val("JYConOppDocName");
+                layui.$("#JYConOppDocName1").val("");
+                layui.$("#JYConOppDocPhone").val("18888888888");
+                layui.$("#JYConOppDocPhone1").val("");
+                layui.$("#JYConOppDocId1").val("");
+                layui.$("#is_auto").css("display", "none");
+                layui.$("#no_auto").css("display", "block");
 
+            }
+
+        });
         //主管医师选择后获取电话号码
         form.on('select(JYConSickDocId)', function (data) {
             layui.$.ajax({

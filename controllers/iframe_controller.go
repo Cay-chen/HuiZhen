@@ -77,6 +77,7 @@ func (c *IframeController) Get() {
 			break
 		case "extra":
 			if c.IsAdmin || c.IsYwb {
+				c.Data["PersonType"] = "    {{#  if(d.JYConPersonType == 1){ }}\n        科室主任\n    {{#  } else if(d.JYConPersonType ==2){ }}\n     科室负责人\n    {{#  } else if(d.JYConPersonType == 3){ }}\n     一线医生\n    {{#  } else if(d.JYConPersonType == 4){ }}\n     医务部\n    {{#  } else if(d.JYConPersonType == 0){ }}\n     管理员\n    {{# } }}"
 				c.TplName = "iframe_person_extra.html"
 			} else {
 				c.Redirect("/error/405", 302)

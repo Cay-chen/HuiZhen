@@ -109,7 +109,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-inline" style="width:100%;height:35px;text-align: center">
                     <button class="layui-btn" style="width:20%;height:35px;margin-right: 15px" onclick="changeMesg()">
-                        修改
+                        设置
                     </button>
                     <button class="layui-btn" style="width:20%;height:35px;margin-left: 15px" onclick="hidd()">
                         关闭
@@ -151,7 +151,7 @@
                 , {field: 'JYConPersonName', title: '姓名', cellMinWidth: 120}
                 , {field: 'JYConPersonPhone', title: '电话', cellMinWidth: 150}
                 , {field: 'JYConPersonBelongDep', title: '科室', cellMinWidth: 180}
-                , {field: 'JYConPersonType', title: '人员类型', cellMinWidth: 180}
+                , {field: 'JYConPersonType', title: '人员类型', cellMinWidth: 180,templet:'#formPolicyTpl'}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 200}
             ]]
             , id: 'personInfo'
@@ -353,5 +353,9 @@
 
     }
 </script>
+<script type="text/html" id="formPolicyTpl">
+    {{str2html .PersonType}}
+</script>
+
 </body>
 </html>
