@@ -261,6 +261,8 @@ func Post(serverName, method, parameter string) (content string) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		fmt.Println("请求出错！")
+		return
 		// handle error
 	}
 	logs.Debug("POST返回结果：" + string(body))

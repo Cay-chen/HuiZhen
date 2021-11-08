@@ -165,7 +165,39 @@ func (c *ConPersonServerController) Get() {
 				} else {
 					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
 				}
-				fmt.Println(result)
+				break
+			case "add_extra":
+				serverName := "JYConPersonExtraInfoServlet"
+				method := "setExtraPersonInfo"
+				JYConPersonAutoNum := c.GetString("JYConPersonAutoNum")
+				JYConPersonCode := c.GetString("JYConPersonCode")
+				JYConPersonName := c.GetString("JYConPersonName")
+				JYConPersonType := c.GetString("JYConPersonType")
+				JYConPersonBelongDep := c.GetString("JYConPersonBelongDep")
+				JYConPersonPhone := c.GetString("JYConPersonPhone")
+				JYConPersonFromNum := c.GetString("JYConPersonFromNum")
+				JYConPersonBelongHos := c.PersonUer.JYConPersonBelongHos
+				parameterMap := make(map[string]string)
+				parameterMap["JYConPersonAutoNum"] = JYConPersonAutoNum
+				parameterMap["JYConPersonCode"] = JYConPersonCode
+				parameterMap["JYConPersonName"] = JYConPersonName
+				parameterMap["JYConPersonType"] = JYConPersonType
+				parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
+				parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
+				parameterMap["JYConPersonPhone"] = JYConPersonPhone
+				parameterMap["JYConPersonFromNum"] = JYConPersonFromNum
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				result := getPerson(resMsg)
+				if resMsg == "" {
+					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"服务器异常！\"}")
+				} else {
+					if result.Flag == "true" {
+						c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
+					} else {
+						c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
+					}
+				}
+
 				break
 			default:
 				c.TplName = "600.html"

@@ -24,6 +24,7 @@ type ExtraInfo struct {
 	JYConPersonType      string      `json:"JYConPersonType"`
 	JYConPersonBelongDep string      `json:"JYConPersonBelongDep"`
 	JYConPersonName      string      `json:"JYConPersonName"`
+	JYConDepName         string      `json:"JYConDepName"`
 	JYConPersonPhone     string      `json:"JYConPersonPhone"`
 	JYConPersonFromNum   string      `json:"JYConPersonFromNum"`
 	JYConPersonAutoNum   int         `json:"JYConPersonAutoNum"`

@@ -70,6 +70,18 @@ func (c *IframeController) Get() {
 				c.Redirect("/error/405", 302)
 			}
 			break
+		case "myHzTo":
+			c.Data["FormPolicyTpl"] = "    {{#  if(d.JYConFormPolicy == 1){ }}\n    申请状态\n    {{#  } else if(d.JYConFormPolicy == 2){ }}\n    申请方科室审批\n    {{#  } else if(d.JYConFormPolicy == 3){ }}\n    申请方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 4){ }}\n    接收方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 5){ }}\n    接收方科室审批\n    {{#  } else if(d.JYConFormPolicy == 6){ }}\n    审批完成\n    {{# } }}"
+			c.Data["FormHos"] = "{{# if(d.JYConOppHos =='WJQY'){ }}\n        温江区医院\n    {{# } else if(d.JYConOppHos =='JYZX'){ }}\n        精医中心\n    {{# } }}"
+			c.TplName = "iframe_to_my_hz.html"
+			break
+		case "extra":
+			if c.IsAdmin || c.IsYwb {
+				c.TplName = "iframe_person_extra.html"
+			} else {
+				c.Redirect("/error/405", 302)
+			}
+			break
 		default:
 			c.Redirect("/error/600", 302)
 			break

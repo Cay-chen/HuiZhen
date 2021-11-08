@@ -1,26 +1,23 @@
 package controllers
 
-import (
-	"fmt"
-)
-
 type IndexController struct {
 	BaseController
 }
 
 func (c *IndexController) Get() {
-	fmt.Println(c.IsLogin)
 	if c.IsLogin {
-		if c.IsFzr || c.IsKszr {
+		c.Data["HuiZhen"] = "我的会诊"
+		if c.IsFzr || c.IsKszr || c.IsYwb || c.IsAdmin {
+			c.Data["HuiZhen"] = "科室会诊"
 			c.Data["IsFzrAndZr"] = true
 		} else {
 			c.Data["IsFzrAndZr"] = false
 		}
+
 		if c.IsYwb || c.IsAdmin {
-			c.Data["IsFzrAndZr"] = true
+			c.Data["HuiZhen"] = "全院会诊"
 			c.Data["IsYwbAndAdmin"] = true
 		} else {
-			c.Data["IsFzrAndZr"] = false
 			c.Data["IsYwbAndAdmin"] = false
 		}
 		c.Data["PersonName"] = c.PersonUer.JYConPersonName

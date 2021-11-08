@@ -53,7 +53,8 @@ type FormInfo struct {
 func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, JYConNum, methods, flagForm string) string {
 	serverName := "JYConFormServlet"
 	backRes := ""
-	if methods == "getFormBySomething" {
+	switch methods {
+	case "getFormBySomething":
 		method := "getFormBySomething"
 		parameterMap := make(map[string]string)
 		if flag == "one" {
@@ -78,8 +79,8 @@ func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, J
 			body, _ := json.Marshal(res)
 			backRes = string(body)
 		}
-
-	} else if methods == "getMyApprovalForm" {
+		break
+	case "getMyApprovalForm":
 		method := "getMyApprovalForm"
 		parameterMap := make(map[string]string)
 		parameterMap["flag"] = flagForm
@@ -95,8 +96,68 @@ func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, J
 		res := formDate1ToData(res1)
 		body, _ := json.Marshal(res)
 		backRes = string(body)
-
+		break
+	case "getFormBySomethingTo":
+		method := "getFormBySomethingTo"
+		parameterMap := make(map[string]string)
+		parameterMap["JYConPersonType"] = JYConPersonType
+		parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
+		parameterMap["JYConPersonCode"] = JYConPersonCode
+		parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
+		parameterMap["page"] = page
+		parameterMap["limit"] = limit
+		resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+		res1 := FormJson1{}
+		_ = json.Unmarshal([]byte(resMsg), &res1)
+		res := formDate1ToData(res1)
+		body, _ := json.Marshal(res)
+		backRes = string(body)
 	}
+
+	/*	if methods == "getFormBySomething" {
+			method := "getFormBySomething"
+			parameterMap := make(map[string]string)
+			if flag == "one" {
+				parameterMap["flag"] = flag
+				parameterMap["JYConNum"] = JYConNum
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				backRes = resMsg
+			}
+			if flag == "many" {
+				parameterMap["flag"] = flag
+				parameterMap["JYConPersonType"] = JYConPersonType
+				parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
+				parameterMap["JYConPersonCode"] = JYConPersonCode
+				parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
+				parameterMap["page"] = page
+				parameterMap["limit"] = limit
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				res1 := FormJson1{}
+				_ = json.Unmarshal([]byte(resMsg), &res1)
+				res := formDate1ToData(res1)
+				//_ = json.Unmarshal([]byte(resMsg), &res)
+				body, _ := json.Marshal(res)
+				backRes = string(body)
+			}
+
+		} else if methods == "getMyApprovalForm" {
+			method := "getMyApprovalForm"
+			parameterMap := make(map[string]string)
+			parameterMap["flag"] = flagForm
+			parameterMap["JYConPersonType"] = JYConPersonType
+			parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
+			parameterMap["JYConPersonCode"] = JYConPersonCode
+			parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
+			parameterMap["page"] = page
+			parameterMap["limit"] = limit
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			res1 := FormJson1{}
+			_ = json.Unmarshal([]byte(resMsg), &res1)
+			res := formDate1ToData(res1)
+			body, _ := json.Marshal(res)
+			backRes = string(body)
+
+		}*/
 
 	return backRes
 }

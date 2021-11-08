@@ -33,8 +33,12 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-this" id="myHuiZhen">
-                    <a>我的会诊</a>
+                <li class="layui-nav-item layui-nav-itemed" >
+                    <a href="javascript:;">{{.HuiZhen}}</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" id="myHuiZhen" class="layui-this">&#12288;发起会诊</a></dd>
+                        <dd><a href="javascript:;" id="myHuiZhenTo">&#12288;接收会诊</a></dd>
+                    </dl>
                 </li>
                 {{if .IsFzrAndZr}}
                 <li class="layui-nav-item">
@@ -56,15 +60,16 @@
                         </li>
                     </dl>
                 </li>
-                {{end}}
                 {{if .IsYwbAndAdmin}}
                 <li class="layui-nav-item">
                     <a href="javascript:;">信息维护</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" id="dep_manage">&#12288;科室管理</a></dd>
                         <dd><a href="javascript:;" id="person_manage">&#12288;用户管理</a></dd>
+                        <dd><a href="javascript:;" id="person_ls_manage">&#12288;临时用户</a></dd>
                     </dl>
                 </li>
+                {{end}}
                 {{end}}
             </ul>
         </div>
@@ -85,6 +90,9 @@
         layui.$("#myHuiZhen").click(function () {
             layui.$("#mainContent").attr("src", "/iframe/myHz");
         });
+        layui.$("#myHuiZhenTo").click(function () {
+            layui.$("#mainContent").attr("src", "/iframe/myHzTo");
+        });
         layui.$("#from_dsp").click(function () {
             layui.$("#mainContent").attr("src", "/iframe/from_dsp?type=from");
         });
@@ -102,6 +110,9 @@
         });
         layui.$("#person_manage").click(function () {
             layui.$("#mainContent").attr("src", "/iframe/person_manage");
+        });
+        layui.$("#person_ls_manage").click(function () {
+            layui.$("#mainContent").attr("src", "/iframe/extra");
         });
         layui.$("#change_password").click(function () {
             layui.$("#mainContent").attr("src", "/change_password");

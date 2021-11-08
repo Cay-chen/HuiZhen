@@ -61,8 +61,8 @@ func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonCode, limit, page
 		res := Person1{}
 		_ = json.Unmarshal([]byte(postResult), &res)
 		//Data1ToDataJson(res)
-		fmt.Println("查询结果：" + Data1ToDataJson(res))
-		return Data1ToDataJson(res)
+		fmt.Println("查询结果：" + data1ToDataJson(res))
+		return data1ToDataJson(res)
 
 	} else {
 		return ""
@@ -80,7 +80,7 @@ func GetDocInfo(JYConPersonCode, JYConPersonBelongHos string) string {
 }
 
 //设置返回类型为string
-func Data1ToDataJson(c Person1) string {
+func data1ToDataJson(c Person1) string {
 	var personData Person
 	//将结构体中的Name的值变为字符串1
 	code, _ := strconv.Atoi(c.Code)
