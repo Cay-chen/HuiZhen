@@ -181,18 +181,40 @@
 
 
     </div>
+    {{if .Y1}}
+
+    {{if .IsAutoDoc}}
+    <div class="layui-form-item">
+        <label class="layui-form-label" >选择医师</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="switch" id="switch" lay-skin="switch" lay-filter="is_auto" lay-text="自动|手动" checked>
+        </div>
+    </div>
+    {{else}}
+    <div class="layui-form-item">
+        <label class="layui-form-label" >选择医师</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="switch" id="switch" lay-skin="switch" lay-filter="is_auto" lay-text="自动|手动" >
+        </div>
+    </div>
+    {{end}}
+    {{else}}
     <div class="layui-form-item">
         <label class="layui-form-label" >选择医师</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="switch" lay-skin="switch" lay-filter="is_auto" lay-text="自动|手动" checked>
+                <input type="checkbox" name="switch" id="switch" lay-skin="switch" lay-filter="is_auto" lay-text="自动|手动" checked>
             </div>
     </div>
+    {{end}}
     <div class="layui-form-item" id="is_auto">
         <!--选择医师-->
         <label class="layui-form-label">医师姓名</label>
         <div class="layui-input-inline">
             <select name="JYConOppDocId" id="JYConOppDocId" lay-search="" lay-verify="required" lay-filter="JYConOppDocId">
             </select>
+
+
+
         </div>
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
@@ -319,6 +341,27 @@
                 layui.$("#JYConOppDocId1").val("JYConOppDocPhone");
                 layui.$("#JYConOppDocId option[value='999']").remove();
                 layui.$("#JYConOppDocId").val("");
+                layui.$("#JYConOppDocId").empty();
+                {{if .Y1}}
+                layui.$.ajax({
+                    url: "/data/docList?JYConDepCode=" + layui.$("#JYConOppDepId").val()+"&yq="+layui.$("#JYConOppHos").val(),
+                    success: function (result) {
+                        var res = JSON.parse(result)
+                        layui.$("#JYConOppDocId").append("<option value=''>请选医师</option>");
+                        layui.$.each(res.data, function(index, value) {
+                            layui.$("#JYConOppDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
+                            if (index===0){
+                                layui.$('#JYConOppDocName').val(value.JYConDepName)
+                            }
+                        });
+                        form.render('select');
+                    },
+                    error: function (xhr) {
+                        alert("系统异常");
+                        layer.close();
+                    }
+                });
+                {{end}}
                 form.render('select');
                 layui.$("#no_auto").css("display", "none");
                 layui.$("#is_auto").css("display", "block");
@@ -522,36 +565,41 @@
                 });
                 if ({{.IsAutoDoc}}){
                     layui.$("#ISAutoDoc").val("1");
-                    layui.$('input[name="switch"]').next().addClass('layui-form-onswitch'); //开
+                   // layui.$('input[name="switch"]').attr('checked','checked'); //开
+                 //   layui.$('input[name="switch"]').val(true);
+                    //layui.$("#switch").attr('checked','checked'); //开
+                   // layui.$("#switch").val(true);
                     layui.$("#JYConOppDocName1").val("JYConOppDocName");
                     layui.$("#JYConOppDocPhone1").val("19999999999");
                     layui.$("#JYConOppDocId1").val("JYConOppDocPhone");
-
-                layui.$.ajax({
-                    url: "/data/docList?JYConDepCode={{.JYConOppDepId}}&yq={{.Yq}}",
-                    success: function (result) {
-                        var res = JSON.parse(result)
-                        layui.$.each(res.data, function(index, value) {
-                            layui.$("#JYConOppDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
-                            if (value.JYConPersonCode==="{{.JYConOppDocId}}"){
-                                layui.$("#JYConOppDocId").append("<option value='"+value.JYConPersonCode+"' selected>"+value.JYConPersonName+"</option>");
-                            }else{
+                    layui.$.ajax({
+                        url: "/data/docList?JYConDepCode={{.JYConOppDepId}}&yq={{.Yq}}",
+                        success: function (result) {
+                            var res = JSON.parse(result)
+                            layui.$.each(res.data, function(index, value) {
                                 layui.$("#JYConOppDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
-                            }
-                        });
-                        form.render('select');
-                    },
-                    error: function (xhr) {
-                        alert("系统异常");
-                        layer.close();
-                    }
-                });
+                                if (value.JYConPersonCode==="{{.JYConOppDocId}}"){
+                                    layui.$("#JYConOppDocId").append("<option value='"+value.JYConPersonCode+"' selected>"+value.JYConPersonName+"</option>");
+                                }else{
+                                    layui.$("#JYConOppDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
+                                }
+                            });
+                            form.render('select');
+                        },
+                        error: function (xhr) {
+                            alert("系统异常");
+                            layer.close();
+                        }
+                    });
                 form.render('select');
                 layui.$("#no_auto").css("display", "none");
                     layui.$("#is_auto").css("display", "block");
                 }else {
                     layui.$("#ISAutoDoc").val("0");
-                    layui.$('input[name="switch"]').next().removeClass('layui-form-onswitch'); //关
+                  //  layui.$('input[name="switch"]').removeAttr('checked'); //关
+                   // layui.$('input[name="switch"]').val(false);
+                    //layui.$("#switch").removeAttr('checked'); //开
+                  //  layui.$("#switch").val(false);
                     layui.$("#JYConOppDocId").append("<option value='999'>999</option>");
                     layui.$("#JYConOppDocId").val(999)
                     form.render('select');
