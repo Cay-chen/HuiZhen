@@ -150,13 +150,14 @@
             parent.location.reload();
         });
         form.on('switch(is_auto)', function (data) {  // 监听 layui switch绑定事件； 特别注意 is_navigate 要跟上面的 lay-filter="is_navigate" 名称保持一致
-
             if (data.elem.checked) {
                 layui.$("#is_auto").css("display", "block");
                 layui.$("#no_auto").css("display", "none");
+                layui.$("#JYConOppDocName").val("1")
                 layui.$("#JYConOppDocId").get(0).selectedIndex="";
                 isSwitch=true;
             } else {
+                layui.$("#JYConOppDocName").val("")
                 layui.$("#is_auto").css("display", "none");
                 layui.$("#JYConOppDocId").get(0).selectedIndex=1;
                 layui.$("#no_auto").css("display", "block");

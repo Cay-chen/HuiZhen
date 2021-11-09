@@ -18,6 +18,7 @@ type FormJson1 struct {
 	Count string     `json:"count"`
 	Mesg  string     `json:"mesg"`
 }
+
 type FormInfo struct {
 	JYConSickDocPhone         string `json:"JYConSickDocPhone"`
 	JYConSickDepId            string `json:"JYConSickDepId"`

@@ -219,11 +219,11 @@
         <label class="layui-form-label">医师姓名</label>
         <div class="layui-input-inline">
             <input type="text" name="JYConOppDocName1" lay-verify="title"  autocomplete="off" id="JYConOppDocName1"
-                   class="layui-input" value="">
+                   class="layui-input" value="1">
         </div>
         <div class="layui-inline" style="display: none">
             <div class="layui-input-inline">
-                <input type="text" name="JYConOppDocId1" id="JYConOppDocId1" autocomplete="off" value="">
+                <input type="text" name="JYConOppDocId1" id="JYConOppDocId1" autocomplete="off" value="1">
             </div>
         </div>
         <div class="layui-inline" style="display: none">
@@ -235,13 +235,13 @@
             <label class="layui-form-label">医师电话</label>
             <div class="layui-input-inline">
                 <input type="text" name="JYConOppDocPhone1" id="JYConOppDocPhone1" lay-verify="datetime"
-                       autocomplete="off" class="layui-input" value="{{.JYConOppDocPhone}}">
+                       autocomplete="off" class="layui-input" value="1">
             </div>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc" style="display: none">暂存</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc" >暂存</button>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
@@ -515,6 +515,25 @@
                         layer.close();
                     }
                 });
+                if ({{.IsAutoDoc}}){
+                    layui.$("#ISAutoDoc").val("1");
+                  /*  layui.$('input[name="switch"]').attr('checked', 'checked'); //改变开关为 开
+                    layui.$('input[name="switch"]').removeAttr('checked'); //改变开关为 关*/
+                    layui.$('input[name="switch"]').next().addClass('layui-form-onswitch'); //开
+                   // layui.$('input[name="switch"]').next().removeClass('layui-form-onswitch'); //关
+                    layui.$("#no_auto").css("display", "none");
+                    layui.$("#is_auto").css("display", "block");
+
+                }else {
+                    layui.$("#ISAutoDoc").val("0");
+              /*      layui.$('input[name="switch"]').attr('checked', 'checked'); //改变开关为 开
+                    layui.$('input[name="switch"]').removeAttr('checked'); //改变开关为 关
+                    layui.$('input[name="switch"]').next().addClass('layui-form-onswitch'); //开*/
+                    layui.$('input[name="switch"]').next().removeClass('layui-form-onswitch'); //关
+                    layui.$("#is_auto").css("display", "none");
+                    layui.$("#no_auto").css("display", "block");
+                }
+
 
 
         });

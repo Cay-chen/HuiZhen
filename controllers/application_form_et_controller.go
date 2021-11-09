@@ -99,6 +99,12 @@ func (c *ApplicationFormEtController) Get() {
 			c.Data["JYConOppDepId"] = s.JYConOppDepId
 			c.Data["JYConDate"] = string([]byte(s.JYConDate)[:19])
 			c.Data["JYConOppDep"] = s.JYConOppDep
+			c.Data["JYConOppDocId"] = s.JYConOppDocId
+			if s.JYConOppDocId == "" {
+				c.Data["IsAutoDoc"] = false
+			} else {
+				c.Data["IsAutoDoc"] = true
+			}
 		}
 		c.Data["JYConOppHos"] = JYConOppHos
 		c.Data["SexW"] = selectedW
@@ -110,7 +116,7 @@ func (c *ApplicationFormEtController) Get() {
 		c.Data["DepListS"] = DepListS
 		c.TplName = "emergency_treatment_form.html"
 	} else {
-		c.Redirect("/error/56", 302)
+		c.Redirect("/error/600", 302)
 	}
 }
 func (c *ApplicationFormEtController) Post() {
