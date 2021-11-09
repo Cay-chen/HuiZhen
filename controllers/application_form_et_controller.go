@@ -60,16 +60,13 @@ func (c *ApplicationFormEtController) Get() {
 				selectedM = " "
 				selectedW = "selected"
 			}
-
 			for i := 0; i < len(depList); i++ {
 				if s.JYConSickDepId == depList[i].JYConDepCode {
 					DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" selected>" + depList[i].JYConDepName + "</option>\n"
 				} else {
 					DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" >" + depList[i].JYConDepName + "</option>\n"
 				}
-
 			}
-
 			editInfo = true
 			Y1 = true
 			c.Data["SexW"] = selectedW
@@ -95,10 +92,16 @@ func (c *ApplicationFormEtController) Get() {
 			c.Data["JYConSickCase"] = s.JYConSickCase
 			c.Data["JYConPurpose"] = s.JYConPurpose
 			c.Data["JYConSickDocId"] = s.JYConSickDocId
+			c.Data["JYConOppDocPhone"] = s.JYConOppDocPhone
+			c.Data["JYConOppDocName"] = s.JYConOppDocName
 			JYConOppHos = s.JYConOppHos
 			c.Data["JYConOppDepId"] = s.JYConOppDepId
 			c.Data["JYConDate"] = string([]byte(s.JYConDate)[:19])
 			c.Data["JYConOppDep"] = s.JYConOppDep
+			c.Data["Yq"] = s.JYConOppHos
+			logs.Debug("s.JYConOppDocId")
+			logs.Debug(s.JYConOppDocId)
+			logs.Debug("end")
 			c.Data["JYConOppDocId"] = s.JYConOppDocId
 			if s.JYConOppDocId == "" {
 				c.Data["IsAutoDoc"] = false
