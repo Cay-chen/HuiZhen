@@ -47,7 +47,7 @@ func (c *IframeController) Get() {
 			if !c.IsYxys {
 				Type := c.GetString("type")
 				c.Data["approveOldState"] = " {{#  if(d.JYConFormApproveOldState == 1){ }}\n        申请状态\n    {{#  } else if(d.JYConFormApproveOldState == 2){ }}\n        科室审批\n    {{#  } else if(d.JYConFormApproveOldState == 3){ }}\n        申请方医务部审批\n    {{#  } else if(d.JYConFormApproveOldState == 4){ }}\n        接收方医务部审批\n    {{#  } else if(d.JYConFormApproveOldState == 5){ }}\n         接收方科室审批\n    {{# } }}"
-				c.Data["approveState"] = "    {{#  if(d.JYConFormApproveState==\"approve\"){ }}\n    通过\n    {{#  } else if(d.JYConFormApproveState==\"reject\"){ }}\n    申请方科室审批\n    {{# } }}\n"
+				c.Data["approveState"] = "    {{#  if(d.JYConFormApproveState==\"approve\"){ }}\n    同意\n    {{#  } else if(d.JYConFormApproveState==\"reject\"){ }}\n    拒绝\n    {{# } }}\n"
 				c.Data["Type"] = Type
 				c.TplName = "iframe_y_sp.html"
 			} else {
@@ -79,6 +79,16 @@ func (c *IframeController) Get() {
 			if c.IsAdmin || c.IsYwb {
 				c.Data["PersonType"] = "    {{#  if(d.JYConPersonType == 1){ }}\n        科室主任\n    {{#  } else if(d.JYConPersonType ==2){ }}\n     科室负责人\n    {{#  } else if(d.JYConPersonType == 3){ }}\n     一线医生\n    {{#  } else if(d.JYConPersonType == 4){ }}\n     医务部\n    {{#  } else if(d.JYConPersonType == 0){ }}\n     管理员\n    {{# } }}"
 				c.TplName = "iframe_person_extra.html"
+			} else {
+				c.Redirect("/error/405", 302)
+			}
+			break
+		case "approve":
+			if c.IsAdmin || c.IsYwb {
+				JYConNum := c.GetString("JYConNum")
+				c.Data["JYConNum"] = JYConNum
+				c.Data["approveState"] = "    {{#  if(d.JYConFormApproveState==\"approve\"){ }}\n    同意\n    {{#  } else if(d.JYConFormApproveState==\"reject\"){ }}\n    拒绝\n    {{# } }}\n"
+				c.TplName = "iframe_sp_jl.html"
 			} else {
 				c.Redirect("/error/405", 302)
 			}

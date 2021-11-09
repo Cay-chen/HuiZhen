@@ -27,23 +27,62 @@ func (c *CheckController) Get() {
 			resMsg := models.GetApproveList(JYConNum, "300", "1")
 			JYConFormApproveCommentK := ""
 			JYConFormApproveCommentY := ""
+			JYConFormApproveCommentTY := ""
+			JYConFormApproveCommentTK := ""
 			JYConFormApproveDateK := ""
 			JYConFormApproveDateY := ""
+			JYConFormApproveDateTY := ""
+			JYConFormApproveDateTK := ""
 			logs.Debug(resMsg)
 			for i := 0; i < len(resMsg.Data); i++ {
-				if resMsg.Data[i].JYConFormApproveOldState == "2" {
+				switch resMsg.Data[i].JYConFormApproveOldState {
+				case "2":
 					JYConFormApproveCommentK = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateK = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
-				}
-				if resMsg.Data[i].JYConFormApproveOldState == "3" {
+					break
+				case "3":
 					JYConFormApproveCommentY = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
+					break
+				case "4":
+					JYConFormApproveCommentTY = resMsg.Data[i].JYConFormApproveComment
+					JYConFormApproveDateTY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
+					break
+				case "5":
+					JYConFormApproveCommentTK = resMsg.Data[i].JYConFormApproveComment
+					JYConFormApproveDateTK = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
+					break
+				case "6":
+					JYConFormApproveCommentY = resMsg.Data[i].JYConFormApproveComment
+					JYConFormApproveDateY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
+					break
+
 				}
+			}
+			if s.JYConType == "2" {
+
 			}
 			c.Data["JYConFormApproveCommentK"] = JYConFormApproveCommentK
 			c.Data["JYConFormApproveDateK"] = JYConFormApproveDateK
 			c.Data["JYConFormApproveCommentY"] = JYConFormApproveCommentY
 			c.Data["JYConFormApproveDateY"] = JYConFormApproveDateY
+			c.Data["JYConFormApproveCommentTY"] = JYConFormApproveCommentTY
+			c.Data["JYConFormApproveDateTY"] = JYConFormApproveDateTY
+			c.Data["JYConFormApproveCommentTK"] = JYConFormApproveCommentTK
+			c.Data["JYConFormApproveDateTK"] = JYConFormApproveDateTK
+			c.Data["ApproveType"] = "平会诊"
+			if s.JYConType == "2" {
+
+				c.Data["JYConFormApproveCommentK"] = "/"
+				c.Data["JYConFormApproveDateK"] = "/"
+				c.Data["JYConFormApproveCommentY"] = "/"
+				c.Data["JYConFormApproveDateY"] = "/"
+				c.Data["JYConFormApproveCommentTY"] = "/"
+				c.Data["JYConFormApproveDateTY"] = "/"
+				c.Data["JYConFormApproveCommentTK"] = "/"
+				c.Data["JYConFormApproveDateTK"] = "/"
+				c.Data["ApproveType"] = "急会诊"
+			}
 			c.TplName = "check_view_page.html"
 
 		} else {

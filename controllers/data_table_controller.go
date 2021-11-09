@@ -36,6 +36,14 @@ func (c *DataTableController) Get() {
 			body, _ := json.Marshal(res)
 			c.Ctx.WriteString(string(body))
 			break
+		case "approve":
+			JYConNum := c.GetString("JYConNum")
+			page := c.GetString("page")
+			limit := c.GetString("limit")
+			res := models.GetApproveList(JYConNum, limit, page)
+			body, _ := json.Marshal(res)
+			c.Ctx.WriteString(string(body))
+			break
 		}
 
 	} else {
