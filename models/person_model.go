@@ -42,7 +42,7 @@ type Person1 struct {
 	Mesg  string `json:"mesg"`
 }
 
-func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonCode, limit, page string) string {
+func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonType, limit, page string) string {
 	serverName := "JYConPersonServlet"
 	method := "getPersonInfoByHos"
 	parameterMap := make(map[string]string)
@@ -50,10 +50,10 @@ func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonCode, limit, page
 	parameterMap["page"] = page
 	parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
 	if JYConDepCode != "" {
-		parameterMap["JYConDepCode"] = JYConDepCode
+		parameterMap["JYConPersonBelongDep"] = JYConDepCode
 	}
-	if JYConPersonCode != "" {
-		parameterMap["JYConPersonCode"] = JYConPersonCode
+	if JYConPersonType != "" {
+		parameterMap["JYConPersonType"] = JYConPersonType
 	}
 	postResult := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
 	if postResult != "" {

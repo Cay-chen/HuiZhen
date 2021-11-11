@@ -20,7 +20,6 @@ func init() {
 	beego.Router("/get_form/:id", &controllers.GetFormDataController{})
 	beego.Router("/data/:id", &controllers.DataController{})
 	beego.Router("/data_table/:id", &controllers.DataTableController{})
-	beego.Router("/person_manage", &controllers.PersonManageController{})
 	beego.Router("/dep_manage", &controllers.DepMangeController{})
 	beego.Router("/check", &controllers.CheckController{})
 	beego.Router("/approve56", &controllers.Approve5To6Controller{})

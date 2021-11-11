@@ -62,9 +62,13 @@ func (c *IframeController) Get() {
 			}
 			break
 		case "person_manage":
-			if c.IsAdmin || c.IsYwb {
+			if !c.IsYxys {
 				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
 				c.Data["TitleTpl"] = "{{# if(d.JYConPersonIsActive == '已激活') { }}\n    <a  style=\"color: red\">{{d.JYConPersonIsActive}}</a>\n    {{#  } else { }}\n    {{d.JYConPersonIsActive}}\n    {{#  } }}"
+				c.Data["IsYwbAndAdmin"] = false
+				if c.IsYwb || c.IsAdmin {
+					c.Data["IsYwbAndAdmin"] = true
+				}
 				c.TplName = "iframe_person_manage.html"
 			} else {
 				c.Redirect("/error/405", 302)

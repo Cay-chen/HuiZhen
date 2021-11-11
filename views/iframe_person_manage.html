@@ -109,6 +109,7 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="demoTable">
+        {{if .IsYwbAndAdmin}}
         <div class="layui-input-inline" style="width: 150px">
             <select name="modules" lay-verify="required" id="select_belong_dev" lay-search="">
                 <option value="">全部</option>
@@ -121,6 +122,7 @@
             <input class="layui-input" name="id" id="in_person_code" autocomplete="off" placeholder="请输入工号">
         </div>
         <button class="layui-btn" data-type="reload" lay-event="sousuo">搜索</button>
+        {{end}}
         <button class="layui-btn" lay-event="xinjian" style="margin-left: 15px">新建</button>
     </div>
 
@@ -150,7 +152,7 @@
 
         table.render({
             elem: '#person_table'
-            , url: '/get_person'
+            , url: '/data_table/person?keshi=ks'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports', 'print']
             , title: '用户数据表'

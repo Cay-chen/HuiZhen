@@ -33,26 +33,36 @@ func (c *CheckController) Get() {
 			JYConFormApproveDateY := ""
 			JYConFormApproveDateTY := ""
 			JYConFormApproveDateTK := ""
+			JYConFormApprovePersonNameK := ""
+			JYConFormApprovePersonNameY := ""
+			JYConFormApprovePersonNameTY := ""
+			JYConFormApprovePersonNameTK := ""
+
 			logs.Debug(resMsg)
 			for i := 0; i < len(resMsg.Data); i++ {
 				switch resMsg.Data[i].JYConFormApproveOldState {
 				case "2":
+					JYConFormApprovePersonNameK = resMsg.Data[i].JYConFormApprovePersonName
 					JYConFormApproveCommentK = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateK = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
 					break
 				case "3":
+					JYConFormApprovePersonNameY = resMsg.Data[i].JYConFormApprovePersonName
 					JYConFormApproveCommentY = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
 					break
 				case "4":
+					JYConFormApprovePersonNameTY = resMsg.Data[i].JYConFormApprovePersonName
 					JYConFormApproveCommentTY = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateTY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
 					break
 				case "5":
+					JYConFormApprovePersonNameTK = resMsg.Data[i].JYConFormApprovePersonName
 					JYConFormApproveCommentTK = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateTK = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
 					break
 				case "6":
+					JYConFormApprovePersonNameY = resMsg.Data[i].JYConFormApprovePersonName
 					JYConFormApproveCommentY = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
 					break
@@ -64,15 +74,23 @@ func (c *CheckController) Get() {
 			}
 			c.Data["JYConFormApproveCommentK"] = JYConFormApproveCommentK
 			c.Data["JYConFormApproveDateK"] = JYConFormApproveDateK
+			c.Data["JYConFormApproveDateKr"] = JYConFormApproveDateK
 			c.Data["JYConFormApproveCommentY"] = JYConFormApproveCommentY
 			c.Data["JYConFormApproveDateY"] = JYConFormApproveDateY
 			c.Data["JYConFormApproveCommentTY"] = JYConFormApproveCommentTY
 			c.Data["JYConFormApproveDateTY"] = JYConFormApproveDateTY
 			c.Data["JYConFormApproveCommentTK"] = JYConFormApproveCommentTK
 			c.Data["JYConFormApproveDateTK"] = JYConFormApproveDateTK
+			c.Data["JYConFormApprovePersonNameK"] = JYConFormApprovePersonNameK
+			c.Data["JYConFormApprovePersonNameY"] = JYConFormApprovePersonNameY
+			c.Data["JYConFormApprovePersonNameTY"] = JYConFormApprovePersonNameTY
+			c.Data["JYConFormApprovePersonNameTK"] = JYConFormApprovePersonNameTK
 			c.Data["ApproveType"] = "平会诊"
 			if s.JYConType == "2" {
-
+				c.Data["JYConFormApprovePersonNameK"] = "/"
+				c.Data["JYConFormApprovePersonNameY"] = "/"
+				c.Data["JYConFormApprovePersonNameTY"] = "/"
+				c.Data["JYConFormApprovePersonNameTK"] = "/"
 				c.Data["JYConFormApproveCommentK"] = "/"
 				c.Data["JYConFormApproveDateK"] = "/"
 				c.Data["JYConFormApproveCommentY"] = "/"
@@ -81,6 +99,7 @@ func (c *CheckController) Get() {
 				c.Data["JYConFormApproveDateTY"] = "/"
 				c.Data["JYConFormApproveCommentTK"] = "/"
 				c.Data["JYConFormApproveDateTK"] = "/"
+
 				c.Data["ApproveType"] = "急会诊"
 			}
 			c.TplName = "check_view_page.html"

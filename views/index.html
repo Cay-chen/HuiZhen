@@ -64,16 +64,15 @@
                         </li>
                     </dl>
                 </li>
-                {{if .IsYwbAndAdmin}}
                 <li class="layui-nav-item">
                     <a href="javascript:;">信息维护</a>
                     <dl class="layui-nav-child">
+                        {{if .IsYwbAndAdmin}}
                         <dd><a href="javascript:;" id="dep_manage">&#12288;科室管理</a></dd>
+                        {{end}}
                         <dd><a href="javascript:;" id="person_manage">&#12288;用户管理</a></dd>
-                        <dd><a href="javascript:;" id="person_ls_manage">&#12288;临时用户</a></dd>
                     </dl>
                 </li>
-                {{end}}
                 {{end}}
             </ul>
         </div>
