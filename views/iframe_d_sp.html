@@ -66,10 +66,11 @@
 
         form.render({
             elem: '#shuju'
-            , url: '/get_form/fromDsp?type={{.Type}}'
+            , url: '/data_table/fromDsp?type={{.Type}}'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports', 'print',]
             , title: '用户数据表'
+            ,height:'full-20'
             , cols: [[
                 {field: 'JYConNum', title: '申请单号', width: 152, fixed: 'left', unresize: true, sort: true}
                 , {field: 'JYConSickName', title: '患者姓名', cellMinWidth: 90}

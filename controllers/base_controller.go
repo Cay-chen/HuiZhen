@@ -1,6 +1,9 @@
 package controllers
 
-import beego "github.com/beego/beego/v2/server/web"
+import (
+	"encoding/json"
+	beego "github.com/beego/beego/v2/server/web"
+)
 
 type BaseController struct {
 	beego.Controller
@@ -13,16 +16,26 @@ type BaseController struct {
 	IsYxys    bool
 	IsFzr     bool
 }
+type Person struct {
+	JYConPersonType      string `json:"JYConPersonType"`
+	JYConPersonBelongDep string `json:"JYConPersonBelongDep"`
+	Flag                 string `json:"flag"`
+	JYConPersonName      string `json:"JYConPersonName"`
+	JYConPersonPhone     string `json:"JYConPersonPhone"`
+	JYConPersonCode      string `json:"JYConPersonCode"`
+	JYConPersonBelongHos string `json:"JYConPersonBelongHos"`
+	Mesg                 string `json:"mesg"`
+}
 
 /**
 判断是否登录
 */
 func (this *BaseController) Prepare() {
-	loginuser := this.GetSession("loginUser")
-	if loginuser != nil {
+	loginUser := this.GetSession("loginUser")
+	if loginUser != nil {
 		this.IsLogin = true
 		//this.LoginUser = loginuser
-		this.PersonUer = getPerson(loginuser.(string))
+		this.PersonUer = getPerson(loginUser.(string))
 		switch this.PersonUer.JYConPersonType {
 		case "0":
 			//jyConPersonType = "管理员"
@@ -50,4 +63,28 @@ func (this *BaseController) Prepare() {
 		this.IsLogin = false
 	}
 	this.Data["IsLogin"] = this.IsLogin
+}
+func getPerson(msg string) (person *Person) {
+
+	res := &Person{}
+	err := json.Unmarshal([]byte(msg), &res)
+	if err != nil {
+		return
+	}
+	return res
+}
+
+type Msg struct {
+	Flag string `json:"flag"`
+	Mesg string `json:"mesg"`
+}
+
+func getMsg(msg string) (person *Msg) {
+
+	res := &Msg{}
+	err := json.Unmarshal([]byte(msg), &res)
+	if err != nil {
+		return
+	}
+	return res
 }

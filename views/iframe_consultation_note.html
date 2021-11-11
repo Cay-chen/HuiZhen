@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/static/layui/css/layui.css" media="all">
+    <style>
+        body {
+            margin: 0;
+            padding: 0 10%;
+            background-color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" action="'/apply_et'" method="post" id="apply">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">住院号</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="JYConSickAd" lay-verify="required|number" autocomplete="off" style="cursor:not-allowed" disabled
+                       class="layui-input" value="{{.Form.JYConSickAd}}">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">患者姓名</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="JYConSickName" lay-verify="title" style="cursor:not-allowed" disabled autocomplete="off" class="layui-input"
+                       value="{{.Form.JYConSickName}}">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-inline">
+                <input name="JYConSickSex" lay-verify="required" autocomplete="off" id="类型" style="cursor:not-allowed" disabled class="layui-input" value="{{.Form.JYConSickSex}}">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">目前诊断</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea" style="cursor:not-allowed" disabled name="JYConSickDia" lay-verify="title"
+                      id="JYConSickDia"
+                      value="{{.JYConSickDia}}"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">简要病情</label>
+        <div class="layui-input-block">
+            <textarea placeholder="含主诉、病例特征等" class="layui-textarea" style="cursor:not-allowed" disabled name="JYConSickCase" lay-verify="title"
+                      id="JYConSickCase"
+                      value="{{.Form.JYConSickCase}}"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">会诊记录</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入会诊记录" class="layui-textarea" name="JYConPurpose" lay-verify="title"
+                      id="huzjil" value="{{.Form.JYConSickDia}}"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item" id="no_auto" >
+        <!--选择医师-->
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 120px">完成会诊时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="JYConOppDocPhone1" id="wcdata1" lay-verify="datetime"
+                       autocomplete="off" class="layui-input" value="">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc" >暂存</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+        </div>
+    </div>
+</form>
+
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+            , type: 'datetime'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+        //自定义验证规则
+        form.verify({
+
+        datetime:function (value) {
+                if (value.length < 2) {
+                    return '请填写时间';
+                }
+            }
+
+        });
+
+        //监听提交
+        form.on('submit(zc)', function (data) {
+            layui.$("#flag").val("1");
+        });
+        form.on('submit(tj)', function (data) {
+            layui.$("#flag").val("2");
+        });
+
+
+    });
+</script>
+
+</body>
+</html>

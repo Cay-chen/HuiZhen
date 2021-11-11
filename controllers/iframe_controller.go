@@ -56,7 +56,7 @@ func (c *IframeController) Get() {
 			break
 		case "dep_manage":
 			if c.IsAdmin || c.IsYwb {
-				c.TplName = "iframe_dev_manage.html"
+				c.TplName = "iframe_dep_manage.html"
 			} else {
 				c.Redirect("/error/405", 302)
 			}
@@ -88,14 +88,10 @@ func (c *IframeController) Get() {
 			}
 			break
 		case "approve":
-			if c.IsAdmin || c.IsYwb {
-				JYConNum := c.GetString("JYConNum")
-				c.Data["JYConNum"] = JYConNum
-				c.Data["approveState"] = "    {{#  if(d.JYConFormApproveState==\"approve\"){ }}\n    同意\n    {{#  } else if(d.JYConFormApproveState==\"reject\"){ }}\n    拒绝\n    {{# } }}\n"
-				c.TplName = "iframe_sp_jl.html"
-			} else {
-				c.Redirect("/error/405", 302)
-			}
+			JYConNum := c.GetString("JYConNum")
+			c.Data["JYConNum"] = JYConNum
+			c.Data["approveState"] = "    {{#  if(d.JYConFormApproveState==\"approve\"){ }}\n    同意\n    {{#  } else if(d.JYConFormApproveState==\"reject\"){ }}\n    拒绝\n    {{# } }}\n"
+			c.TplName = "iframe_sp_jl.html"
 			break
 		default:
 			c.Redirect("/error/600", 302)

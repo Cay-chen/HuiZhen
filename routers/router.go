@@ -15,14 +15,10 @@ func init() {
 	beego.Router("/exit", &controllers.ExitControoler{})
 	beego.Router("/change_password", &controllers.ChangePasswordController{})
 	beego.Router("/change_msg/:id", &controllers.ConPersonServerController{})
-	beego.Router("/get_person", &controllers.GetPersonDataController{})
-	beego.Router("/get_dev", &controllers.GetDevDataController{})
-	beego.Router("/get_form/:id", &controllers.GetFormDataController{})
 	beego.Router("/data/:id", &controllers.DataController{})
 	beego.Router("/data_table/:id", &controllers.DataTableController{})
-	beego.Router("/dep_manage", &controllers.DepMangeController{})
 	beego.Router("/check", &controllers.CheckController{})
+	beego.Router("/con_note", &controllers.ConsultationNoteController{})
 	beego.Router("/approve56", &controllers.Approve5To6Controller{})
 	beego.Router("/iframe/:id", &controllers.IframeController{})
-
 }

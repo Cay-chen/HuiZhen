@@ -9,11 +9,11 @@ import (
 	beego "github.com/beego/beego/v2/server/web"
 )
 
-type ApplicationFormEtController struct {
+type ApplyController struct {
 	BaseController
 }
 
-func (c *ApplicationFormEtController) Get() {
+func (c *ApplyController) Get() {
 	if c.IsLogin {
 		depList := models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
 		//c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
@@ -60,13 +60,16 @@ func (c *ApplicationFormEtController) Get() {
 				selectedM = " "
 				selectedW = "selected"
 			}
+
 			for i := 0; i < len(depList); i++ {
 				if s.JYConSickDepId == depList[i].JYConDepCode {
 					DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" selected>" + depList[i].JYConDepName + "</option>\n"
 				} else {
 					DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" >" + depList[i].JYConDepName + "</option>\n"
 				}
+
 			}
+
 			editInfo = true
 			Y1 = true
 			c.Data["SexW"] = selectedW
@@ -92,22 +95,10 @@ func (c *ApplicationFormEtController) Get() {
 			c.Data["JYConSickCase"] = s.JYConSickCase
 			c.Data["JYConPurpose"] = s.JYConPurpose
 			c.Data["JYConSickDocId"] = s.JYConSickDocId
-			c.Data["JYConOppDocPhone"] = s.JYConOppDocPhone
-			c.Data["JYConOppDocName"] = s.JYConOppDocName
 			JYConOppHos = s.JYConOppHos
 			c.Data["JYConOppDepId"] = s.JYConOppDepId
 			c.Data["JYConDate"] = string([]byte(s.JYConDate)[:19])
 			c.Data["JYConOppDep"] = s.JYConOppDep
-			c.Data["Yq"] = s.JYConOppHos
-			logs.Debug("s.JYConOppDocId")
-			logs.Debug(s.JYConOppDocId)
-			logs.Debug("end")
-			c.Data["JYConOppDocId"] = s.JYConOppDocId
-			if s.JYConOppDocId == "" {
-				c.Data["IsAutoDoc"] = false
-			} else {
-				c.Data["IsAutoDoc"] = true
-			}
 		}
 		c.Data["JYConOppHos"] = JYConOppHos
 		c.Data["SexW"] = selectedW
@@ -117,15 +108,15 @@ func (c *ApplicationFormEtController) Get() {
 		c.Data["EditInfo"] = editInfo
 		c.Data["Y1"] = Y1
 		c.Data["DepListS"] = DepListS
-		c.TplName = "emergency_treatment_form.html"
+		logs.Debug("depListS:" + DepListS)
+		c.TplName = "iframe_apply_pz.html"
 	} else {
-		c.Redirect("/error/600", 302)
+		c.Redirect("/error/56", 302)
 	}
 }
-func (c *ApplicationFormEtController) Post() {
+func (c *ApplyController) Post() {
 	if c.IsLogin {
 		JYConNum := c.GetString("JYConNum")
-		ISAutoDoc := c.GetString("ISAutoDoc")
 		JYConSickName := c.GetString("JYConSickName")
 		JYConSickSex := c.GetString("JYConSickSex")
 		JYConSickAge := c.GetString("JYConSickAge")
@@ -144,21 +135,9 @@ func (c *ApplicationFormEtController) Post() {
 		JYConOppDep := c.GetString("JYConOppDep")
 		JYConOppHos := c.GetString("JYConOppHos")
 		flag := c.GetString("flag")
-		JYConDate := c.GetString("JYConDate")
 		JYConOppDepId := c.GetString("JYConOppDepId")
-		JYConOppDocName := c.GetString("JYConOppDocName")
-		JYConOppDocId1 := c.GetString("JYConOppDocId1")
-		JYConOppDocName1 := c.GetString("JYConOppDocName1")
-		JYConOppDocId := c.GetString("JYConOppDocId")
-		JYConOppDocPhone := c.GetString("JYConOppDocPhone")
-		JYConOppDocPhone1 := c.GetString("JYConOppDocPhone1")
+		JYConDate := c.GetString("JYConDate")
 		//fmt.Println("JYConSickName:"+JYConSickName+" | JYConSickSex:"+JYConSickSex+" | JYConSickAge:"+JYConSickAge+" | JYConSickDepId:"+JYConSickDepId+" | JYConSickDep:"+JYConSickDep+" | JYConSickBelongHos:"+JYConSickBelongHos+" | JYConSickBedNo:"+JYConSickBedNo+" | JYConSickAd:"+JYConSickAd+" | JYConDepLocaltion:"+JYConDepLocaltion+" | JYConSickDocId:"+JYConSickDocId+" | JYConSickDoc:"+JYConSickDoc+" | JYConSickDocPhone:"+JYConSickDocPhone+" | JYConType:"+JYConType+" | JYConSickDia:"+JYConSickDia+" | JYConSickCase:"+JYConSickCase+" | JYConPurpose:"+JYConPurpose+" | JYConOppDep:"+JYConOppDep+" | JYConOppDepId:"+JYConOppDepId+" | JYConDate:"+JYConDate+" | JYConFormCreatePersonId:"+JYConFormCreatePersonId+" | JYConFormCreatePersonName:"+JYConFormCreatePersonName)
-
-		logs.Debug("ISAutoDoc:" + ISAutoDoc)
-		logs.Debug("JYConOppDocName:" + JYConOppDocName)
-		logs.Debug("JYConOppDocId:" + JYConOppDocId)
-		logs.Debug("JYConOppDocName1:" + JYConOppDocName1)
-		logs.Debug("JYConOppDocId1:" + JYConOppDocId1)
 
 		parameterMap := make(map[string]string)
 		parameterMap["JYConSickName"] = JYConSickName
@@ -182,26 +161,17 @@ func (c *ApplicationFormEtController) Post() {
 		parameterMap["flag"] = flag
 		parameterMap["JYConOppHos"] = JYConOppHos
 		parameterMap["JYConDate"] = JYConDate
-		if ISAutoDoc == "1" {
-			parameterMap["JYConOppDocName"] = JYConOppDocName
-			parameterMap["JYConOppDocId"] = JYConOppDocId
-			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
-		} else {
-			parameterMap["JYConOppDocName"] = JYConOppDocName1
-			parameterMap["JYConOppDocId"] = JYConOppDocId1
-			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone1
-		}
 		parameterMap["JYConFormCreatePersonId"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConFormCreatePersonName"] = c.PersonUer.JYConPersonName
 		postResult := ""
 		if JYConNum != "" {
-			serverName := "JYConFormUrgentServlet"
-			method := "editFormUrgent"
+			serverName := "JYConFormServlet"
+			method := "editForm"
 			parameterMap["JYConNum"] = JYConNum
 			postResult = utils.Post(serverName, method, utils.MapToUrl(parameterMap))
 		} else {
-			serverName := "JYConFormUrgentServlet"
-			method := "createUrgentForm"
+			serverName := "JYConFormServlet"
+			method := "createForm"
 			postResult = utils.Post(serverName, method, utils.MapToUrl(parameterMap))
 		}
 
@@ -216,7 +186,7 @@ func (c *ApplicationFormEtController) Post() {
 			//flash.Error("申请失败")
 		}
 		flash.Store(&c.Controller)
-		c.Redirect("/apply_et", 302)
+		c.Redirect("/apply", 302)
 
 	}
 

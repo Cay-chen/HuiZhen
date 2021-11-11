@@ -127,10 +127,11 @@
 
         table.render({
             elem: '#person_table'
-            , url: '/get_dev'
+            , url: '/data_table/dep'
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports', 'print']
             , title: '用户数据表'
+            ,height:'full-57'
             , cols: [[
                 {field: 'JYConDepCode', title: '科室编码', cellMinWidth: 100, fixed: 'left', unresize: true, sort: true}
                 , {field: 'JYConDepName', title: '科室名称', cellMinWidth: 120}

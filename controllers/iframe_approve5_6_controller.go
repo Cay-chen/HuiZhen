@@ -19,7 +19,7 @@ func (c *Approve5To6Controller) Get() {
 		res := models.Person{}
 		_ = json.Unmarshal([]byte(docList), &res)
 		c.Data["DocList"] = res.Data
-		c.TplName = "approve5_6.html"
+		c.TplName = "iframe_approve5to6.html"
 	} else {
 		c.Redirect("/error", 302)
 	}

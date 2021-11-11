@@ -102,7 +102,7 @@ func (c *CheckController) Get() {
 
 				c.Data["ApproveType"] = "急会诊"
 			}
-			c.TplName = "check_view_page.html"
+			c.TplName = "iframe_check.html"
 
 		} else {
 			c.Redirect("/error", 302)

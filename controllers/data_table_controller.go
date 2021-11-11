@@ -63,9 +63,47 @@ func (c *DataTableController) Get() {
 					c.Redirect("/error/600", 302)
 				}
 			}
-
 			break
-
+		case "my":
+			limit := c.GetString("limit")
+			page := c.GetString("page")
+			JYConPersonBelongHos := c.PersonUer.JYConPersonBelongHos
+			JYConPersonType := c.PersonUer.JYConPersonType
+			JYConPersonBelongDep := c.PersonUer.JYConPersonBelongDep
+			JYConPersonCode := c.PersonUer.JYConPersonCode
+			res := models.GetFormList("many", JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, "", "getFormBySomething", "")
+			c.Ctx.WriteString(res)
+			break
+		case "fromDsp":
+			limit := c.GetString("limit")
+			page := c.GetString("page")
+			type1 := c.GetString("type")
+			JYConPersonBelongHos := c.PersonUer.JYConPersonBelongHos
+			JYConPersonType := c.PersonUer.JYConPersonType
+			JYConPersonBelongDep := c.PersonUer.JYConPersonBelongDep
+			JYConPersonCode := c.PersonUer.JYConPersonCode
+			res := models.GetFormList("", JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, "", "getMyApprovalForm", type1)
+			c.Ctx.WriteString(res)
+			break
+		case "fromYsp":
+			limit := c.GetString("limit")
+			page := c.GetString("page")
+			type1 := c.GetString("type")
+			JYConPersonBelongHos := c.PersonUer.JYConPersonBelongHos
+			JYConPersonCode := c.PersonUer.JYConPersonCode
+			res := models.GetPersonApproveList(JYConPersonCode, JYConPersonBelongHos, type1, limit, page)
+			body, _ := json.Marshal(res)
+			backRes := string(body)
+			c.Ctx.WriteString(backRes)
+			break
+		case "dep":
+			limit := c.GetString("limit")
+			page := c.GetString("page")
+			JYConPersonBelongHos := c.PersonUer.JYConPersonBelongHos
+			models.GetDepList(JYConPersonBelongHos, page, limit)
+			body, _ := json.Marshal(models.GetDepList(JYConPersonBelongHos, page, limit))
+			c.Ctx.WriteString(string(body))
+			break
 		}
 
 	} else {
