@@ -35,7 +35,7 @@ type DepInfo1 struct {
 	Mesg  string `json:"mesg"`
 }
 
-func GetDepList(JYConPersonBelongHos, page, limit string) DepInfo {
+func GetDepList(JYConPersonBelongHos, page, limit, postName string) DepInfo {
 
 	serverName := "JYConDepListServlet"
 	method := "getDepListByHos"
@@ -43,7 +43,7 @@ func GetDepList(JYConPersonBelongHos, page, limit string) DepInfo {
 	parameterMap["JYConDepBelongHos"] = JYConPersonBelongHos
 	parameterMap["page"] = page
 	parameterMap["limit"] = limit
-	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 	res1 := DepInfo1{}
 	_ = json.Unmarshal([]byte(resMsg), &res1)
 	res := data1ToData(res1)

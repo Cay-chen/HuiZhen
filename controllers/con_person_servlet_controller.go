@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"HuiZhen/models/utils"
-	"fmt"
 	"github.com/beego/beego/v2/adapter/logs"
 )
 
@@ -22,7 +21,7 @@ func (c *ConPersonServerController) Get() {
 			JYConNum := c.GetString("JYConNum")
 			parameterMap := make(map[string]string)
 			parameterMap["JYConNum"] = JYConNum
-			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 			result := getPerson(resMsg)
 			if result.Flag == "true" {
 				c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
@@ -60,7 +59,7 @@ func (c *ConPersonServerController) Get() {
 			parameterMap["JYConFormApprovePersonName"] = JYConFormApprovePersonName
 			parameterMap["JYConFormApproveBelongHos"] = JYConFormApproveBelongHos
 			parameterMap["JYConFormConclusion"] = JYConFormConclusion
-			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 			result := getPerson(resMsg)
 			if result.Flag == "true" {
 				c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
@@ -88,14 +87,13 @@ func (c *ConPersonServerController) Get() {
 				parameterMap["JYConPersonCode"] = JYConPersonCode
 				parameterMap["action"] = action
 				parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				result := getPerson(resMsg)
 				if result.Flag == "true" {
 					c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
 				} else {
 					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
 				}
-				fmt.Println(result)
 				break
 			case "cp":
 				serverName := "JYConPersonServlet"
@@ -106,14 +104,13 @@ func (c *ConPersonServerController) Get() {
 				parameterMap["JYConPersonCode"] = JYConPersonCode
 				parameterMap["PersonNewPassword"] = PersonNewPassword
 				parameterMap["JYConPersonBelongHos"] = c.PersonUer.JYConPersonBelongHos
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				result := getPerson(resMsg)
 				if result.Flag == "true" {
 					c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
 				} else {
 					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
 				}
-				fmt.Println(result)
 				break
 			case "change_person":
 				serverName := "JYConPersonServlet"
@@ -125,7 +122,7 @@ func (c *ConPersonServerController) Get() {
 				parameterMap["JYConPersonPhone"] = c.GetString("JYConPersonPhone")
 				parameterMap["JYConPersonType"] = c.GetString("JYConPersonType")
 				parameterMap["JYConPersonBelongDep"] = c.GetString("JYConPersonBelongDep")
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				result := getPerson(resMsg)
 				if result.Flag == "true" {
 					c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
@@ -142,7 +139,7 @@ func (c *ConPersonServerController) Get() {
 				parameterMap["JYConDepBelongHos"] = c.PersonUer.JYConPersonBelongHos
 				parameterMap["JYConDepPhone"] = c.GetString("JYConDepPhone")
 				parameterMap["JYConDepLocalhost"] = c.GetString("JYConDepLocalhost")
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				result := getPerson(resMsg)
 				if result.Flag == "true" {
 					c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
@@ -160,7 +157,7 @@ func (c *ConPersonServerController) Get() {
 				parameterMap["JYConDepCode"] = JYConDepCode
 				parameterMap["action"] = action
 				parameterMap["JYConDepBelongHos"] = JYConDepBelongHos
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				result := getPerson(resMsg)
 				if result.Flag == "true" {
 					c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
@@ -188,7 +185,7 @@ func (c *ConPersonServerController) Get() {
 				parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
 				parameterMap["JYConPersonPhone"] = JYConPersonPhone
 				parameterMap["JYConPersonFromNum"] = JYConPersonFromNum
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				result := getPerson(resMsg)
 				if resMsg == "" {
 					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"服务器异常！\"}")

@@ -46,7 +46,7 @@ func extraInfoDate1ToData(c ExtraInfoJson1) ExtraInfoJson {
 	return depInfo
 }
 
-func GetExtraInfoList(JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit string) ExtraInfoJson {
+func GetExtraInfoList(JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, postName string) ExtraInfoJson {
 	serverName := "JYConPersonExtraInfoServlet"
 	method := "queryExtraInfo"
 	parameterMap := make(map[string]string)
@@ -56,7 +56,7 @@ func GetExtraInfoList(JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JY
 	parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
 	parameterMap["page"] = page
 	parameterMap["limit"] = limit
-	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 	res1 := ExtraInfoJson1{}
 	_ = json.Unmarshal([]byte(resMsg), &res1)
 	res := extraInfoDate1ToData(res1)

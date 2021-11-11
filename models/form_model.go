@@ -51,7 +51,7 @@ type FormInfo struct {
 	JYConType                 string `json:"JYConType"`
 }
 
-func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, JYConNum, methods, flagForm string) string {
+func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, JYConPersonBelongHos, page, limit, JYConNum, methods, flagForm, postName string) string {
 	serverName := "JYConFormServlet"
 	backRes := ""
 	switch methods {
@@ -61,7 +61,7 @@ func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, J
 		if flag == "one" {
 			parameterMap["flag"] = flag
 			parameterMap["JYConNum"] = JYConNum
-			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 			backRes = resMsg
 		}
 		if flag == "many" {
@@ -72,7 +72,7 @@ func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, J
 			parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
 			parameterMap["page"] = page
 			parameterMap["limit"] = limit
-			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 			res1 := FormJson1{}
 			_ = json.Unmarshal([]byte(resMsg), &res1)
 			res := formDate1ToData(res1)
@@ -91,7 +91,7 @@ func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, J
 		parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
 		parameterMap["page"] = page
 		parameterMap["limit"] = limit
-		resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+		resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 		res1 := FormJson1{}
 		_ = json.Unmarshal([]byte(resMsg), &res1)
 		res := formDate1ToData(res1)
@@ -107,7 +107,7 @@ func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, J
 		parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
 		parameterMap["page"] = page
 		parameterMap["limit"] = limit
-		resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+		resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 		res1 := FormJson1{}
 		_ = json.Unmarshal([]byte(resMsg), &res1)
 		res := formDate1ToData(res1)

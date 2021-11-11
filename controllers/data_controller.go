@@ -21,12 +21,12 @@ func (c *DataController) Get() {
 			parameterMap := make(map[string]string)
 			parameterMap["JYConDepCode"] = JYConDepCode
 			parameterMap["JYConDepBelongHos"] = c.PersonUer.JYConPersonBelongHos
-			res := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			res := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 			c.Ctx.WriteString(res)
 			break
 		case "depList":
 			JYConDepBelongHos := c.GetString("JYConDepBelongHos")
-			data := models.GetDepList(JYConDepBelongHos, "1", "200")
+			data := models.GetDepList(JYConDepBelongHos, "1", "200", c.PersonUer.JYConPersonCode)
 			res, _ := json.Marshal(data)
 			c.Ctx.WriteString(string(res))
 			break
@@ -39,7 +39,7 @@ func (c *DataController) Get() {
 			} else {
 				JYConPersonBelongHos = c.PersonUer.JYConPersonBelongHos
 			}
-			res := models.GetDocList(JYConPersonBelongHos, JYConDepCode, "", "200", "1")
+			res := models.GetDocList(JYConPersonBelongHos, JYConDepCode, "", "200", "1", c.PersonUer.JYConPersonCode)
 			c.Ctx.WriteString(res)
 			break
 		case "docInfo":
@@ -51,7 +51,7 @@ func (c *DataController) Get() {
 			} else {
 				JYConPersonBelongHos = c.PersonUer.JYConPersonBelongHos
 			}
-			res := models.GetDocInfo(JYConPersonCode, JYConPersonBelongHos)
+			res := models.GetDocInfo(JYConPersonCode, JYConPersonBelongHos, c.PersonUer.JYConPersonCode)
 			//res := models.GetDocList(c.PersonUer.JYConPersonBelongHos, JYConDepCode,"",  "200", "1")
 			c.Ctx.WriteString(res)
 			break

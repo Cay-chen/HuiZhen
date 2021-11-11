@@ -4,7 +4,6 @@ import (
 	"HuiZhen/models"
 	"HuiZhen/models/utils"
 	"encoding/json"
-	"fmt"
 	"github.com/beego/beego/v2/adapter/logs"
 	beego "github.com/beego/beego/v2/server/web"
 )
@@ -15,11 +14,10 @@ type ApplyController struct {
 
 func (c *ApplyController) Get() {
 	if c.IsLogin {
-		depList := models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
+		depList := models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200", c.PersonUer.JYConPersonCode).Data
 		//c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
 		flash := beego.ReadFromRequest(&c.Controller)
 		if n, ok := flash.Data["notice"]; ok {
-			fmt.Println("notice:" + n)
 			c.Data["Msg_ture"] = true
 			// 显示设置成功
 			c.Data["Msg_notice"] = n
@@ -45,7 +43,7 @@ func (c *ApplyController) Get() {
 		}
 		if JYConNum != "" {
 			DepListS = ""
-			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "")
+			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "", c.PersonUer.JYConPersonCode)
 			s := models.FormInfo{}
 			err := json.Unmarshal([]byte(info), &s)
 			if err != nil {
@@ -137,8 +135,6 @@ func (c *ApplyController) Post() {
 		flag := c.GetString("flag")
 		JYConOppDepId := c.GetString("JYConOppDepId")
 		JYConDate := c.GetString("JYConDate")
-		//fmt.Println("JYConSickName:"+JYConSickName+" | JYConSickSex:"+JYConSickSex+" | JYConSickAge:"+JYConSickAge+" | JYConSickDepId:"+JYConSickDepId+" | JYConSickDep:"+JYConSickDep+" | JYConSickBelongHos:"+JYConSickBelongHos+" | JYConSickBedNo:"+JYConSickBedNo+" | JYConSickAd:"+JYConSickAd+" | JYConDepLocaltion:"+JYConDepLocaltion+" | JYConSickDocId:"+JYConSickDocId+" | JYConSickDoc:"+JYConSickDoc+" | JYConSickDocPhone:"+JYConSickDocPhone+" | JYConType:"+JYConType+" | JYConSickDia:"+JYConSickDia+" | JYConSickCase:"+JYConSickCase+" | JYConPurpose:"+JYConPurpose+" | JYConOppDep:"+JYConOppDep+" | JYConOppDepId:"+JYConOppDepId+" | JYConDate:"+JYConDate+" | JYConFormCreatePersonId:"+JYConFormCreatePersonId+" | JYConFormCreatePersonName:"+JYConFormCreatePersonName)
-
 		parameterMap := make(map[string]string)
 		parameterMap["JYConSickName"] = JYConSickName
 		parameterMap["JYConSickSex"] = JYConSickSex
@@ -168,11 +164,11 @@ func (c *ApplyController) Post() {
 			serverName := "JYConFormServlet"
 			method := "editForm"
 			parameterMap["JYConNum"] = JYConNum
-			postResult = utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			postResult = utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 		} else {
 			serverName := "JYConFormServlet"
 			method := "createForm"
-			postResult = utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+			postResult = utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 		}
 
 		res := getMsg(postResult)

@@ -38,7 +38,7 @@ func (c *LoginController) Post() {
 	parameterMap["JYConPersonCode"] = JYConPersonCode
 	parameterMap["JYConPersonPassword"] = utils.Md5String32(JYConPersonPassword)
 	parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
-	resmsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	resmsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), JYConPersonCode)
 	if resmsg == "" {
 		c.Redirect("error/500", 302)
 		return

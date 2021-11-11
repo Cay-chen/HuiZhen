@@ -31,7 +31,7 @@ func (c *IframeController) Get() {
 						IsTO = true
 					}
 				}
-				docList := models.GetDocList(c.PersonUer.JYConPersonBelongHos, c.PersonUer.JYConPersonBelongDep, c.PersonUer.JYConPersonCode, "200", "1")
+				docList := models.GetDocList(c.PersonUer.JYConPersonBelongHos, c.PersonUer.JYConPersonBelongDep, c.PersonUer.JYConPersonCode, "200", "1", c.PersonUer.JYConPersonCode)
 				res := models.Person{}
 				_ = json.Unmarshal([]byte(docList), &res)
 				c.Data["DocList"] = res.Data
@@ -63,7 +63,7 @@ func (c *IframeController) Get() {
 			break
 		case "person_manage":
 			if !c.IsYxys {
-				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
+				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200", c.PersonUer.JYConPersonCode).Data
 				c.Data["TitleTpl"] = "{{# if(d.JYConPersonIsActive == '已激活') { }}\n    <a  style=\"color: red\">{{d.JYConPersonIsActive}}</a>\n    {{#  } else { }}\n    {{d.JYConPersonIsActive}}\n    {{#  } }}"
 				c.Data["IsYwbAndAdmin"] = false
 				if c.IsYwb || c.IsAdmin {

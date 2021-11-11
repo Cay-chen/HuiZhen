@@ -3,7 +3,6 @@ package controllers
 import (
 	"HuiZhen/models"
 	"HuiZhen/models/utils"
-	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -17,10 +16,9 @@ func (c *RegisterController) Get() {
 			id := c.Ctx.Input.Param(":id")
 			switch id {
 			case "person":
-				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200").Data
+				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200", c.PersonUer.JYConPersonCode).Data
 				flash := beego.ReadFromRequest(&c.Controller)
 				if n, ok := flash.Data["notice"]; ok {
-					fmt.Println("notice:" + n)
 					c.Data["Msg_ture"] = true
 					// 显示设置成功
 					c.Data["Msg_notice"] = n
@@ -37,7 +35,6 @@ func (c *RegisterController) Get() {
 			case "dep":
 				flash := beego.ReadFromRequest(&c.Controller)
 				if n, ok := flash.Data["notice"]; ok {
-					fmt.Println("notice:" + n)
 					c.Data["Msg_ture"] = true
 					// 显示设置成功
 					c.Data["Msg_notice"] = n
@@ -65,7 +62,6 @@ func (c *RegisterController) Post() {
 	if c.IsLogin {
 		if c.IsAdmin || c.IsYwb {
 			id := c.Ctx.Input.Param(":id")
-			fmt.Println("所选ID：" + id)
 			switch id {
 			case "person":
 				JYConPersonCode := c.GetString("JYConPersonCode")
@@ -84,7 +80,7 @@ func (c *RegisterController) Post() {
 				parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
 				parameterMap["JYConPersonBelongHos"] = c.PersonUer.JYConPersonBelongHos
 				parameterMap["JYConPersonPhone"] = JYConPersonPhone
-				resmsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resmsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				res := getMsg(resmsg)
 				flash := beego.NewFlash()
 				if res.Flag == "true" {
@@ -113,7 +109,7 @@ func (c *RegisterController) Post() {
 				parameterMap["JYConDepLocalhost"] = JYConDepLocalhost
 				parameterMap["JYConDepBelongHos"] = c.PersonUer.JYConPersonBelongHos
 				parameterMap["JYConDepIsActive"] = JYConDepIsActive
-				resmsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+				resmsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 				res := getMsg(resmsg)
 				flash := beego.NewFlash()
 				if res.Flag == "true" {

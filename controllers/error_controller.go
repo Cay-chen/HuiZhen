@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -11,7 +10,6 @@ type ErrorController struct {
 
 func (c *ErrorController) Get() {
 	id := c.Ctx.Input.Param(":id")
-	fmt.Println("参数：" + id)
 	switch id {
 	case "600":
 		c.TplName = "600.html"

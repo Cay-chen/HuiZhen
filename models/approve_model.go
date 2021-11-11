@@ -51,7 +51,7 @@ func approveDate1ToData(c ApproveJson1) ApproveJson {
 	}
 	return depInfo
 }
-func GetPersonApproveList(JYConPersonCode, JYConPersonBelongHos, flag, limit, page string) ApproveJson {
+func GetPersonApproveList(JYConPersonCode, JYConPersonBelongHos, flag, limit, page, postName string) ApproveJson {
 	serverName := "JYConFormServlet"
 	method := "getMyApprovalFormEd"
 	parameterMap := make(map[string]string)
@@ -60,20 +60,20 @@ func GetPersonApproveList(JYConPersonCode, JYConPersonBelongHos, flag, limit, pa
 	parameterMap["flag"] = flag
 	parameterMap["limit"] = limit
 	parameterMap["page"] = page
-	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 	res1 := ApproveJson1{}
 	_ = json.Unmarshal([]byte(resMsg), &res1)
 	res := approveDate1ToData(res1)
 	return res
 }
-func GetApproveList(JYConNum, limit, page string) ApproveJson {
+func GetApproveList(JYConNum, limit, page, postName string) ApproveJson {
 	serverName := "JYConFormApproveServlet"
 	method := "getApproveInfo"
 	parameterMap := make(map[string]string)
 	parameterMap["JYConNum"] = JYConNum
 	parameterMap["limit"] = limit
 	parameterMap["page"] = page
-	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 	res1 := ApproveJson1{}
 	_ = json.Unmarshal([]byte(resMsg), &res1)
 	res := approveDate1ToData(res1)

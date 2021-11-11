@@ -42,7 +42,7 @@ type Person1 struct {
 	Mesg  string `json:"mesg"`
 }
 
-func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonType, limit, page string) string {
+func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonType, limit, page, postName string) string {
 	serverName := "JYConPersonServlet"
 	method := "getPersonInfoByHos"
 	parameterMap := make(map[string]string)
@@ -55,7 +55,7 @@ func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonType, limit, page
 	if JYConPersonType != "" {
 		parameterMap["JYConPersonType"] = JYConPersonType
 	}
-	postResult := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	postResult := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 	if postResult != "" {
 		fmt.Println("POST返回结果:" + postResult)
 		res := Person1{}
@@ -68,13 +68,13 @@ func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonType, limit, page
 		return ""
 	}
 }
-func GetDocInfo(JYConPersonCode, JYConPersonBelongHos string) string {
+func GetDocInfo(JYConPersonCode, JYConPersonBelongHos, postName string) string {
 	serverName := "JYConPersonServlet"
 	method := "getPersonInfoByAccount"
 	parameterMap := make(map[string]string)
 	parameterMap["JYConPersonCode"] = JYConPersonCode
 	parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
-	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+	resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 	return resMsg
 
 }

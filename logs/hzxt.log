@@ -213,3 +213,19 @@
 2021/11/11 21:43:21.391  [C] [panic.go:1047]  C:/Program Files/Go/src/net/http/server.go:2878
 2021/11/11 21:43:21.391  [C] [panic.go:1047]  C:/Program Files/Go/src/net/http/server.go:1929
 2021/11/11 21:43:21.391  [C] [panic.go:1047]  C:/Program Files/Go/src/runtime/asm_amd64.s:1581
+2021/11/11 21:51:35.996  [D] [con_person_servlet_controller.go:17]  id:changeFormState
+2021/11/11 21:51:35.996  [D] [utils.go:248]  POST请求参数：JYConFormServlet?method=changeFormState&JYConPersonBelongHos=&JYConFormApproveComment=提交&JYConFormApproveBelongHos=JYZX&JYConFormConclusion=&JYConOppDocId=&JYConPersonBelongDep=&JYConOppDocName=&JYConOppDocPhone=&JYConFormApprovePersonId=JY325&JYConFormApprovePersonName=孙学军&JYConNum=JY-1636637877773&flag=approve
+2021/11/11 21:51:36.017  [D] [utils.go:268]  POST返回结果：
+2021/11/11 21:51:36.017  [C] [panic.go:1047]  the request url is  /change_msg/changeFormState
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  Handler crashed with error runtime error: invalid memory address or nil pointer dereference
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Program Files/Go/src/runtime/panic.go:1047
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Program Files/Go/src/runtime/panic.go:221
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Program Files/Go/src/runtime/signal_windows.go:254
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Users/admin/GolandProjects/HuiZhen/controllers/con_person_servlet_controller.go:65
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Users/admin/go/pkg/mod/github.com/beego/beego/v2@v2.0.1/server/web/router.go:863
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Users/admin/go/pkg/mod/github.com/beego/beego/v2@v2.0.1/server/web/filter.go:81
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Users/admin/go/pkg/mod/github.com/beego/beego/v2@v2.0.1/server/web/router.go:664
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Program Files/Go/src/net/http/server.go:2878
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Program Files/Go/src/net/http/server.go:1929
+2021/11/11 21:51:36.018  [C] [panic.go:1047]  C:/Program Files/Go/src/runtime/asm_amd64.s:1581
+2021/11/11 22:11:24.799  [I] [asm_amd64.s:1581]  http server Running on http://:80

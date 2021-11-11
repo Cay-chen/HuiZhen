@@ -42,7 +42,7 @@ func (c *ChangePasswordController) Post() {
 		parameterMap["JYConPersonOldPassword"] = utils.Md5String32(JYConPersonOldPassword)
 		parameterMap["JYConPersonCode"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConPersonBelongHos"] = c.PersonUer.JYConPersonBelongHos
-		resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
+		resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 		res := getPerson(resMsg)
 		flash := beego.NewFlash()
 		if res.Flag == "true" {

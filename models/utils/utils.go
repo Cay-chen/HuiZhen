@@ -217,54 +217,33 @@ func Get(url string) (response string) {
 	response = result.String()
 	return
 }
-
-//发送POST请求
-//url:请求地址，data:POST请求提交的数据,contentType:请求体格式，如：application/json "application/x-www-form-urlencoded"
-//content:请求放回的内容
-/*func Post(url string, data interface{}, contentType string) (content string) {
-	jsonStr, _ := json.Marshal(data)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	req.Header.Add("content-type", contentType)
-	if err != nil {
-		panic(err)
-	}
-	defer req.Body.Close()
-
-	client := &http.Client{Timeout: 5 * time.Second}
-	resp, error := client.Do(req)
-	if error != nil {
-		panic(error)
-	}
-	defer resp.Body.Close()
-
-	result, _ := ioutil.ReadAll(resp.Body)
-	content = string(result)
-	return
-}*/
-func Post(serverName, method, parameter string) (content string) {
-	httpport, _ := beego.AppConfig.String("httpurl")
-	//"http://222.209.81.188:9999/hzxt/"
-	//fmt.Println("请求参数："+serverName+"/?"+"method="+method+parameter)
-	logs.Debug("POST请求参数：" + serverName + "?" + "method=" + method + parameter)
-	resp, err := http.Post(httpport+serverName,
+func Post(serverName, method, parameter, postName string) (content string) {
+	httpPort, _ := beego.AppConfig.String("httpurl")
+	logs.Debug(postName + "->POST请求参数：" + serverName + "?" + "method=" + method + parameter)
+	resp, err := http.Post(httpPort+serverName,
 		"application/x-www-form-urlencoded;charset=utf-8",
 		strings.NewReader("method="+method+parameter))
 	if err != nil {
-		fmt.Println("请求出错！")
+		logs.Debug(postName + "->Post请求出错！")
 		fmt.Println(err)
 
 	}
 	if resp == nil {
-		fmt.Println("服务器出现异常！")
+		logs.Debug(postName + "->请求服务器出现异常！")
 		return
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("请求出错！")
+		logs.Debug(postName + "->Post请求出错！")
 		return
 		// handle error
 	}
-	logs.Debug("POST返回结果：" + string(body))
+	logs.Debug(postName + "->POST返回结果：" + string(body))
 	return string(body)
 }

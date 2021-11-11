@@ -14,7 +14,7 @@ func (c *CheckController) Get() {
 	if c.IsLogin {
 		JYConNum := c.GetString("JYConNum")
 		if JYConNum != "" {
-			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "")
+			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "", c.PersonUer.JYConPersonCode)
 			s := models.FormInfo{}
 			err := json.Unmarshal([]byte(info), &s)
 			if err != nil {
@@ -24,7 +24,7 @@ func (c *CheckController) Get() {
 			c.Data["JYConFormCreateDate"] = JYConFormCreateDate
 			JYConDate := string([]byte(s.JYConDate)[:19])
 			c.Data["JYConDate"] = JYConDate
-			resMsg := models.GetApproveList(JYConNum, "300", "1")
+			resMsg := models.GetApproveList(JYConNum, "300", "1", c.PersonUer.JYConPersonCode)
 			JYConFormApproveCommentK := ""
 			JYConFormApproveCommentY := ""
 			JYConFormApproveCommentTY := ""
