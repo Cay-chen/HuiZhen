@@ -32,6 +32,7 @@ type FormInfo struct {
 	JYConNum                  string `json:"JYConNum"`
 	JYConSickAge              string `json:"JYConSickAge"`
 	JYConFormPolicy           string `json:"JYConFormPolicy"`
+	JYConFormPolicy1          string `json:"JYConFormPolicy1"`
 	JYConSickName             string `json:"JYConSickName"`
 	JYConFormModifyDate       string `json:"JYConFormModifyDate"`
 	JYConSickDocId            string `json:"JYConSickDocId"`
@@ -114,52 +115,6 @@ func GetFormList(flag, JYConPersonType, JYConPersonBelongDep, JYConPersonCode, J
 		body, _ := json.Marshal(res)
 		backRes = string(body)
 	}
-
-	/*	if methods == "getFormBySomething" {
-			method := "getFormBySomething"
-			parameterMap := make(map[string]string)
-			if flag == "one" {
-				parameterMap["flag"] = flag
-				parameterMap["JYConNum"] = JYConNum
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
-				backRes = resMsg
-			}
-			if flag == "many" {
-				parameterMap["flag"] = flag
-				parameterMap["JYConPersonType"] = JYConPersonType
-				parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
-				parameterMap["JYConPersonCode"] = JYConPersonCode
-				parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
-				parameterMap["page"] = page
-				parameterMap["limit"] = limit
-				resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
-				res1 := FormJson1{}
-				_ = json.Unmarshal([]byte(resMsg), &res1)
-				res := formDate1ToData(res1)
-				//_ = json.Unmarshal([]byte(resMsg), &res)
-				body, _ := json.Marshal(res)
-				backRes = string(body)
-			}
-
-		} else if methods == "getMyApprovalForm" {
-			method := "getMyApprovalForm"
-			parameterMap := make(map[string]string)
-			parameterMap["flag"] = flagForm
-			parameterMap["JYConPersonType"] = JYConPersonType
-			parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep
-			parameterMap["JYConPersonCode"] = JYConPersonCode
-			parameterMap["JYConPersonBelongHos"] = JYConPersonBelongHos
-			parameterMap["page"] = page
-			parameterMap["limit"] = limit
-			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap))
-			res1 := FormJson1{}
-			_ = json.Unmarshal([]byte(resMsg), &res1)
-			res := formDate1ToData(res1)
-			body, _ := json.Marshal(res)
-			backRes = string(body)
-
-		}*/
-
 	return backRes
 }
 func formDate1ToData(c FormJson1) FormJson {
@@ -174,7 +129,9 @@ func formDate1ToData(c FormJson1) FormJson {
 	depInfo.Msg = c.Mesg
 	//人员类型（0--管理员，1--科室主任，2--科室负责人，3--科室一线医生,4-医务部人员）
 	for i := 0; i < len(depInfo.Data); i++ {
+		JYConFormPolicy1 := depInfo.Data[i].JYConFormPolicy
 		jYConType := depInfo.Data[i].JYConType
+		depInfo.Data[i].JYConFormPolicy1 = JYConFormPolicy1
 		JYConFormCreateDate := depInfo.Data[i].JYConFormCreateDate
 		data := string([]byte(JYConFormCreateDate)[:19])
 		depInfo.Data[i].JYConFormCreateDate = data

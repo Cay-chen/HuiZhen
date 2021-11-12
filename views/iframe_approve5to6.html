@@ -120,7 +120,7 @@
                 JYConOppDocName=layui.$("#JYConOppDocName").val();
             }
             layui.$.ajax({
-                url: "/change_msg/changeFormState?JYConNum={{.JYConNum}}&JYConPersonBelongDep={{.JYConPersonBelongDep}}&JYConPersonBelongHos={{.JYConPersonBelongHos}}&flag=approve&JYConFormApproveComment="+JYConFormApproveComment+"&JYConOppDocId="+JYConOppDocId+"&JYConOppDocName="+JYConOppDocName+"&JYConOppDocPhone="+JYConOppDocPhone,
+                url: "/change_msg/changeFormState?JYConNum={{.JYConNum}}&JYConPersonBelongDep={{.JYConPersonBelongDep}}&JYConPersonBelongHos={{.JYConPersonBelongHos}}&flag=approve&JYConFormPolicy=5&JYConType=1&JYConFormApproveComment="+JYConFormApproveComment+"&JYConOppDocId="+JYConOppDocId+"&JYConOppDocName="+JYConOppDocName+"&JYConOppDocPhone="+JYConOppDocPhone,
                 success: function (result) {
                     var res = JSON.parse(result)
                     if (res.code === 0) {

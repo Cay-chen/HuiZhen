@@ -108,12 +108,18 @@
         //监听行工具事件
         form.on('tool(test)', function (obj) {
             var data = obj.data;
+            var jyConType ="";
+            if (data.JYConType==="急会诊"){
+                jyConType="2"
+            }if (data.JYConType==="平会诊"){
+                jyConType="1"
+            }
             switch (obj.event){
                 case 'reject':
                     layer.prompt({title:'拒绝申请理由',formType:2},function (text,index) {
                         layer.close(index);
                         layui.$.ajax({
-                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=reject&JYConFormApproveComment="+text,
+                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=reject&JYConFormApproveComment="+text+"&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,
                             success: function (result) {
                                 var res = JSON.parse(result)
                                 if (res.code === 0) {
@@ -165,7 +171,7 @@
                     layer.prompt({title:'审批理由',formType:2},function (text,index) {
                         layer.close(index);
                         layui.$.ajax({
-                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=approve&JYConFormApproveComment="+text,
+                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=approve&JYConFormApproveComment="+text+"&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,
                             success: function (result) {
                                 var res = JSON.parse(result)
                                 if (res.code === 0) {

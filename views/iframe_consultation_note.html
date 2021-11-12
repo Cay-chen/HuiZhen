@@ -46,7 +46,7 @@
         <div class="layui-input-block">
             <textarea placeholder="请输入内容" class="layui-textarea" style="cursor:not-allowed" disabled name="JYConSickDia" lay-verify="title"
                       id="JYConSickDia"
-                      value="{{.JYConSickDia}}"></textarea>
+                      value="{{.Form.JYConSickDia}}"></textarea>
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
@@ -119,6 +119,10 @@
 
     });
 </script>
+<script language="javascript" type="text/javascript">
+    document.getElementById("JYConSickDia").value = "{{.Form.JYConSickDia}}"
+    document.getElementById("JYConSickCase").value = "{{.Form.JYConSickCase}}"
 
+</script>
 </body>
 </html>

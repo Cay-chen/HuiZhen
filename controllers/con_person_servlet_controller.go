@@ -42,6 +42,8 @@ func (c *ConPersonServerController) Get() {
 			JYConPersonBelongHos := c.GetString("JYConPersonBelongHos") //拟邀科室院区--在状态为4提升时需要
 			JYConFormApproveComment := c.GetString("JYConFormApproveComment")
 			JYConFormConclusion := c.GetString("JYConFormConclusion")
+			JYConFormPolicy := c.GetString("JYConFormPolicy")
+			JYConType := c.GetString("JYConType")
 			JYConFormApprovePersonId := c.PersonUer.JYConPersonCode
 			JYConFormApprovePersonName := c.PersonUer.JYConPersonName
 			JYConFormApproveBelongHos := c.PersonUer.JYConPersonBelongHos
@@ -50,6 +52,8 @@ func (c *ConPersonServerController) Get() {
 			parameterMap["JYConNum"] = JYConNum
 			parameterMap["flag"] = flag
 			parameterMap["JYConOppDocId"] = JYConOppDocId
+			parameterMap["JYConType"] = JYConType
+			parameterMap["JYConFormPolicy"] = JYConFormPolicy
 			parameterMap["JYConOppDocName"] = JYConOppDocName
 			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
 			parameterMap["JYConPersonBelongDep"] = JYConPersonBelongDep

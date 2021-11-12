@@ -75,6 +75,11 @@ func (c *IframeController) Get() {
 			}
 			break
 		case "myHzTo":
+			if c.IsYxys {
+				c.Data["IsYx"] = true
+			} else {
+				c.Data["IsYx"] = false
+			}
 			c.Data["FormPolicyTpl"] = "    {{#  if(d.JYConFormPolicy == 1){ }}\n    申请状态\n    {{#  } else if(d.JYConFormPolicy == 2){ }}\n    申请方科室审批\n    {{#  } else if(d.JYConFormPolicy == 3){ }}\n    申请方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 4){ }}\n    接收方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 5){ }}\n    接收方科室审批\n    {{#  } else if(d.JYConFormPolicy == 6){ }}\n    审批完成\n    {{# } }}"
 			c.Data["FormHos"] = "{{# if(d.JYConOppHos =='WJQY'){ }}\n        温江区医院\n    {{# } else if(d.JYConOppHos =='JYZX'){ }}\n        精医中心\n    {{# } }}"
 			c.TplName = "iframe_to_my_hz.html"

@@ -3,7 +3,6 @@ package models
 import (
 	"HuiZhen/models/utils"
 	"encoding/json"
-	"fmt"
 	"strconv"
 )
 
@@ -57,11 +56,8 @@ func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonType, limit, page
 	}
 	postResult := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
 	if postResult != "" {
-		fmt.Println("POST返回结果:" + postResult)
 		res := Person1{}
 		_ = json.Unmarshal([]byte(postResult), &res)
-		//Data1ToDataJson(res)
-		fmt.Println("查询结果：" + data1ToDataJson(res))
 		return data1ToDataJson(res)
 
 	} else {

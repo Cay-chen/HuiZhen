@@ -11,6 +11,7 @@ type ConsultationNoteController struct {
 
 func (c *ConsultationNoteController) Get() {
 	if c.IsLogin {
+
 		JYConNum := c.GetString("JYConNum")
 		if JYConNum != "" {
 			info := models.GetFormList("one", "", "", "", "", "", "", JYConNum, "getFormBySomething", "", c.PersonUer.JYConPersonCode)

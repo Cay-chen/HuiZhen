@@ -222,8 +222,14 @@
                         title: "警告"
                         , btn: ['提交', '取消'] //按钮
                     }, function () {
+                        var jyConType ="";
+                        if (data.JYConType==="急会诊"){
+                            jyConType="2"
+                        }if (data.JYConType==="平会诊"){
+                            jyConType="1"
+                        }
                         layui.$.ajax({
-                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&JYConFormApproveComment=提交&flag=approve",
+                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&JYConFormApproveComment=提交&flag=approve&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,
                             success: function (result) {
                                 var res = JSON.parse(result)
                                 if (res.code === 0) {
