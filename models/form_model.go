@@ -19,7 +19,7 @@ type FormJson1 struct {
 	Mesg  string     `json:"mesg"`
 }
 
-type FormInfo struct {
+/*type FormInfo struct {
 	JYConSickDocPhone         string `json:"JYConSickDocPhone"`
 	JYConSickDepId            string `json:"JYConSickDepId"`
 	JYConSickCase             string `json:"JYConSickCase"`
@@ -47,6 +47,42 @@ type FormInfo struct {
 	JYConOppDepId             string `json:"JYConOppDepId"`
 	JYConFormCreatePersonName string `json:"JYConFormCreatePersonName"`
 	JYConOppDep               string `json:"JYConOppDep"`
+	JYConFormCreatePersonId   string `json:"JYConFormCreatePersonId"`
+	JYConPurpose              string `json:"JYConPurpose"`
+	JYConType                 string `json:"JYConType"`
+}*/
+type FormInfo struct {
+	JYConSickDocPhone         string `json:"JYConSickDocPhone"`
+	JYConSickDepId            string `json:"JYConSickDepId"`
+	JYConSickCase             string `json:"JYConSickCase"`
+	JYConOppDocPhone          string `json:"JYConOppDocPhone"`
+	Flag                      string `json:"flag"`
+	JYConSickDep              string `json:"JYConSickDep"`
+	JYConFormCreateDate       string `json:"JYConFormCreateDate"`
+	JYConSickBedNo            string `json:"JYConSickBedNo"`
+	JYConSickDia              string `json:"JYConSickDia"`
+	JYConOppDocId             string `json:"JYConOppDocId"`
+	JYConFormConclusion       string `json:"JYConFormConclusion"`
+	JYConNum                  string `json:"JYConNum"`
+	JYConSickAge              string `json:"JYConSickAge"`
+	JYConFormPolicy           string `json:"JYConFormPolicy"`
+	JYConFormPolicy1          string `json:"JYConFormPolicy1"`
+	JYConFormConclusionDate   string `json:"JYConFormConclusionDate"`
+	JYConSickName             string `json:"JYConSickName"`
+	JYConFormModifyDate       string `json:"JYConFormModifyDate"`
+	JYConSickDocId            string `json:"JYConSickDocId"`
+	Mesg                      string `json:"mesg"`
+	JYConSickDoc              string `json:"JYConSickDoc"`
+	JYConSickAd               string `json:"JYConSickAd"`
+	JYConOppDocName           string `json:"JYConOppDocName"`
+	JYConSickBelongHos        string `json:"JYConSickBelongHos"`
+	JYConDepLocaltion         string `json:"JYConDepLocaltion"`
+	JYConDate                 string `json:"JYConDate"`
+	JYConSickSex              string `json:"JYConSickSex"`
+	JYConOppDepId             string `json:"JYConOppDepId"`
+	JYConFormCreatePersonName string `json:"JYConFormCreatePersonName"`
+	JYConOppDep               string `json:"JYConOppDep"`
+	JYConOppHos               string `json:"JYConOppHos"`
 	JYConFormCreatePersonId   string `json:"JYConFormCreatePersonId"`
 	JYConPurpose              string `json:"JYConPurpose"`
 	JYConType                 string `json:"JYConType"`

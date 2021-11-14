@@ -331,18 +331,9 @@
     {{str2html .FormHos}}
 </script>
 <script type="text/html" id="barDemo">
-    {{.A1}}
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" lay-event="submit">提交</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    {{.A2}}
-    <a class="layui-btn layui-btn-xs layui-btn-disabled" >编辑</a>
-    <a class="layui-btn layui-btn-xs layui-btn-disabled" >提交</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-disabled" >删除</a>
-    {{.A3}}
+    {{str2html .BarDemo}}
     <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="check">查看</a>
     <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="approve">审批记录</a>
-
 </script>
 </body>
 </html>

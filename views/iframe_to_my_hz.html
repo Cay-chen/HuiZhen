@@ -58,7 +58,7 @@
 <script type="text/html" id="barDemo">
     <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="check">查看</a>
     {{if .IsYx}}
-    <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="edit">写会诊记录</a>
+    {{str2html .BarDemo}}
     {{end}}
 
     <!--

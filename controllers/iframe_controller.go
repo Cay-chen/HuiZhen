@@ -14,9 +14,10 @@ func (c *IframeController) Get() {
 		id := c.Ctx.Input.Param(":id")
 		switch id {
 		case "myHz":
-			c.Data["A1"] = "{{# if(d.JYConFormPolicy == 1){ }}"
-			c.Data["A2"] = "{{# }else{ }}"
-			c.Data["A3"] = "{{# } }}"
+			/*			c.Data["A1"] = "{{# if(d.JYConFormPolicy == 1){ }}"
+						c.Data["A2"] = "{{# }else{ }}"
+						c.Data["A3"] = "{{# } }}"*/
+			c.Data["BarDemo"] = "    {{# if(d.JYConFormPolicy == 1){ }}\n    <a class=\"layui-btn layui-btn-xs\" lay-event=\"edit\">编辑</a>\n    <a class=\"layui-btn layui-btn-xs\" lay-event=\"submit\">提交</a>\n    <a class=\"layui-btn layui-btn-danger layui-btn-xs\" lay-event=\"del\">删除</a>\n    {{# }else{ }}\n    <a class=\"layui-btn layui-btn-xs layui-btn-disabled\" >编辑</a>\n    <a class=\"layui-btn layui-btn-xs layui-btn-disabled\" >提交</a>\n    <a class=\"layui-btn layui-btn-danger layui-btn-xs layui-btn-disabled\" >删除</a>\n    {{# } }}"
 			c.Data["FormPolicyTpl"] = "    {{#  if(d.JYConFormPolicy == 1){ }}\n    申请状态\n    {{#  } else if(d.JYConFormPolicy == 2){ }}\n    申请方科室审批\n    {{#  } else if(d.JYConFormPolicy == 3){ }}\n    申请方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 4){ }}\n    接收方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 5){ }}\n    接收方科室审批\n    {{#  } else if(d.JYConFormPolicy == 6){ }}\n    审批完成\n    {{# } }}"
 			c.Data["FormHos"] = "{{# if(d.JYConOppHos =='WJQY'){ }}\n        温江区医院\n    {{# } else if(d.JYConOppHos =='JYZX'){ }}\n        精医中心\n    {{# } }}"
 			c.TplName = "iframe_my_hz.html"
@@ -82,6 +83,7 @@ func (c *IframeController) Get() {
 			}
 			c.Data["FormPolicyTpl"] = "    {{#  if(d.JYConFormPolicy == 1){ }}\n    申请状态\n    {{#  } else if(d.JYConFormPolicy == 2){ }}\n    申请方科室审批\n    {{#  } else if(d.JYConFormPolicy == 3){ }}\n    申请方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 4){ }}\n    接收方医务部审批\n    {{#  } else if(d.JYConFormPolicy == 5){ }}\n    接收方科室审批\n    {{#  } else if(d.JYConFormPolicy == 6){ }}\n    审批完成\n    {{# } }}"
 			c.Data["FormHos"] = "{{# if(d.JYConOppHos =='WJQY'){ }}\n        温江区医院\n    {{# } else if(d.JYConOppHos =='JYZX'){ }}\n        精医中心\n    {{# } }}"
+			c.Data["BarDemo"] = "    {{# if(d.JYConFormPolicy ==6){ }}\n    <a data-method=\"offset\" class=\"layui-btn  layui-btn-xs layui-btn-normal\" data-type=\"auto\" lay-event=\"edit\">写会诊记录</a>\n    {{# }else{ }}\n    <a data-method=\"offset\" class=\"layui-btn  layui-btn-xs layui-btn-disabled\">写会诊记录</a>\n    {{# } }}"
 			c.TplName = "iframe_to_my_hz.html"
 			break
 		case "extra":

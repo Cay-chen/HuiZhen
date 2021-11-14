@@ -16,7 +16,7 @@
     </style>
 </head>
 <body>
-<form class="layui-form" action="'/apply_et'" method="post" id="apply">
+<form class="layui-form" action="/con_note" method="post" id="apply">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">住院号</label>
@@ -25,6 +25,8 @@
                        class="layui-input" value="{{.Form.JYConSickAd}}">
             </div>
         </div>
+        <input type="tel" name="JYConNum" style="display: none" value="{{.Form.JYConNum}}">
+        <input type="tel" name="JYConFormPolicy" style="display: none" value="{{.Form.JYConFormPolicy}}">
         <div class="layui-inline">
             <label class="layui-form-label">患者姓名</label>
             <div class="layui-input-inline">
@@ -60,21 +62,18 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">会诊记录</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入会诊记录" class="layui-textarea" name="JYConPurpose" lay-verify="title"
+            <textarea placeholder="请输入会诊记录" class="layui-textarea" name="JYConFormConclusion" lay-verify="title"
                       id="huzjil" value="{{.Form.JYConSickDia}}"></textarea>
         </div>
     </div>
-
-    <div class="layui-form-item" id="no_auto" >
-        <!--选择医师-->
-        <div class="layui-inline">
-            <label class="layui-form-label" style="width: 120px">完成会诊时间</label>
-            <div class="layui-input-inline">
-                <input type="text" name="JYConOppDocPhone1" id="wcdata1" lay-verify="datetime"
-                       autocomplete="off" class="layui-input" value="">
-            </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">完成时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="JYConFormConclusionDate" id="date" lay-verify="datetime" placeholder=""
+                   autocomplete="off" class="layui-input" value="">
         </div>
     </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc" >暂存</button>
@@ -124,5 +123,18 @@
     document.getElementById("JYConSickCase").value = "{{.Form.JYConSickCase}}"
 
 </script>
+{{if .SpOk}}
+<script>
+    if(top.location!=self.location){
+        window.parent.location.reload()
+    }else {
+        window.location.replace("/");
+
+    }
+    /* function onclick_back(){
+         parent.httpReplace()
+     }*/
+</script>
+{{end}}
 </body>
 </html>
