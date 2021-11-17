@@ -64,6 +64,24 @@ func GetDocList(JYConPersonBelongHos, JYConDepCode, JYConPersonType, limit, page
 		return ""
 	}
 }
+func GetDocList1(JYConDepCode, JYConDepBelongHos, limit, page, postName string) string {
+	serverName := "JYConDepListServlet"
+	method := "queryPersonInfoByDep"
+	parameterMap := make(map[string]string)
+	parameterMap["limit"] = limit
+	parameterMap["page"] = page
+	parameterMap["JYConDepCode"] = JYConDepCode
+	parameterMap["JYConDepBelongHos"] = JYConDepBelongHos
+	postResult := utils.Post(serverName, method, utils.MapToUrl(parameterMap), postName)
+	if postResult != "" {
+		res := Person1{}
+		_ = json.Unmarshal([]byte(postResult), &res)
+		return data1ToDataJson(res)
+
+	} else {
+		return ""
+	}
+}
 func GetDocInfo(JYConPersonCode, JYConPersonBelongHos, postName string) string {
 	serverName := "JYConPersonServlet"
 	method := "getPersonInfoByAccount"

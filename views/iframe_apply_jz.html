@@ -16,31 +16,37 @@
     </style>
 </head>
 <body>
-<form class="layui-form" action="/apply_et" method="post" id="apply">
+<form class="layui-form" action="/apply_et" method="post" id="apply" >
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">住院号</label>
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickAd" lay-verify="required|number" autocomplete="off"
-                       class="layui-input" value="{{.JYConSickAd}}">
+                <label>
+                    <input type="tel" name="JYConSickAd" lay-verify="required|number" autocomplete="off" id="JYConSickAd"
+                           class="layui-input" value="{{.JYConSickAd}}">
+                </label>
             </div>
         </div>
         {{if .EditInfo}}
         <div class="layui-input-inline" style="display: none">
-            <input type="tel" name="JYConNum" value="{{.JYConNum}}">
+            <label>
+                <input type="tel" name="JYConNum" value="{{.JYConNum}}">
+            </label>
         </div>
         {{ end}}
         <div class="layui-inline">
             <label class="layui-form-label">患者姓名</label>
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickName" lay-verify="title" autocomplete="off" class="layui-input"
-                       value="{{.JYConSickName}}">
+                <label>
+                    <input type="tel" name="JYConSickName" lay-verify="title" autocomplete="off" class="layui-input" id="JYConSickName"
+                           value="{{.JYConSickName}}">
+                </label>
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">性别</label>
             <div class="layui-input-inline">
-                <select name="JYConSickSex" lay-verify="required" id="类型" lay-search="{{.JYConSickSex}}">
+                <select name="JYConSickSex" lay-verify="required" id="JYConSickSex" lay-search="{{.JYConSickSex}}" >
                     <option value="男" {{.SexM}}>男</option>
                     <option value="女" {{.SexW}}>女</option>
                 </select>
@@ -53,14 +59,14 @@
         <div class="layui-inline">
             <label class="layui-form-label">年龄</label>
             <div class="layui-input-inline">
-                <input type="text" name="JYConSickAge" lay-verify="required|number|age" autocomplete="off"
+                <input type="text" name="JYConSickAge" lay-verify="required|number|age" autocomplete="off" id="JYConSickAge"
                        class="layui-input" value="{{.JYConSickAge}}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">床号</label>
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickBedNo" lay-verify="required|number|chuanhao"  autocomplete="off"
+                <input type="tel" name="JYConSickBedNo" lay-verify="required|number|chuanhao"  autocomplete="off" id="JYConSickBedNo"
                        class="layui-input" value="{{.JYConSickBedNo}}">
             </div>
         </div>
@@ -310,6 +316,41 @@
         //创建一个编辑器
         var editIndex = layedit.build('LAY_demo_editor');
 
+//住院号查询
+            layui.$("input").on('keypress',  //所有input标签回车无效，当然，可以根据需求自定义
+                function(e){
+                    var key = window.event ? e.keyCode : e.which;
+                    if(key.toString() === "13"){
+                        if (e.currentTarget.id==="JYConSickAd"){
+                            var JYConSickAd = layui.$("#JYConSickAd").val();
+                            layui.$.ajax({
+                                url: "/data/hisInfo?JYConSickAd=" +JYConSickAd,
+                                success: function (result) {
+                                    var res = JSON.parse(result)
+                                    console.log(res);
+                                    layui.$("#JYConSickName").val(res.NAME);
+                                    layui.$("#JYConSickAge").val(res.AGE);
+                                    layui.$("#JYConSickBedNo").val(res.BED_NO);
+                                    if (res.SEX_CODE ==="F"){
+                                        layui.$("#JYConSickSex").find("option[value = '女']").prop("selected",true);
+                                    }else if (res.SEX_CODE ==="M"){
+                                      layui.$("#JYConSickSex").find("option[value = '男']").prop("selected",true);
+                                    }
+                                    layui.$("#JYConSickDepId").find("option[value = '"+res.DEPT_CODE+"']").prop("selected",true);
+                                    setDocListAndDepLocation(res.DEPT_CODE);
+                                    form.render('select');
+                                },
+                                error: function (xhr) {
+                                    alert("系统异常");
+                                    layer.close();
+                                }
+                            });
+                        }
+                    return false;
+                    }
+                }
+            );
+
         //自定义验证规则
         form.verify({
             title: function (value) {
@@ -350,6 +391,9 @@
         form.on('submit(tj)', function (data) {
             layui.$("#flag").val("2");
         });
+        form.on('submit(cx)', function (data) {
+            return false
+        });
         //监听医师选择
         form.on('switch(is_auto)', function (data) {  // 监听 layui switch绑定事件； 特别注意 is_navigate 要跟上面的 lay-filter="is_navigate" 名称保持一致
             if (data.elem.checked) {
@@ -364,7 +408,7 @@
                 layui.$("#JYConOppDocId").empty();
                 {{if .Y1}}
                 layui.$.ajax({
-                    url: "/data/docList?JYConDepCode=" + layui.$("#JYConOppDepId").val()+"&yq="+layui.$("#JYConOppHos").val(),
+                    url: "/data/docList1?JYConDepCode=" + layui.$("#JYConOppDepId").val()+"&yq="+layui.$("#JYConOppHos").val(),
                     success: function (result) {
                         var res = JSON.parse(result)
                         layui.$("#JYConOppDocId").append("<option value=''>请选医师</option>");
@@ -445,7 +489,7 @@
             layui.$("#JYConOppDocId").empty();
             if (data.value!==""){
                 layui.$.ajax({
-                    url: "/data/docList?JYConDepCode=" + data.value+"&yq="+yq,
+                    url: "/data/docList1?JYConDepCode=" + data.value+"&yq="+yq,
                     success: function (result) {
                         var res = JSON.parse(result)
                         layui.$("#JYConOppDocId").append("<option value=''>请选医师</option>");
@@ -496,47 +540,51 @@
 
         //申请单科室选择监听
         form.on('select(JYConSickDepId)', function (data) {
+
+            if (data.value!==""){
+                setDocListAndDepLocation(data.value);
+            }
+        });
+        function setDocListAndDepLocation(depCode){
             var sel = layui.$("#JYConSickDepId option:selected").text();
             layui.$('#JYConSickDep').val(sel)
             layui.$("#JYConSickDocId").empty();
-            if (data.value!==""){
-                layui.$.ajax({
-                    url: "/data/docList?JYConDepCode=" + data.value,
-                    success: function (result) {
-                        var res = JSON.parse(result)
-                        layui.$("#JYConSickDocId").append("<option value=''>请选医师</option>");
-                        layui.$.each(res.data, function(index, value) {
-                            layui.$("#JYConSickDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
-                            if (index===0){
-                                layui.$('#JYConSickDoc').val(value.JYConPersonName)
-                            }
-                        });
-                        form.render('select');
-                    },
-                    error: function (xhr) {
-                        alert("系统异常");
-                        layer.close();
-                    }
-                });
-                layui.$.ajax({
-                    url: "/data/depLocation?JYConDepCode=" + data.value,
-                    success: function (result) {
-                        var res = JSON.parse(result)
-                        if (res.flag === "true") {
-                            layui.$('#JYConDepLocaltion').val(res.JYConDepLocalhost)
-                            layui.$('#JYConSickDepId').val(res.JYConDepCode)
-                        } else {
-                            alert(res.mesg)
+            layui.$.ajax({
+                url: "/data/docList1?JYConDepCode=" + depCode,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    layui.$("#JYConSickDocId").append("<option value=''>请选医师</option>");
+                    layui.$.each(res.data, function(index, value) {
+                        layui.$("#JYConSickDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
+                        if (index===0){
+                            layui.$('#JYConSickDoc').val(value.JYConPersonName)
                         }
-                    },
-                    error: function (xhr) {
-                        alert("系统异常");
-                        layer.close();
+                    });
+                    form.render('select');
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
+            layui.$.ajax({
+                url: "/data/depLocation?JYConDepCode=" + depCode,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    if (res.flag === "true") {
+                        layui.$('#JYConDepLocaltion').val(res.JYConDepLocalhost)
+                        layui.$('#JYConSickDepId').val(res.JYConDepCode)
+                    } else {
+                        alert(res.mesg)
                     }
-                });
-            }
-        });
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
 
+        }
 
         //表单取值
         layui.$('#LAY-component-form-getval').on('click', function () {
@@ -565,7 +613,7 @@
                     }
                 });
                 layui.$.ajax({
-                    url: "/data/docList?JYConDepCode={{.JYConSickDepId}}",
+                    url: "/data/docList1?JYConDepCode={{.JYConSickDepId}}",
                     success: function (result) {
                         var res = JSON.parse(result)
                         layui.$.each(res.data, function(index, value) {
@@ -585,15 +633,11 @@
                 });
                 if ({{.IsAutoDoc}}){
                     layui.$("#ISAutoDoc").val("1");
-                   // layui.$('input[name="switch"]').attr('checked','checked'); //开
-                 //   layui.$('input[name="switch"]').val(true);
-                    //layui.$("#switch").attr('checked','checked'); //开
-                   // layui.$("#switch").val(true);
                     layui.$("#JYConOppDocName1").val("JYConOppDocName");
                     layui.$("#JYConOppDocPhone1").val("19999999999");
                     layui.$("#JYConOppDocId1").val("JYConOppDocPhone");
                     layui.$.ajax({
-                        url: "/data/docList?JYConDepCode={{.JYConOppDepId}}&yq={{.Yq}}",
+                        url: "/data/docList1?JYConDepCode={{.JYConOppDepId}}&yq={{.Yq}}",
                         success: function (result) {
                             var res = JSON.parse(result)
                             layui.$.each(res.data, function(index, value) {
@@ -649,6 +693,9 @@
     document.getElementById("JYConPurpose").value = "{{.JYConPurpose}}"
     document.getElementById("JYConSickDia").value = "{{.JYConSickDia}}"
     document.getElementById("JYConSickCase").value = "{{.JYConSickCase}}"
+
+
+/*
     document.onkeydown = function(event) {
         var target, code, tag;
         if (!event) {
@@ -671,6 +718,9 @@
             }
         }
     };
+*/
+
+
 </script>
 </body>
 </html>

@@ -12,7 +12,7 @@ type RegisterController struct {
 
 func (c *RegisterController) Get() {
 	if c.IsLogin {
-		if c.IsAdmin || c.IsYwb {
+		if !c.IsYxys {
 			id := c.Ctx.Input.Param(":id")
 			switch id {
 			case "person":
@@ -60,7 +60,7 @@ func (c *RegisterController) Get() {
 }
 func (c *RegisterController) Post() {
 	if c.IsLogin {
-		if c.IsAdmin || c.IsYwb {
+		if !c.IsYxys {
 			id := c.Ctx.Input.Param(":id")
 			switch id {
 			case "person":

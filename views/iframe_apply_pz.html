@@ -16,17 +16,13 @@
     </style>
 </head>
 <body>
-<!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-  <legend style="text-align: center ">四川省精神医学中心与成都市温江区人民医院院际间会诊申请表</legend>
-  <div></div>
-</fieldset>-->
 <form class="layui-form" action="/apply" method="post" id="apply">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">住院号</label>
             <div class="layui-input-inline">
                 <label>
-                    <input type="tel" name="JYConSickAd" lay-verify="required|number" autocomplete="off"
+                    <input type="tel" name="JYConSickAd" lay-verify="required|number" autocomplete="off" id="JYConSickAd"
                            class="layui-input" value="{{.JYConSickAd}}">
                 </label>
             </div>
@@ -42,7 +38,7 @@
             <label class="layui-form-label">患者姓名</label>
             <div class="layui-input-inline">
                 <label>
-                    <input type="tel" name="JYConSickName" lay-verify="title" autocomplete="off" class="layui-input"
+                    <input type="tel" name="JYConSickName" lay-verify="title" autocomplete="off" class="layui-input" id="JYConSickName"
                            value="{{.JYConSickName}}">
                 </label>
             </div>
@@ -50,7 +46,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">性别</label>
             <div class="layui-input-inline">
-                <select name="JYConSickSex" lay-verify="required" id="类型" lay-search="{{.JYConSickSex}}">
+                <select name="JYConSickSex" lay-verify="required" id="JYConSickSex" lay-search="{{.JYConSickSex}}" >
                     <option value="男" {{.SexM}}>男</option>
                     <option value="女" {{.SexW}}>女</option>
                 </select>
@@ -63,14 +59,14 @@
         <div class="layui-inline">
             <label class="layui-form-label">年龄</label>
             <div class="layui-input-inline">
-                <input type="text" name="JYConSickAge" lay-verify="required|number|age" autocomplete="off"
+                <input type="text" name="JYConSickAge" lay-verify="required|number|age" autocomplete="off" id="JYConSickAge"
                        class="layui-input" value="{{.JYConSickAge}}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">床号</label>
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickBedNo" lay-verify="required|number|chuanhao"  autocomplete="off"
+                <input type="tel" name="JYConSickBedNo" lay-verify="required|number|chuanhao"  autocomplete="off" id="JYConSickBedNo"
                        class="layui-input" value="{{.JYConSickBedNo}}">
             </div>
         </div>
@@ -89,7 +85,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="layui-form-item">
         <label class="layui-form-label">科室地址</label>
@@ -218,7 +213,40 @@
         laydate.render({
             elem: '#date1'
         });
-
+        //住院号回车查询
+        layui.$("input").on('keypress',  //所有input标签回车无效，当然，可以根据需求自定义
+            function(e){
+                var key = window.event ? e.keyCode : e.which;
+                if(key.toString() === "13"){
+                    if (e.currentTarget.id==="JYConSickAd"){
+                        var JYConSickAd = layui.$("#JYConSickAd").val();
+                        layui.$.ajax({
+                            url: "/data/hisInfo?JYConSickAd=" +JYConSickAd,
+                            success: function (result) {
+                                var res = JSON.parse(result)
+                                console.log(res);
+                                layui.$("#JYConSickName").val(res.NAME);
+                                layui.$("#JYConSickAge").val(res.AGE);
+                                layui.$("#JYConSickBedNo").val(res.BED_NO);
+                                if (res.SEX_CODE ==="F"){
+                                    layui.$("#JYConSickSex").find("option[value = '女']").prop("selected",true);
+                                }else if (res.SEX_CODE ==="M"){
+                                    layui.$("#JYConSickSex").find("option[value = '男']").prop("selected",true);
+                                }
+                                layui.$("#JYConSickDepId").find("option[value = '"+res.DEPT_CODE+"']").prop("selected",true);
+                                setDocListAndDepLocation(res.DEPT_CODE);
+                                form.render('select');
+                            },
+                            error: function (xhr) {
+                                alert("系统异常");
+                                layer.close();
+                            }
+                        });
+                    }
+                    return false;
+                }
+            }
+        );
         //自定义验证规则
         form.verify({
             title: function (value) {
@@ -253,6 +281,8 @@
         });
 
 
+
+        //医生选择后获取电话号码
         form.on('select(JYConSickDocId)', function (data) {
             layui.$.ajax({
                 url: "/data/docInfo?JYConPersonCode=" + data.value,
@@ -268,12 +298,13 @@
             var sel = layui.$("#JYConSickDocId option:selected").text();
             layui.$('#JYConSickDoc').val(sel)
         })
-
+        //医生选择后 设置形式姓名
         form.on('select(JYConOppDepId)', function (data) {
             var sel = layui.$("#JYConOppDepId option:selected").text();
             layui.$('#JYConOppDep').val(sel)
         });
 
+        //拟邀院区选择后获取科室列表
         form.on('select(JYConOppHos)', function (data) {
             layui.$("#JYConOppDepId").empty();
             if (data.value!==""){
@@ -297,51 +328,55 @@
             });
             }
         });
+        //申请科室选择后 获取医生列表
         form.on('select(JYConSickDepId)', function (data) {
-            var sel = layui.$("#JYConSickDepId option:selected").text();
-            layui.$('#JYConSickDep').val(sel)
-            layui.$("#JYConSickDocId").empty();
             if (data.value!==""){
-                layui.$.ajax({
-                    url: "/data/docList?JYConDepCode=" + data.value,
-                    success: function (result) {
-                        var res = JSON.parse(result)
-                        layui.$("#JYConSickDocId").append("<option value=''>请选医师</option>");
-                        layui.$.each(res.data, function(index, value) {
-                            layui.$("#JYConSickDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
-                            if (index===0){
-                                layui.$('#JYConSickDoc').val(value.JYConPersonName)
-                            }
-                        });
-                        form.render('select');
-                    },
-                    error: function (xhr) {
-                        alert("系统异常");
-                        layer.close();
-                    }
-                });
-                layui.$.ajax({
-                    url: "/data/depLocation?JYConDepCode=" + data.value,
-                    success: function (result) {
-                        var res = JSON.parse(result)
-                        if (res.flag === "true") {
-                            layui.$('#JYConDepLocaltion').val(res.JYConDepLocalhost)
-                            layui.$('#JYConSickDepId').val(res.JYConDepCode)
-                        } else {
-                            alert(res.mesg)
-                        }
-                    },
-                    error: function (xhr) {
-                        alert("系统异常");
-                        layer.close();
-                    }
-                });
+                setDocListAndDepLocation(data.value);
             }
         });
 
+        function setDocListAndDepLocation(depCode){
+            var sel = layui.$("#JYConSickDepId option:selected").text();
+            layui.$('#JYConSickDep').val(sel)
+            layui.$("#JYConSickDocId").empty();
+            layui.$.ajax({
+                url: "/data/docList1?JYConDepCode=" + depCode,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    layui.$("#JYConSickDocId").append("<option value=''>请选医师</option>");
+                    layui.$.each(res.data, function(index, value) {
+                        layui.$("#JYConSickDocId").append("<option value='"+value.JYConPersonCode+"'>"+value.JYConPersonName+"</option>");
+                        if (index===0){
+                            layui.$('#JYConSickDoc').val(value.JYConPersonName)
+                        }
+                    });
+                    form.render('select');
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
+            layui.$.ajax({
+                url: "/data/depLocation?JYConDepCode=" + depCode,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    if (res.flag === "true") {
+                        layui.$('#JYConDepLocaltion').val(res.JYConDepLocalhost)
+                        layui.$('#JYConSickDepId').val(res.JYConDepCode)
+                    } else {
+                        alert(res.mesg)
+                    }
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
+
+        }
         {{if .Y1}}
         layer.ready(function () {
-
                 layui.$.ajax({
                     url: "/data/depList?JYConDepBelongHos={{.JYConOppHos}}",
                     success: function (result) {
@@ -398,28 +433,6 @@
     document.getElementById("JYConPurpose").value = "{{.JYConPurpose}}"
     document.getElementById("JYConSickDia").value = "{{.JYConSickDia}}"
     document.getElementById("JYConSickCase").value = "{{.JYConSickCase}}"
-    document.onkeydown = function(event) {
-        var target, code, tag;
-        if (!event) {
-            event = window.event; //针对ie浏览器
-            target = event.srcElement;
-            code = event.keyCode;
-            if (code === 13) {
-                tag = target.tagName;
-                if (tag == "TEXTAREA") { return true; }
-                else { return false; }
-            }
-        }
-        else {
-            target = event.target; //针对遵循w3c标准的浏览器，如Firefox
-            code = event.keyCode;
-            if (code == 13) {
-                tag = target.tagName;
-                if (tag == "INPUT") { return false; }
-                else { return true; }
-            }
-        }
-    };
 </script>
 </body>
 </html>
