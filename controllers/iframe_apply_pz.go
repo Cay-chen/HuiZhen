@@ -37,6 +37,11 @@ func (c *ApplyController) Get() {
 		selectedM := "selected"
 		JYConOppHos := ""
 		DepListS := ""
+		if c.PersonUer.JYConPersonBelongHos == "JYZX" {
+			c.Data["IsJY"] = true
+		} else {
+			c.Data["IsJY"] = false
+		}
 		Y1 := false
 		for i := 0; i < len(depList); i++ {
 			DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" >" + depList[i].JYConDepName + "</option>\n"

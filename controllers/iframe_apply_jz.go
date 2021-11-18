@@ -4,7 +4,6 @@ import (
 	"HuiZhen/models"
 	"HuiZhen/models/utils"
 	"encoding/json"
-	"github.com/beego/beego/v2/adapter/logs"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -37,6 +36,11 @@ func (c *ApplicationFormEtController) Get() {
 		selectedM := "selected"
 		JYConOppHos := ""
 		DepListS := ""
+		if c.PersonUer.JYConPersonBelongHos == "JYZX" {
+			c.Data["IsJY"] = true
+		} else {
+			c.Data["IsJY"] = false
+		}
 		Y1 := false
 		for i := 0; i < len(depList); i++ {
 			DepListS = DepListS + "                    <option value=\"" + depList[i].JYConDepCode + "\" >" + depList[i].JYConDepName + "</option>\n"
@@ -77,6 +81,8 @@ func (c *ApplicationFormEtController) Get() {
 			c.Data["JYConDepLocaltion"] = s.JYConDepLocaltion
 			c.Data["JYConSickDoc"] = s.JYConSickDoc
 			c.Data["JYConSickDocPhone"] = s.JYConSickDocPhone
+			c.Data["JYConFormConclusion"] = s.JYConFormConclusion
+			c.Data["JYConFormConclusionDate"] = s.JYConFormConclusionDate
 			c.Data["JYConType"] = s.JYConType
 			/*if s.JYConType == "1" {
 				ConType1 = "checked"
@@ -97,15 +103,7 @@ func (c *ApplicationFormEtController) Get() {
 			c.Data["JYConDate"] = string([]byte(s.JYConDate)[:19])
 			c.Data["JYConOppDep"] = s.JYConOppDep
 			c.Data["Yq"] = s.JYConOppHos
-			logs.Debug("s.JYConOppDocId")
-			logs.Debug(s.JYConOppDocId)
-			logs.Debug("end")
 			c.Data["JYConOppDocId"] = s.JYConOppDocId
-			if s.JYConOppDocId == "" {
-				c.Data["IsAutoDoc"] = false
-			} else {
-				c.Data["IsAutoDoc"] = true
-			}
 		}
 		c.Data["JYConOppHos"] = JYConOppHos
 		c.Data["SexW"] = selectedW
@@ -123,7 +121,6 @@ func (c *ApplicationFormEtController) Get() {
 func (c *ApplicationFormEtController) Post() {
 	if c.IsLogin {
 		JYConNum := c.GetString("JYConNum")
-		ISAutoDoc := c.GetString("ISAutoDoc")
 		JYConSickName := c.GetString("JYConSickName")
 		JYConSickSex := c.GetString("JYConSickSex")
 		JYConSickAge := c.GetString("JYConSickAge")
@@ -145,18 +142,10 @@ func (c *ApplicationFormEtController) Post() {
 		JYConDate := c.GetString("JYConDate")
 		JYConOppDepId := c.GetString("JYConOppDepId")
 		JYConOppDocName := c.GetString("JYConOppDocName")
-		JYConOppDocId1 := c.GetString("JYConOppDocId1")
-		JYConOppDocName1 := c.GetString("JYConOppDocName1")
 		JYConOppDocId := c.GetString("JYConOppDocId")
 		JYConOppDocPhone := c.GetString("JYConOppDocPhone")
-		JYConOppDocPhone1 := c.GetString("JYConOppDocPhone1")
-
-		logs.Debug("ISAutoDoc:" + ISAutoDoc)
-		logs.Debug("JYConOppDocName:" + JYConOppDocName)
-		logs.Debug("JYConOppDocId:" + JYConOppDocId)
-		logs.Debug("JYConOppDocName1:" + JYConOppDocName1)
-		logs.Debug("JYConOppDocId1:" + JYConOppDocId1)
-
+		JYConFormConclusion := c.GetString("JYConFormConclusion")
+		JYConFormConclusionDate := c.GetString("JYConFormConclusionDate")
 		parameterMap := make(map[string]string)
 		parameterMap["JYConSickName"] = JYConSickName
 		parameterMap["JYConSickSex"] = JYConSickSex
@@ -179,15 +168,11 @@ func (c *ApplicationFormEtController) Post() {
 		parameterMap["flag"] = flag
 		parameterMap["JYConOppHos"] = JYConOppHos
 		parameterMap["JYConDate"] = JYConDate
-		if ISAutoDoc == "1" {
-			parameterMap["JYConOppDocName"] = JYConOppDocName
-			parameterMap["JYConOppDocId"] = JYConOppDocId
-			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
-		} else {
-			parameterMap["JYConOppDocName"] = JYConOppDocName1
-			parameterMap["JYConOppDocId"] = JYConOppDocId1
-			parameterMap["JYConOppDocPhone"] = JYConOppDocPhone1
-		}
+		parameterMap["JYConOppDocName"] = JYConOppDocName
+		parameterMap["JYConOppDocId"] = JYConOppDocId
+		parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
+		parameterMap["JYConFormConclusion"] = JYConFormConclusion
+		parameterMap["JYConFormConclusionDate"] = JYConFormConclusionDate
 		parameterMap["JYConFormCreatePersonId"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConFormCreatePersonName"] = c.PersonUer.JYConPersonName
 		postResult := ""
@@ -201,7 +186,6 @@ func (c *ApplicationFormEtController) Post() {
 			method := "createUrgentForm"
 			postResult = utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 		}
-
 		res := getMsg(postResult)
 		//res:="true"
 		flash := beego.NewFlash()

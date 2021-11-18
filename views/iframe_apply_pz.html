@@ -141,7 +141,7 @@
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">请求会诊目的</label>
+        <label class="layui-form-label">会诊目的</label>
         <div class="layui-input-block">
             <textarea placeholder="请输入内容" class="layui-textarea" name="JYConPurpose" lay-verify="title"
                       id="JYConPurpose"
@@ -175,7 +175,7 @@
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">期望会诊时间</label>
+            <label class="layui-form-label" style="width: 120px">期望会诊时间</label>
             <div class="layui-input-inline">
                 <input type="text" name="JYConDate" id="date" lay-verify="datetime" placeholder=""
                        autocomplete="off" class="layui-input" value="{{.JYConDate}}">
@@ -218,6 +218,7 @@
             function(e){
                 var key = window.event ? e.keyCode : e.which;
                 if(key.toString() === "13"){
+                    {{if .IsJY}}
                     if (e.currentTarget.id==="JYConSickAd"){
                         var JYConSickAd = layui.$("#JYConSickAd").val();
                         layui.$.ajax({
@@ -243,6 +244,7 @@
                             }
                         });
                     }
+                    {{end}}
                     return false;
                 }
             }
@@ -397,7 +399,7 @@
                     }
                 });
                 layui.$.ajax({
-                    url: "/data/docList?JYConDepCode={{.JYConSickDepId}}",
+                    url: "/data/docList1?JYConDepCode={{.JYConSickDepId}}",
                     success: function (result) {
                         var res = JSON.parse(result)
                         layui.$.each(res.data, function(index, value) {

@@ -15,7 +15,7 @@ func (c *Approve5To6Controller) Get() {
 		c.Data["JYConNum"] = JYConNum
 		c.Data["JYConPersonBelongDep"] = c.PersonUer.JYConPersonBelongDep
 		c.Data["JYConPersonBelongHos"] = c.PersonUer.JYConPersonBelongHos
-		docList := models.GetDocList(c.PersonUer.JYConPersonBelongHos, c.PersonUer.JYConPersonBelongDep, c.PersonUer.JYConPersonType, "200", "1", c.PersonUer.JYConPersonCode)
+		docList := models.GetDocList2(c.PersonUer.JYConPersonBelongDep, c.PersonUer.JYConPersonBelongHos, "200", "1", c.PersonUer.JYConPersonCode)
 		res := models.Person{}
 		_ = json.Unmarshal([]byte(docList), &res)
 		c.Data["DocList"] = res.Data

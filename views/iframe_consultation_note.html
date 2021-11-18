@@ -73,11 +73,9 @@
                    autocomplete="off" class="layui-input" value="">
         </div>
     </div>
-
-    <div class="layui-form-item">
+    <div class="layui-form-item" style="margin-top: 15px">
         <div class="layui-input-block">
-            <button type="submit" class="layui-btn" lay-submit="" lay-filter="zc" >暂存</button>
-            <button type="submit" class="layui-btn" lay-submit="" lay-filter="tj">立即提交</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="tj">提交</button>
         </div>
     </div>
 </form>
@@ -121,7 +119,28 @@
 <script language="javascript" type="text/javascript">
     document.getElementById("JYConSickDia").value = "{{.Form.JYConSickDia}}"
     document.getElementById("JYConSickCase").value = "{{.Form.JYConSickCase}}"
-
+    document.onkeydown = function(event) {
+        var target, code, tag;
+        if (!event) {
+            event = window.event; //针对ie浏览器
+            target = event.srcElement;
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "TEXTAREA") { return true; }
+                else { return false; }
+            }
+        }
+        else {
+            target = event.target; //针对遵循w3c标准的浏览器，如Firefox
+            code = event.keyCode;
+            if (code == 13) {
+                tag = target.tagName;
+                if (tag == "INPUT") { return false; }
+                else { return true; }
+            }
+        }
+    };
 </script>
 {{if .SpOk}}
 <script>
@@ -136,5 +155,6 @@
      }*/
 </script>
 {{end}}
+
 </body>
 </html>
