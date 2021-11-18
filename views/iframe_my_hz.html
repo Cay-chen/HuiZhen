@@ -12,7 +12,7 @@
 <table class="layui-hide" id="shuju" lay-filter="formTable" lay-filter="user"></table>
 <script type="text/html" id="toolbarDemo">
     <div class="demoTable">
-        <div class="layui-input-inline" style="width: 100px">
+<!--        <div class="layui-input-inline" style="width: 100px">
             <select name="modules" lay-verify="required" id="sele" lay-search="">
                 <option value="1">会诊号</option>
                 <option value="2">姓名</option>
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <button class="layui-btn" data-type="reload" lay-event="sousuo" style="margin-left: 10px">搜索</button>
+        <button class="layui-btn" data-type="reload" lay-event="sousuo" style="margin-left: 10px">搜索</button>-->
         <button class="layui-btn" data-type="reload" lay-event="pz" style="margin-left: 20px">平会诊</button>
         <button class="layui-btn" data-type="reload" lay-event="jz" style="margin-left: 20px">急会诊</button>
     </div>
@@ -55,9 +55,7 @@
         form.render({
             elem: '#shuju'
             , url: '/data_table/my'
-/*
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
-*/
             , defaultToolbar: ['filter', 'exports', 'print']
             , title: '用户数据表'
             ,height:'full-20'
