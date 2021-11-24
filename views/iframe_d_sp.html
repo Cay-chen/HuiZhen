@@ -170,7 +170,7 @@
                     });
 
                 {{else}}
-                    layer.prompt({title:'审批理由',formType:2},function (text,index) {
+                    layer.prompt({title:'审批意见',formType:2},function (text,index) {
                         layer.close(index);
                         layui.$.ajax({
                             url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=approve&JYConFormApproveComment="+text+"&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,

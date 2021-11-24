@@ -3,6 +3,7 @@ package controllers
 import (
 	"HuiZhen/models"
 	"HuiZhen/models/utils"
+	"encoding/json"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -16,7 +17,17 @@ func (c *RegisterController) Get() {
 			id := c.Ctx.Input.Param(":id")
 			switch id {
 			case "person":
-				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200", c.PersonUer.JYConPersonCode).Data
+				if c.IsKszr || c.IsFzr {
+					res := "[{\"JYConDepCode\": \"" + c.PersonUer.JYConPersonBelongDep + "\", \"JYConDepName\": \"" + c.PersonUer.DepName + "\"}]"
+					var res1 []models.Dep
+					_ = json.Unmarshal([]byte(res), &res1)
+					c.Data["DepList"] = res1
+					c.Data["IsYwb"] = false
+
+				} else {
+					c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200", c.PersonUer.JYConPersonCode).Data
+					c.Data["IsYwb"] = true
+				}
 				flash := beego.ReadFromRequest(&c.Controller)
 				if n, ok := flash.Data["notice"]; ok {
 					c.Data["Msg_ture"] = true

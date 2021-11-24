@@ -77,7 +77,9 @@
                         <option value="1">科室主任</option>
                         <option value="2">科室负责人</option>
                         <option value="3">科室一线医生</option>
+                        {{if .IsYwbAndAdmin}}
                         <option value="4">医务部人员</option>
+                        {{end}}
                     </select>
                 </div>
             </div>
@@ -109,7 +111,7 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="demoTable">
-        {{if .IsYwbAndAdmin}}
+<!--        {{if .IsYwbAndAdmin}}
         <div class="layui-input-inline" style="width: 150px">
             <select name="modules" lay-verify="required" id="select_belong_dev" lay-search="">
                 <option value="">全部</option>
@@ -122,12 +124,10 @@
             <input class="layui-input" name="id" id="in_person_code" autocomplete="off" placeholder="请输入工号">
         </div>
         <button class="layui-btn" data-type="reload" lay-event="sousuo">搜索</button>
-        {{end}}
+        {{end}}-->
         <button class="layui-btn" lay-event="xinjian" style="margin-left: 15px">新建</button>
     </div>
-
 </script>
-
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="jihuo">激活</a>
     <a data-method="offset" class="layui-btn  layui-btn-xs  layui-btn-danger" data-type="auto"
@@ -212,7 +212,6 @@
                                     curr: 1 //重新从第 1 页开始
                                 }
                             });
-                            layui.$("#select_belong_dev").val(select_belong_dev);
                             layer.close();
                             //右上角关闭回调
 

@@ -10,6 +10,7 @@ func init() {
 	beego.Router("/apply", &controllers.ApplyController{})
 	beego.Router("/apply_et", &controllers.ApplicationFormEtController{})
 	beego.Router("/", &controllers.LoginController{})
+	beego.Router("/wj", &controllers.LoginWjController{})
 	beego.Router("/register/:id", &controllers.RegisterController{})
 	beego.Router("/error/:id", &controllers.ErrorController{})
 	beego.Router("/exit", &controllers.ExitControoler{})

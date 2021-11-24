@@ -7,32 +7,25 @@ import (
 )
 
 type DepInfo struct {
-	Code int `json:"code"`
-	Data []struct {
-		JYConDepLocalhost string `json:"JYConDepLocalhost"`
-		JYDepAutoNum      int    `json:"JYDepAutoNum"`
-		JYConDepCode      string `json:"JYConDepCode"`
-		JYConDepName      string `json:"JYConDepName"`
-		JYConDepBelongHos string `json:"JYConDepBelongHos"`
-		JYConDepPhone     string `json:"JYConDepPhone"`
-		JYConDepIsActive  string `json:"JYConDepIsActive"`
-	} `json:"data"`
+	Code  int    `json:"code"`
+	Data  []Dep  `json:"data"`
 	Count int    `json:"count"`
 	Msg   string `json:"mesg"`
 }
 type DepInfo1 struct {
-	Code string `json:"code"`
-	Data []struct {
-		JYConDepLocalhost string `json:"JYConDepLocalhost"`
-		JYDepAutoNum      int    `json:"JYDepAutoNum"`
-		JYConDepCode      string `json:"JYConDepCode"`
-		JYConDepName      string `json:"JYConDepName"`
-		JYConDepBelongHos string `json:"JYConDepBelongHos"`
-		JYConDepPhone     string `json:"JYConDepPhone"`
-		JYConDepIsActive  string `json:"JYConDepIsActive"`
-	} `json:"data"`
+	Code  string `json:"code"`
+	Data  []Dep  `json:"data"`
 	Count string `json:"count"`
 	Mesg  string `json:"mesg"`
+}
+type Dep struct {
+	JYConDepLocalhost string `json:"JYConDepLocalhost"`
+	JYDepAutoNum      int    `json:"JYDepAutoNum"`
+	JYConDepCode      string `json:"JYConDepCode"`
+	JYConDepName      string `json:"JYConDepName"`
+	JYConDepBelongHos string `json:"JYConDepBelongHos"`
+	JYConDepPhone     string `json:"JYConDepPhone"`
+	JYConDepIsActive  string `json:"JYConDepIsActive"`
 }
 
 func GetDepList(JYConPersonBelongHos, page, limit, postName string) DepInfo {

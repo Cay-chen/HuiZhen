@@ -61,11 +61,11 @@ func (c *CheckController) Get() {
 					JYConFormApproveCommentTK = resMsg.Data[i].JYConFormApproveComment
 					JYConFormApproveDateTK = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
 					break
-				case "6":
-					JYConFormApprovePersonNameY = resMsg.Data[i].JYConFormApprovePersonName
-					JYConFormApproveCommentY = resMsg.Data[i].JYConFormApproveComment
-					JYConFormApproveDateY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
-					break
+					/*	case "6":
+						JYConFormApprovePersonNameY = resMsg.Data[i].JYConFormApprovePersonName
+						JYConFormApproveCommentY = resMsg.Data[i].JYConFormApproveComment
+						JYConFormApproveDateY = string([]byte(resMsg.Data[i].JYConFormApproveDate)[:19])
+						break*/
 
 				}
 			}

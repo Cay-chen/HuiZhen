@@ -22,6 +22,8 @@ type Person struct {
 	Flag                 string `json:"flag"`
 	JYConPersonName      string `json:"JYConPersonName"`
 	JYConPersonPhone     string `json:"JYConPersonPhone"`
+	HosName              string `json:"hosName"`
+	DepName              string `json:"depName"`
 	JYConPersonCode      string `json:"JYConPersonCode"`
 	JYConPersonBelongHos string `json:"JYConPersonBelongHos"`
 	Mesg                 string `json:"mesg"`

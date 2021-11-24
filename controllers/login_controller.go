@@ -11,7 +11,7 @@ type LoginController struct {
 }
 
 func (c *LoginController) Get() {
-
+	c.Data["IsWj"] = false
 	flash := beego.ReadFromRequest(&c.Controller)
 	if n, ok := flash.Data["notice"]; ok {
 		// 显示设置成功

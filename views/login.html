@@ -42,7 +42,7 @@
     <div class="divlogo">
         <img src="/static/img/logo.png">
     </div>
-    <form action="/" method="post" class="layui-form">
+    <form action="/{{.WJ}}" method="post" class="layui-form">
         <div>
             <h1>用户登录</h1>
 
@@ -51,8 +51,13 @@
             <label class="layui-form-label" style="width: 60px;text-align: left">院区选择</label>
             <div class="layui-input-inline" style="width: 285px">
                 <select name="JYConPersonBelongHos" lay-verify="required" id="sele" lay-search="">
+                    {{if .IsWj}}
+                    <option value="WJQY">温江区医院</option>
+                    <option value="JYZX">精医中心</option>
+                    {{else}}
                     <option value="JYZX">精医中心</option>
                     <option value="WJQY">温江区医院</option>
+                    {{end}}
                 </select>
             </div>
         </div>

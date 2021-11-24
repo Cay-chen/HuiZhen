@@ -273,18 +273,21 @@
                                 url: "/data/hisInfo?JYConSickAd=" +JYConSickAd,
                                 success: function (result) {
                                     var res = JSON.parse(result)
-                                    console.log(res);
-                                    layui.$("#JYConSickName").val(res.NAME);
-                                    layui.$("#JYConSickAge").val(res.AGE);
-                                    layui.$("#JYConSickBedNo").val(res.BED_NO);
-                                    if (res.SEX_CODE ==="F"){
-                                        layui.$("#JYConSickSex").find("option[value = '女']").prop("selected",true);
-                                    }else if (res.SEX_CODE ==="M"){
-                                      layui.$("#JYConSickSex").find("option[value = '男']").prop("selected",true);
+                                    if (res.PATIENT_NO!=="") {
+                                        layui.$("#JYConSickName").val(res.NAME);
+                                        layui.$("#JYConSickAge").val(res.AGE);
+                                        layui.$("#JYConSickBedNo").val(res.BED_NO);
+                                        if (res.SEX_CODE === "F") {
+                                            layui.$("#JYConSickSex").find("option[value = '女']").prop("selected", true);
+                                        } else if (res.SEX_CODE === "M") {
+                                            layui.$("#JYConSickSex").find("option[value = '男']").prop("selected", true);
+                                        }
+                                        layui.$("#JYConSickDepId").find("option[value = '" + res.DEPT_CODE + "']").prop("selected", true);
+                                        setDocListAndDepLocation(res.DEPT_CODE);
+                                        form.render('select');
+                                    }else {
+                                        alert("没有查询到该住院号信息！");
                                     }
-                                    layui.$("#JYConSickDepId").find("option[value = '"+res.DEPT_CODE+"']").prop("selected",true);
-                                    setDocListAndDepLocation(res.DEPT_CODE);
-                                    form.render('select');
                                 },
                                 error: function (xhr) {
                                     alert("系统异常");

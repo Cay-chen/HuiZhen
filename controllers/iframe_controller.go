@@ -64,11 +64,16 @@ func (c *IframeController) Get() {
 			break
 		case "person_manage":
 			if !c.IsYxys {
-				c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200", c.PersonUer.JYConPersonCode).Data
 				c.Data["TitleTpl"] = "{{# if(d.JYConPersonIsActive == '已激活') { }}\n    <a  style=\"color: red\">{{d.JYConPersonIsActive}}</a>\n    {{#  } else { }}\n    {{d.JYConPersonIsActive}}\n    {{#  } }}"
-				c.Data["IsYwbAndAdmin"] = false
 				if c.IsYwb || c.IsAdmin {
+					c.Data["DepList"] = models.GetDepList(c.PersonUer.JYConPersonBelongHos, "1", "200", c.PersonUer.JYConPersonCode).Data
 					c.Data["IsYwbAndAdmin"] = true
+				} else {
+					c.Data["IsYwbAndAdmin"] = false
+					res := "[{\"JYConDepCode\": \"" + c.PersonUer.JYConPersonBelongDep + "\", \"JYConDepName\": \"" + c.PersonUer.DepName + "\"}]"
+					var res1 []models.Dep
+					_ = json.Unmarshal([]byte(res), &res1)
+					c.Data["DepList"] = res1
 				}
 				c.TplName = "iframe_person_manage.html"
 			} else {

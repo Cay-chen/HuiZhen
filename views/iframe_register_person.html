@@ -62,10 +62,6 @@
           {{range .DepList}}
           <option value="{{.JYConDepCode}}">{{.JYConDepName}}</option>
           {{end}}
-        <!--  <option value="SJXLK">精医神经心理科</option>
-          <option value="PICU">精医PICU</option>
-          <option value="TTYXZX">精医疼痛医学中心</option>
-          <option value="SJNK5">精医疼神经内科5</option>-->
         </select>
       </div>
     </div>
@@ -76,7 +72,9 @@
           <option value="1">科室主任</option>
           <option value="2">科室负责人</option>
           <option value="3">科室一线医生</option>
+          {{if .IsYwb}}
           <option value="4">医务部人员</option>
+          {{end}}
         </select>
       </div>
     </div>
