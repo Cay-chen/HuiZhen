@@ -118,7 +118,45 @@
             }
             switch (obj.event){
                 case 'reject':
-                    layer.prompt({title:'拒绝申请理由',formType:2},function (text,index) {
+                    layer.prompt({
+                        formType: 2,
+                        title: '拒绝申请理由',
+                        btnAlign: 'c',
+                        yes: function(index, layero){
+                            // 获取文本框输入的值
+                            var value = layero.find(".layui-layer-input").val();
+                            if (value) {
+                                layer.close(index);
+                                layui.$.ajax({
+                                    url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=reject&JYConFormApproveComment="+value+"&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,
+                                    success: function (result) {
+                                        var res = JSON.parse(result)
+                                        if (res.code === 0) {
+                                            //执行重载
+                                            form.reload('formInfo', {
+                                                page: {
+                                                    curr: 1 //重新从第 1 页开始
+                                                }
+                                            });
+                                            layer.msg(res.msg, {icon: 1});
+                                        } else {
+                                            alert(res.code)
+                                        }
+                                    },
+                                    error: function (xhr) {
+                                        alert("系统异常");
+                                        layer.close();
+                                    }
+                                });
+
+                            } else {
+                                layer.msg('请输入内容!');                            }
+                        }
+                    });
+
+
+
+/*                    layer.prompt({title:'拒绝申请理由',formType:2},function (text,index) {
                         layer.close(index);
                         layui.$.ajax({
                             url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=reject&JYConFormApproveComment="+text+"&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,
@@ -142,7 +180,8 @@
                             }
                         });
 
-                    });
+                    });*/
+
                     break;
                 case 'pass':
                 {{if .IsTO}}
@@ -170,6 +209,44 @@
                     });
 
                 {{else}}
+
+                    layer.prompt({
+                        formType: 2,
+                        title: '审批意见',
+                        btnAlign: 'c',
+                        yes: function(index, layero){
+                            // 获取文本框输入的值
+                            var value = layero.find(".layui-layer-input").val();
+                            if (value) {
+                                layer.close(index);
+                                layui.$.ajax({
+                                    url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&flag=approve&JYConFormApproveComment="+value+"&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,
+                                    success: function (result) {
+                                        var res = JSON.parse(result)
+                                        if (res.code === 0) {
+                                            //执行重载
+                                            form.reload('formInfo', {
+                                                page: {
+                                                    curr: 1 //重新从第 1 页开始
+                                                }
+                                            });
+                                            layer.msg(res.msg, {icon: 1});
+                                        } else {
+                                            alert(res.code)
+                                        }
+                                    },
+                                    error: function (xhr) {
+                                        alert("系统异常");
+                                        layer.close();
+                                    }
+                                });
+
+                            } else {
+                                layer.msg('请输入内容!');                            }
+                        }
+                    });
+
+/*
                     layer.prompt({title:'审批意见',formType:2},function (text,index) {
                         layer.close(index);
                         layui.$.ajax({
@@ -194,7 +271,7 @@
                             }
                         });
 
-                    });
+                    });*/
                 {{ end}}
                     break;
                 case 'check':

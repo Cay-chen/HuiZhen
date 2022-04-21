@@ -21,7 +21,8 @@
         <div class="layui-inline">
             <label class="layui-form-label">住院号</label>
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickAd" lay-verify="required|number" autocomplete="off" style="cursor:not-allowed" disabled
+                <input type="tel" name="JYConSickAd" lay-verify="required|number" autocomplete="off"
+                       style="cursor:not-allowed" disabled
                        class="layui-input" value="{{.Form.JYConSickAd}}">
             </div>
         </div>
@@ -30,14 +31,16 @@
         <div class="layui-inline">
             <label class="layui-form-label">患者姓名</label>
             <div class="layui-input-inline">
-                <input type="tel" name="JYConSickName" lay-verify="title" style="cursor:not-allowed" disabled autocomplete="off" class="layui-input"
+                <input type="tel" name="JYConSickName" lay-verify="title" style="cursor:not-allowed" disabled
+                       autocomplete="off" class="layui-input"
                        value="{{.Form.JYConSickName}}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">性别</label>
             <div class="layui-input-inline">
-                <input name="JYConSickSex" lay-verify="required" autocomplete="off" id="类型" style="cursor:not-allowed" disabled class="layui-input" value="{{.Form.JYConSickSex}}">
+                <input name="JYConSickSex" lay-verify="required" autocomplete="off" id="类型" style="cursor:not-allowed"
+                       disabled class="layui-input" value="{{.Form.JYConSickSex}}">
             </div>
         </div>
 
@@ -46,7 +49,8 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">目前诊断</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入内容" class="layui-textarea" style="cursor:not-allowed" disabled name="JYConSickDia" lay-verify="title"
+            <textarea placeholder="请输入内容" class="layui-textarea" style="cursor:not-allowed" disabled name="JYConSickDia"
+                      lay-verify="title"
                       id="JYConSickDia"
                       value="{{.Form.JYConSickDia}}"></textarea>
         </div>
@@ -54,7 +58,8 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">简要病情</label>
         <div class="layui-input-block">
-            <textarea placeholder="含主诉、病例特征等" class="layui-textarea" style="cursor:not-allowed" disabled name="JYConSickCase" lay-verify="title"
+            <textarea placeholder="含主诉、病例特征等" class="layui-textarea" style="cursor:not-allowed" disabled
+                      name="JYConSickCase" lay-verify="title"
                       id="JYConSickCase"
                       value="{{.Form.JYConSickCase}}"></textarea>
         </div>
@@ -66,7 +71,32 @@
                       id="huzjil" value="{{.Form.JYConSickDia}}"></textarea>
         </div>
     </div>
-    <div class="layui-inline">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">会诊医生</label>
+            <div class="layui-input-inline" style="width: 285px" id="is_auto">
+                <select name="JYConOppDocId" lay-verify="required" id="JYConOppDocId" lay-search="" style="display: none" lay-filter="JYConOppDocId">
+                    <option value="">选择医师</option>
+                    {{range .DocList}}
+                    <option value="{{.JYConPersonCode}}">{{.JYConPersonName}}</option>
+
+                    {{end}}
+                </select>
+
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 60px;text-align: left">电话号码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="JYConOppDocPhone" lay-verify="required|phone" autocomplete="off" id="JYConOppDocPhone"
+                       placeholder="请输入电话号码" value="{{.ThisDocPhone}}"
+                       class="layui-input" style="width: 285px"/>
+                <input type="text" name="JYConOppDocName" lay-verify="title" style="display: none" autocomplete="off" id="JYConOppDocName"
+                       class="layui-input" style="width: 285px"/>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">完成时间</label>
         <div class="layui-input-inline">
             <input type="text" name="JYConFormConclusionDate" id="date" lay-verify="datetime" placeholder=""
@@ -79,13 +109,19 @@
         </div>
     </div>
 </form>
-
 <script src="/static/layui/layui.js" charset="utf-8"></script>
 <script>
+
+    function nihao(){
+        layui.$("#JYConOppDocId").find("option[value = '{{.ThisDoc}}']").prop("selected",true);
+        layui.form.render('select');
+    }
+
     layui.use(['form', 'layedit', 'laydate'], function () {
         var form = layui.form
             , laydate = layui.laydate;
-
+        layui.$("#JYConOppDocId").find("option[value = '{{.ThisDoc}}']").prop("selected",true);
+        layui.form.render('select');
         //日期
         laydate.render({
             elem: '#date'
@@ -96,13 +132,11 @@
         });
         //自定义验证规则
         form.verify({
-
-        datetime:function (value) {
+            datetime: function (value) {
                 if (value.length < 2) {
                     return '请填写时间';
                 }
             }
-
         });
 
         //监听提交
@@ -112,14 +146,28 @@
         form.on('submit(tj)', function (data) {
             layui.$("#flag").val("2");
         });
+        form.on('select(JYConOppDocId)',function (data){
+            layui.$.ajax({
+                url: "/data/docInfo?JYConPersonCode=" + data.value,
+                success: function (result) {
+                    var res = JSON.parse(result)
+                    layui.$('#JYConOppDocPhone').val(res.JYConPersonPhone)
+                    console.log(res.JYConPersonName)
+                    layui.$('#JYConOppDocName').val(res.JYConPersonName)
+                },
+                error: function (xhr) {
+                    alert("系统异常");
+                    layer.close();
+                }
+            });
 
-
+        });
     });
 </script>
 <script language="javascript" type="text/javascript">
     document.getElementById("JYConSickDia").value = "{{.Form.JYConSickDia}}"
     document.getElementById("JYConSickCase").value = "{{.Form.JYConSickCase}}"
-    document.onkeydown = function(event) {
+    document.onkeydown = function (event) {
         var target, code, tag;
         if (!event) {
             event = window.event; //针对ie浏览器
@@ -127,26 +175,31 @@
             code = event.keyCode;
             if (code == 13) {
                 tag = target.tagName;
-                if (tag == "TEXTAREA") { return true; }
-                else { return false; }
+                if (tag == "TEXTAREA") {
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        }
-        else {
+        } else {
             target = event.target; //针对遵循w3c标准的浏览器，如Firefox
             code = event.keyCode;
             if (code == 13) {
                 tag = target.tagName;
-                if (tag == "INPUT") { return false; }
-                else { return true; }
+                if (tag == "INPUT") {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         }
     };
 </script>
 {{if .SpOk}}
 <script>
-    if(top.location!=self.location){
+    if (top.location != self.location) {
         window.parent.location.reload()
-    }else {
+    } else {
         window.location.replace("/");
 
     }

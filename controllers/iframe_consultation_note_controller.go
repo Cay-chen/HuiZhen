@@ -33,6 +33,13 @@ func (c *ConsultationNoteController) Get() {
 				if err != nil {
 				}
 				c.Data["Form"] = s
+				docList := models.GetDocList2(c.PersonUer.JYConPersonBelongDep, c.PersonUer.JYConPersonBelongHos, "200", "1", c.PersonUer.JYConPersonCode)
+				res := models.Person{}
+				_ = json.Unmarshal([]byte(docList), &res)
+				c.Data["DocList"] = res.Data
+				c.Data["ThisDoc"] = c.PersonUer.JYConPersonCode
+				c.Data["AAAAA"] = "{{if eq $v.JYConPersonCode " + c.PersonUer.JYConPersonCode + "}}"
+				c.Data["ThisDocPhone"] = c.PersonUer.JYConPersonPhone
 				c.TplName = "iframe_consultation_note.html"
 			} else {
 				c.Redirect("/error/600", 302)
@@ -50,6 +57,9 @@ func (c *ConsultationNoteController) Post() {
 		JYConFormPolicy := c.GetString("JYConFormPolicy")
 		JYConFormConclusion := c.GetString("JYConFormConclusion")
 		JYConFormConclusionDate := c.GetString("JYConFormConclusionDate")
+		JYConOppDocId := c.GetString("JYConOppDocId")
+		JYConOppDocName := c.GetString("JYConOppDocName")
+		JYConOppDocPhone := c.GetString("JYConOppDocPhone")
 		JYConFormApproveComment := "写会诊记录"
 		serverName := "JYConFormServlet"
 		method := "changeFormState"
@@ -63,6 +73,11 @@ func (c *ConsultationNoteController) Post() {
 		parameterMap["JYConType"] = "1"
 		parameterMap["JYConFormPolicy"] = JYConFormPolicy
 		parameterMap["JYConFormApproveComment"] = JYConFormApproveComment
+
+		parameterMap["JYConOppDocId"] = JYConOppDocId
+		parameterMap["JYConOppDocName"] = JYConOppDocName
+		parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
+
 		parameterMap["JYConFormApprovePersonId"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConFormApprovePersonName"] = c.PersonUer.JYConPersonName
 		parameterMap["JYConFormApproveBelongHos"] = c.PersonUer.JYConPersonBelongHos
