@@ -91,7 +91,7 @@
                 <input type="text" name="JYConOppDocPhone" lay-verify="required|phone" autocomplete="off" id="JYConOppDocPhone"
                        placeholder="请输入电话号码" value="{{.ThisDocPhone}}"
                        class="layui-input" style="width: 285px"/>
-                <input type="text" name="JYConOppDocName" lay-verify="title" style="display: none" autocomplete="off" id="JYConOppDocName"
+                <input type="text" name="JYConOppDocName" lay-verify="title" style="display: none" autocomplete="off" id="JYConOppDocName" value="{{.ThisDocName}}"
                        class="layui-input" style="width: 285px"/>
             </div>
         </div>
@@ -132,6 +132,12 @@
         });
         //自定义验证规则
         form.verify({
+            title: function (value) {
+                if (value.length < 1) {
+                    return '会诊记录不能为空';
+                }
+            }
+            ,
             datetime: function (value) {
                 if (value.length < 2) {
                     return '请填写时间';

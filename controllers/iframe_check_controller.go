@@ -69,9 +69,6 @@ func (c *CheckController) Get() {
 
 				}
 			}
-			if s.JYConType == "2" {
-
-			}
 			c.Data["JYConFormApproveCommentK"] = JYConFormApproveCommentK
 			c.Data["JYConFormApproveDateK"] = JYConFormApproveDateK
 			c.Data["JYConFormApproveDateKr"] = JYConFormApproveDateK
@@ -88,18 +85,17 @@ func (c *CheckController) Get() {
 			c.Data["ApproveType"] = "平会诊"
 			if s.JYConType == "2" {
 				c.Data["JYConFormApprovePersonNameK"] = "/"
-				c.Data["JYConFormApprovePersonNameY"] = "/"
+				/*c.Data["JYConFormApprovePersonNameY"] = "/"*/
 				c.Data["JYConFormApprovePersonNameTY"] = "/"
 				c.Data["JYConFormApprovePersonNameTK"] = "/"
 				c.Data["JYConFormApproveCommentK"] = "/"
 				c.Data["JYConFormApproveDateK"] = "/"
-				c.Data["JYConFormApproveCommentY"] = "/"
-				c.Data["JYConFormApproveDateY"] = "/"
+				/*c.Data["JYConFormApproveCommentY"] = "/"
+				c.Data["JYConFormApproveDateY"] = "/"*/
 				c.Data["JYConFormApproveCommentTY"] = "/"
 				c.Data["JYConFormApproveDateTY"] = "/"
 				c.Data["JYConFormApproveCommentTK"] = "/"
 				c.Data["JYConFormApproveDateTK"] = "/"
-
 				c.Data["ApproveType"] = "急会诊"
 			}
 			c.TplName = "iframe_check.html"

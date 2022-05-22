@@ -81,7 +81,7 @@ func (c *IframeController) Get() {
 			}
 			break
 		case "myHzTo":
-			if c.IsYxys {
+			if c.IsYxys || c.IsFzr || c.IsKszr {
 				c.Data["IsYx"] = true
 			} else {
 				c.Data["IsYx"] = false

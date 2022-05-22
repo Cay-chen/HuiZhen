@@ -40,6 +40,7 @@ func (c *ConsultationNoteController) Get() {
 				c.Data["ThisDoc"] = c.PersonUer.JYConPersonCode
 				c.Data["AAAAA"] = "{{if eq $v.JYConPersonCode " + c.PersonUer.JYConPersonCode + "}}"
 				c.Data["ThisDocPhone"] = c.PersonUer.JYConPersonPhone
+				c.Data["ThisDocName"] = c.PersonUer.JYConPersonName
 				c.TplName = "iframe_consultation_note.html"
 			} else {
 				c.Redirect("/error/600", 302)
