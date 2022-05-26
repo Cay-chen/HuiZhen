@@ -50,7 +50,6 @@
         <label class="layui-form-label">目前诊断</label>
         <div class="layui-input-block">
             <textarea placeholder="请输入内容" class="layui-textarea" style="cursor:not-allowed" disabled name="JYConSickDia"
-                      lay-verify="title"
                       id="JYConSickDia"
                       value="{{.Form.JYConSickDia}}"></textarea>
         </div>
@@ -59,7 +58,7 @@
         <label class="layui-form-label">简要病情</label>
         <div class="layui-input-block">
             <textarea placeholder="含主诉、病例特征等" class="layui-textarea" style="cursor:not-allowed" disabled
-                      name="JYConSickCase" lay-verify="title"
+                      name="JYConSickCase"
                       id="JYConSickCase"
                       value="{{.Form.JYConSickCase}}"></textarea>
         </div>
@@ -68,7 +67,7 @@
         <label class="layui-form-label">会诊记录</label>
         <div class="layui-input-block">
             <textarea placeholder="请输入会诊记录" class="layui-textarea" name="JYConFormConclusion" lay-verify="title"
-                      id="huzjil" value="{{.Form.JYConSickDia}}"></textarea>
+                      id="huzjil" value="{}"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
