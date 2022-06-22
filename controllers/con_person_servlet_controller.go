@@ -13,7 +13,6 @@ func (c *ConPersonServerController) Get() {
 
 	if c.IsLogin {
 		id := c.Ctx.Input.Param(":id")
-		logs.Debug("id:" + id)
 		switch id {
 		case "deleteForm":
 			serverName := "JYConFormServlet"
@@ -21,6 +20,33 @@ func (c *ConPersonServerController) Get() {
 			JYConNum := c.GetString("JYConNum")
 			parameterMap := make(map[string]string)
 			parameterMap["JYConNum"] = JYConNum
+			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
+			result := getPerson(resMsg)
+			if result.Flag == "true" {
+				c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
+
+			} else {
+				c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
+
+			}
+			break
+		case "zuofei":
+			logs.Debug("")
+			serverName := "JYConFormServlet"
+			method := "invalidForm"
+			JYConNum := c.GetString("JYConNum")
+			JYConFormApproveComment := c.GetString("JYConFormApproveComment")
+			JYConFormPolicy := c.GetString("JYConFormPolicy")
+			JYConFormApprovePersonId := c.PersonUer.JYConPersonCode
+			JYConFormApprovePersonName := c.PersonUer.JYConPersonName
+			JYConFormApproveBelongHos := c.PersonUer.JYConPersonBelongHos
+			parameterMap := make(map[string]string)
+			parameterMap["JYConNum"] = JYConNum
+			parameterMap["JYConFormPolicy"] = JYConFormPolicy
+			parameterMap["JYConFormApproveComment"] = JYConFormApproveComment
+			parameterMap["JYConFormApprovePersonId"] = JYConFormApprovePersonId
+			parameterMap["JYConFormApprovePersonName"] = JYConFormApprovePersonName
+			parameterMap["JYConFormApproveBelongHos"] = JYConFormApproveBelongHos
 			resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
 			result := getPerson(resMsg)
 			if result.Flag == "true" {
@@ -99,6 +125,34 @@ func (c *ConPersonServerController) Get() {
 					c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
 				}
 				break
+				/*			case "zuofei":
+							logs.Debug("")
+							serverName := "JYConFormServlet"
+							method := "invalidForm"
+							JYConNum := c.GetString("JYConNum")
+							JYConFormApproveComment := c.GetString("JYConFormApproveComment")
+							JYConFormPolicy := c.GetString("JYConFormPolicy")
+							logs.Debug("JYConFormApproveComment")
+							JYConFormApprovePersonId := c.PersonUer.JYConPersonCode
+							JYConFormApprovePersonName := c.PersonUer.JYConPersonName
+							JYConFormApproveBelongHos := c.PersonUer.JYConPersonBelongHos
+							parameterMap := make(map[string]string)
+							parameterMap["JYConNum"] = JYConNum
+							parameterMap["JYConFormPolicy"] = JYConFormPolicy
+							parameterMap["JYConFormApproveComment"] = JYConFormApproveComment
+							parameterMap["JYConFormApprovePersonId"] = JYConFormApprovePersonId
+							parameterMap["JYConFormApprovePersonName"] = JYConFormApprovePersonName
+							parameterMap["JYConFormApproveBelongHos"] = JYConFormApproveBelongHos
+							resMsg := utils.Post(serverName, method, utils.MapToUrl(parameterMap), c.PersonUer.JYConPersonCode)
+							result := getPerson(resMsg)
+							if result.Flag == "true" {
+								c.Ctx.WriteString("{\"code\": 0,\"msg\": \"" + result.Mesg + "\"}")
+
+							} else {
+								c.Ctx.WriteString("{\"code\": 1,\"msg\": \"" + result.Mesg + "\"}")
+
+							}
+							break*/
 			case "cp":
 				serverName := "JYConPersonServlet"
 				method := "defaultPersonPassword"

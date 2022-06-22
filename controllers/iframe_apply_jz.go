@@ -91,10 +91,10 @@ func (c *ApplicationFormEtController) Get() {
 				ConType1 = " "
 				ConType2 = "checked"
 			}
-			c.Data["JYConSickDia"] = s.JYConSickDia
+			c.Data["JYConSickDia"] = utils.StringZyt(s.JYConSickDia)
 			c.Data["JYConSickDepId"] = s.JYConSickDepId
-			c.Data["JYConSickCase"] = s.JYConSickCase
-			c.Data["JYConPurpose"] = s.JYConPurpose
+			c.Data["JYConSickCase"] = utils.StringZyt(s.JYConSickCase)
+			c.Data["JYConPurpose"] = utils.StringZyt(s.JYConPurpose)
 			c.Data["JYConSickDocId"] = s.JYConSickDocId
 			c.Data["JYConOppDocPhone"] = s.JYConOppDocPhone
 			c.Data["JYConOppDocName"] = s.JYConOppDocName
@@ -160,9 +160,12 @@ func (c *ApplicationFormEtController) Post() {
 		parameterMap["JYConSickDoc"] = JYConSickDoc //医生姓名
 		parameterMap["JYConSickDocPhone"] = JYConSickDocPhone
 		parameterMap["JYConType"] = JYConType
-		parameterMap["JYConSickDia"] = JYConSickDia
-		parameterMap["JYConSickCase"] = JYConSickCase
-		parameterMap["JYConPurpose"] = JYConPurpose
+		//parameterMap["JYConSickDia"] = JYConSickDia
+		//parameterMap["JYConSickCase"] = JYConSickCase
+		//parameterMap["JYConPurpose"] = JYConPurpose
+		parameterMap["JYConSickDia"] = utils.StringZy(JYConSickDia)
+		parameterMap["JYConSickCase"] = utils.StringZy(JYConSickCase)
+		parameterMap["JYConPurpose"] = utils.StringZy(JYConPurpose)
 		parameterMap["JYConOppDep"] = JYConOppDep
 		parameterMap["JYConOppDepId"] = JYConOppDepId
 		parameterMap["flag"] = flag

@@ -12,34 +12,34 @@
 <table class="layui-hide" id="shuju" lay-filter="formTable" lay-filter="user"></table>
 <script type="text/html" id="toolbarDemo">
     <div class="demoTable">
-<!--        <div class="layui-input-inline" style="width: 100px">
-            <select name="modules" lay-verify="required" id="sele" lay-search="">
-                <option value="1">会诊号</option>
-                <option value="2">姓名</option>
-                <option value="3">住院号</option>
-                <option value="4">科室</option>
-            </select>
-        </div>
-        <div class="layui-inline">
-            <input class="layui-input" name="id" id="demoReload" autocomplete="off">
-        </div>
-        <div class="layui-inline" id="date">
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 90px;color: #0C0C0C">开始时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="date" id="date1" lay-verify="date" placeholder="" autocomplete="off"
-                           class="layui-input">
+        <!--        <div class="layui-input-inline" style="width: 100px">
+                    <select name="modules" lay-verify="required" id="sele" lay-search="">
+                        <option value="1">会诊号</option>
+                        <option value="2">姓名</option>
+                        <option value="3">住院号</option>
+                        <option value="4">科室</option>
+                    </select>
                 </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 90px;color: #0C0C0C">结束时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="date" id="date2" lay-verify="date" placeholder="" autocomplete="off"
-                           class="layui-input">
+                <div class="layui-inline">
+                    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
                 </div>
-            </div>
-        </div>
-        <button class="layui-btn" data-type="reload" lay-event="sousuo" style="margin-left: 10px">搜索</button>-->
+                <div class="layui-inline" id="date">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 90px;color: #0C0C0C">开始时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="date" id="date1" lay-verify="date" placeholder="" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 90px;color: #0C0C0C">结束时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="date" id="date2" lay-verify="date" placeholder="" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <button class="layui-btn" data-type="reload" lay-event="sousuo" style="margin-left: 10px">搜索</button>-->
         <button class="layui-btn" data-type="reload" lay-event="pz" style="margin-left: 20px">平会诊</button>
         <button class="layui-btn" data-type="reload" lay-event="jz" style="margin-left: 20px">急会诊</button>
     </div>
@@ -50,7 +50,7 @@
     layui.use('table', function () {
         var form = layui.table,
             layer = layui.layer
-            ,laydate = layui.laydate;
+            , laydate = layui.laydate;
 
         form.render({
             elem: '#shuju'
@@ -58,20 +58,20 @@
             , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
             , defaultToolbar: ['filter', 'exports', 'print']
             , title: '用户数据表'
-            ,height:'full-20'
+            , height: 'full-20'
             , cols: [[
                 {field: 'JYConNum', title: '申请单号', width: 152, fixed: 'left', unresize: true, sort: true}
                 , {field: 'JYConSickName', title: '姓名', width: 85}
-                , {field: 'JYConSickAd', title: '住院号', width: 100}
+                , {field: 'JYConSickAd', title: '住院号', width: 90}
                 , {field: 'JYConSickSex', title: '性别', width: 60}
                 , {field: 'JYConSickAge', title: '年龄', width: 60}
-                , {field: 'JYConSickDep', title: '申请科室', cellMinWidth: 150}
-                , {field: 'JYConDate', title: '期望会诊时间', sort: true, width: 165}
-                , {field: 'JYConOppHos', title: '拟邀医院', width: 110, templet: '#formHos'}
-                , {field: 'JYConOppDep', title: '拟邀科室', cellMinWidth: 150}
-                , {field: 'JYConType', title: '会诊类型', width: 90}
-                , {field: 'JYConFormPolicy', title: '审批进度', cellMinWidth: 150, templet: '#formPolicyTpl'}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 290}
+                , {field: 'JYConSickDep', title: '申请科室', cellMinWidth: 130}
+                , {field: 'JYConDate', title: '期望会诊时间', sort: true, cellMinWidth: 165}
+                , {field: 'JYConOppHos', title: '拟邀医院', cellMinWidth: 110, templet: '#formHos'}
+                , {field: 'JYConOppDep', title: '拟邀科室', cellMinWidth: 130}
+                , {field: 'JYConType', title: '会诊类型', cellMinWidth: 90}
+                , {field: 'JYConFormPolicy', title: '审批进度', cellMinWidth: 120, templet: '#formPolicyTpl'}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 345}
             ]]
             , id: 'formInfo'
             , page: true
@@ -79,7 +79,7 @@
         //日期
         laydate.render({
             elem: '#date'
-            ,range: ['#date1', '#date2']
+            , range: ['#date1', '#date2']
         });
 
         //头工具栏事件
@@ -104,7 +104,7 @@
                         , area: ['100%', '100%']
                         , yes: function () {
                             layer.closeAll();
-                        } ,cancel: function () {
+                        }, cancel: function () {
                             //执行重载
                             form.reload('formInfo', {
                                 page: {
@@ -115,7 +115,7 @@
                         }
                     });
                     break;
-                    case 'jz':
+                case 'jz':
                     //页面层-自定义
                     layer.open({
                         type: 2
@@ -128,7 +128,7 @@
                         , area: ['100%', '100%']
                         , yes: function () {
                             layer.closeAll();
-                        } ,cancel: function () {
+                        }, cancel: function () {
                             //执行重载
                             form.reload('formInfo', {
                                 page: {
@@ -145,14 +145,14 @@
         //监听行工具事件
         form.on('tool(formTable)', function (obj) {
             var data = obj.data;
-            switch (obj.event){
+            switch (obj.event) {
                 case 'edit':
-                    console.log("ata.JYConType:"+data.JYConType)
-                    if (data.JYConType==='平会诊'){
+                    console.log("ata.JYConType:" + data.JYConType)
+                    if (data.JYConType === '平会诊') {
                         layer.open({
                             type: 2
                             , title: ['四川省精神医学中心与成都市温江区人民医院院际间会诊申请表(平会诊)', 'font-size:21px;text-align:center;']
-                            , content: '/apply?JYConNum='+data.JYConNum
+                            , content: '/apply?JYConNum=' + data.JYConNum
                             , btnAlign: 'c' //按钮居中
                             , shade: 0 //不显示遮罩
                             , area: ['100%', '100%']
@@ -167,11 +167,11 @@
                             }
                         });
                     }
-                    if (data.JYConType==='急会诊'){
+                    if (data.JYConType === '急会诊') {
                         layer.open({
                             type: 2
                             , title: ['四川省精神医学中心与成都市温江区人民医院院际间会诊申请表(急会诊)', 'font-size:21px;text-align:center;']
-                            , content: '/apply_et?JYConNum='+data.JYConNum
+                            , content: '/apply_et?JYConNum=' + data.JYConNum
                             , btnAlign: 'c' //按钮居中
                             , shade: 0 //不显示遮罩
                             , area: ['100%', '100%']
@@ -218,19 +218,88 @@
                         layer.close()
                     });
                     break;
+                case 'zuofei':
+                    layer.prompt({
+                        formType: 2,
+                        title: '作废理由',
+                        btnAlign: 'c',
+                        yes: function (index, layero) {
+                            // 获取文本框输入的值
+                            var value = layero.find(".layui-layer-input").val();
+                            if (value) {
+                                layer.close(index);
+                                 layui.$.ajax({
+                                    url: "/change_msg/zuofei?JYConNum=" + data.JYConNum + "&JYConFormApproveComment=" + value+ "&JYConFormPolicy=" + data.JYConFormPolicy1,
+                                    success: function (result) {
+                                        var res = JSON.parse(result)
+                                        if (res.code === 0) {
+                                            //执行重载
+                                            form.reload('formInfo', {
+                                                page: {
+                                                    curr: 1 //重新从第 1 页开始
+                                                }
+                                            });
+                                            layer.msg(res.msg, {icon: 1});
+                                        } else {
+                                            alert(res.msg)
+                                        }
+                                    },
+                                    error: function (xhr) {
+                                        alert("系统异常");
+                                        layer.close();
+                                    }
+                                });
+
+                            } else {
+                                layer.msg('请输入内容!');
+                            }
+                        }
+                    });
+                    break;
+                /* layer.confirm('确定作废' + data.JYConSickName + '会诊申请', {
+                     title: "警告"
+                     , btn: ['作废', '取消'] //按钮
+                 }, function () {
+                     layui.$.ajax({
+                         url: "/change_msg/deleteForm?JYConNum=" + data.JYConNum,
+                         success: function (result) {
+                             var res = JSON.parse(result)
+                             if (res.code === 0) {
+                                 //执行重载
+                                 form.reload('formInfo', {
+                                     page: {
+                                         curr: 1 //重新从第 1 页开始
+                                     }
+                                 });
+                                 layer.msg(res.msg, {icon: 1});
+                             } else {
+                                 alert(res.code)
+                             }
+                         },
+                         error: function (xhr) {
+                             alert("系统异常");
+                             layer.close();
+                         }
+                     });
+
+                 }, function () {
+                     layer.close()
+                 });
+                 break;*/
                 case 'submit':
                     layer.confirm('确定提交' + data.JYConSickName + '会诊申请', {
                         title: "警告"
                         , btn: ['提交', '取消'] //按钮
                     }, function () {
-                        var jyConType ="";
-                        if (data.JYConType==="急会诊"){
-                            jyConType="2"
-                        }if (data.JYConType==="平会诊"){
-                            jyConType="1"
+                        var jyConType = "";
+                        if (data.JYConType === "急会诊") {
+                            jyConType = "2"
+                        }
+                        if (data.JYConType === "平会诊") {
+                            jyConType = "1"
                         }
                         layui.$.ajax({
-                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum+"&JYConFormApproveComment=提交&flag=approve&JYConType="+jyConType+"&JYConFormPolicy="+data.JYConFormPolicy1,
+                            url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum + "&JYConFormApproveComment=提交&flag=approve&JYConType=" + jyConType + "&JYConFormPolicy=" + data.JYConFormPolicy1,
                             success: function (result) {
                                 var res = JSON.parse(result)
                                 if (res.code === 0) {
@@ -264,11 +333,11 @@
                         , btnAlign: 'c' //按钮居中
                         , shade: 0 //不显示遮罩
                         , area: ['100%', '100%']
-                        ,btn:['关闭']
-                        ,shadeClose:true
+                        , btn: ['关闭']
+                        , shadeClose: true
                         , yes: function () {
                             layer.closeAll();
-                        } ,cancel: function () {
+                        }, cancel: function () {
                             //执行重载
                             form.reload('formInfo', {
                                 page: {
@@ -283,14 +352,14 @@
                     layer.open({
                         type: 2
                         , id: 'layerDemo'  //防止重复弹出
-                        , title: [data.JYConNum+'审批记录', 'font-size:21px;text-align:center;']
+                        , title: [data.JYConNum + '审批记录', 'font-size:21px;text-align:center;']
                         , content: '/iframe/approve?JYConNum=' + data.JYConNum
                         , btnAlign: 'c' //按钮居中
                         , shade: 0 //不显示遮罩
                         , area: ['100%', '100%']
                         , yes: function () {
                             layer.closeAll();
-                        } ,cancel: function () {
+                        }, cancel: function () {
                             //执行重载
                             form.reload('formInfo', {
                                 page: {
@@ -334,7 +403,8 @@
 <script type="text/html" id="barDemo">
     {{str2html .BarDemo}}
     <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="check">查看</a>
-    <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto" lay-event="approve">审批记录</a>
+    <a data-method="offset" class="layui-btn  layui-btn-xs layui-btn-normal" data-type="auto"
+       lay-event="approve">审批记录</a>
 </script>
 </body>
 </html>

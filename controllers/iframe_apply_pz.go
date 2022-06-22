@@ -4,7 +4,6 @@ import (
 	"HuiZhen/models"
 	"HuiZhen/models/utils"
 	"encoding/json"
-	"github.com/beego/beego/v2/adapter/logs"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
@@ -93,10 +92,10 @@ func (c *ApplyController) Get() {
 				ConType1 = " "
 				ConType2 = "checked"
 			}
-			c.Data["JYConSickDia"] = s.JYConSickDia
+			c.Data["JYConSickDia"] = utils.StringZyt(s.JYConSickDia)
 			c.Data["JYConSickDepId"] = s.JYConSickDepId
-			c.Data["JYConSickCase"] = s.JYConSickCase
-			c.Data["JYConPurpose"] = s.JYConPurpose
+			c.Data["JYConSickCase"] = utils.StringZyt(s.JYConSickCase)
+			c.Data["JYConPurpose"] = utils.StringZyt(s.JYConPurpose)
 			c.Data["JYConSickDocId"] = s.JYConSickDocId
 			JYConOppHos = s.JYConOppHos
 			c.Data["JYConOppDepId"] = s.JYConOppDepId
@@ -111,7 +110,6 @@ func (c *ApplyController) Get() {
 		c.Data["EditInfo"] = editInfo
 		c.Data["Y1"] = Y1
 		c.Data["DepListS"] = DepListS
-		logs.Debug("depListS:" + DepListS)
 		c.TplName = "iframe_apply_pz.html"
 	} else {
 		c.Redirect("/error/56", 302)
@@ -154,9 +152,9 @@ func (c *ApplyController) Post() {
 		parameterMap["JYConSickDoc"] = JYConSickDoc //医生姓名
 		parameterMap["JYConSickDocPhone"] = JYConSickDocPhone
 		parameterMap["JYConType"] = JYConType
-		parameterMap["JYConSickDia"] = JYConSickDia
-		parameterMap["JYConSickCase"] = JYConSickCase
-		parameterMap["JYConPurpose"] = JYConPurpose
+		parameterMap["JYConSickDia"] = utils.StringZy(JYConSickDia)
+		parameterMap["JYConSickCase"] = utils.StringZy(JYConSickCase)
+		parameterMap["JYConPurpose"] = utils.StringZy(JYConPurpose)
 		parameterMap["JYConOppDep"] = JYConOppDep
 		parameterMap["JYConOppDepId"] = JYConOppDepId
 		parameterMap["flag"] = flag

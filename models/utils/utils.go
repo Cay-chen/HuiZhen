@@ -219,17 +219,17 @@ func Get(url string) (response string) {
 }
 func Post(serverName, method, parameter, postName string) (content string) {
 	httpPort, _ := beego.AppConfig.String("httpurl")
-	logs.Debug(postName + "->POST请求参数：" + serverName + "?" + "method=" + method + parameter)
+	logs.Notice(postName + "->POST请求参数：" + serverName + "?" + "method=" + method + parameter)
 	resp, err := http.Post(httpPort+serverName,
 		"application/x-www-form-urlencoded;charset=utf-8",
 		strings.NewReader("method="+method+parameter))
 	if err != nil {
-		logs.Debug(postName + "->Post请求出错！")
+		logs.Notice(postName + "->Post请求出错！")
 		fmt.Println(err)
 
 	}
 	if resp == nil {
-		logs.Debug(postName + "->请求服务器出现异常！")
+		logs.Notice(postName + "->请求服务器出现异常！")
 		return
 	}
 	defer func(Body io.ReadCloser) {
@@ -240,10 +240,26 @@ func Post(serverName, method, parameter, postName string) (content string) {
 	}(resp.Body)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		logs.Debug(postName + "->Post请求出错！")
+		logs.Notice(postName + "->Post请求出错！")
 		return
 		// handle error
 	}
-	logs.Debug(postName + "->POST返回结果：" + string(body))
+	logs.Notice(postName + "->POST返回结果：" + string(body))
 	return string(body)
+}
+func StringZy(str string) string {
+	str = strings.Replace(str, "&", "\\u0026", -1)
+	str = strings.Replace(str, "%", "\\u0025", -1)
+	if str == "" {
+		str = ""
+	}
+	return str
+}
+func StringZyt(str string) string {
+	str = strings.Replace(str, "\\u0026", "&", -1)
+	str = strings.Replace(str, "\\u0025", "%", -1)
+	if str == "" {
+		str = ""
+	}
+	return str
 }

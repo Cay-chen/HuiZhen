@@ -37,19 +37,19 @@
         <td bgcolor="#ededed">主管医师</td>
         <td colspan="2">{{.Form.JYConSickDoc}}</td>
         <td bgcolor="#ededed">医师电话号码</td>
-        <td colspan="2">{{.Form.JYConSickDocPhone}}</td>
+        <td colspan="2" id="JYConSickDocPhone">{{.Form.JYConSickDocPhone}}</td>
     </tr>
     <tr align="center">
         <td bgcolor="#ededed" align="center">目前诊断</td>
-        <td colspan="7">{{.Form.JYConSickDia}}</td>
+        <td colspan="7">{{.JYConSickDia}}</td>
     </tr>
     <tr align="center">
         <td bgcolor="#ededed" align="center">简要病情</td>
-        <td colspan="7">{{.Form.JYConSickCase}}</td>
+        <td colspan="7">{{.JYConSickCase}}</td>
     </tr>
     <tr align="center">
         <td bgcolor="#ededed" align="center">会诊目的</td>
-        <td colspan="7">{{.Form.JYConPurpose}}</td>
+        <td colspan="7">{{.JYConPurpose}}</td>
     </tr>
     <tr align="center">
         <td bgcolor="#ededed">拟邀请科室</td>
@@ -100,7 +100,7 @@
         <td bgcolor="#ededed">会诊医生</td>
         <td colspan="2">{{.Form.JYConOppDocName}}</td>
         <td bgcolor="#ededed">医师电话</td>
-        <td colspan="2">{{.Form.JYConOppDocPhone}}</td>
+        <td colspan="2" id="JYConOppDocPhone">{{.Form.JYConOppDocPhone}}</td>
     </tr>
     <tr align="center">
         <td bgcolor="#ededed" align="center">会诊记录</td>
@@ -111,7 +111,13 @@
 <script language="javascript" src="/static/js/jquery.jqprint-0.3.js"></script>
 <script language="javascript">
     function  formTablePrint(){
+        var str17 =$("table td").eq(17).html();
+        var str53 =$("table td").eq(53).html();
+        $("table td").eq(17).html("/");
+        $("table td").eq(53).html("/");
         $("#form_table").jqprint();
+        $("table td").eq(17).html(str17);
+        $("table td").eq(53).html(str53);
     }
 </script>
 </body>

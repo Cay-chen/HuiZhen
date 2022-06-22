@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"HuiZhen/models"
+	"HuiZhen/models/utils"
 	"encoding/json"
-	"github.com/beego/beego/v2/adapter/logs"
 )
 
 type CheckController struct {
@@ -20,6 +20,10 @@ func (c *CheckController) Get() {
 			if err != nil {
 			}
 			c.Data["Form"] = s
+			c.Data["JYConSickDia"] = utils.StringZyt(s.JYConSickDia)
+			c.Data["JYConSickCase"] = utils.StringZyt(s.JYConSickCase)
+			c.Data["JYConPurpose"] = utils.StringZyt(s.JYConPurpose)
+
 			JYConFormCreateDate := string([]byte(s.JYConFormCreateDate)[:19])
 			c.Data["JYConFormCreateDate"] = JYConFormCreateDate
 			JYConDate := string([]byte(s.JYConDate)[:19])
@@ -38,7 +42,6 @@ func (c *CheckController) Get() {
 			JYConFormApprovePersonNameTY := ""
 			JYConFormApprovePersonNameTK := ""
 
-			logs.Debug(resMsg)
 			for i := 0; i < len(resMsg.Data); i++ {
 				switch resMsg.Data[i].JYConFormApproveOldState {
 				case "2":
