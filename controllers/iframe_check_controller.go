@@ -23,6 +23,7 @@ func (c *CheckController) Get() {
 			c.Data["JYConSickDia"] = utils.StringZyt(s.JYConSickDia)
 			c.Data["JYConSickCase"] = utils.StringZyt(s.JYConSickCase)
 			c.Data["JYConPurpose"] = utils.StringZyt(s.JYConPurpose)
+			c.Data["JYConFormConclusion"] = utils.StringZyt(s.JYConFormConclusion)
 
 			JYConFormCreateDate := string([]byte(s.JYConFormCreateDate)[:19])
 			c.Data["JYConFormCreateDate"] = JYConFormCreateDate

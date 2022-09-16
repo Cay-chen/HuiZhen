@@ -181,6 +181,9 @@ func formDate1ToData(c FormJson1) FormJson {
 		case "2":
 			jYConType = "急会诊"
 			break
+		case "3":
+			jYConType = "特殊会诊"
+			break
 		}
 		depInfo.Data[i].JYConType = jYConType
 

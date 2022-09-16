@@ -148,7 +148,7 @@
             switch (obj.event) {
                 case 'edit':
                     console.log("ata.JYConType:" + data.JYConType)
-                    if (data.JYConType === '平会诊') {
+                    if (data.JYConType === '平会诊' ) {
                         layer.open({
                             type: 2
                             , title: ['四川省精神医学中心与成都市温江区人民医院院际间会诊申请表(平会诊)', 'font-size:21px;text-align:center;']
@@ -167,7 +167,7 @@
                             }
                         });
                     }
-                    if (data.JYConType === '急会诊') {
+                    if (data.JYConType === '急会诊' ||data.JYConType === '特殊会诊') {
                         layer.open({
                             type: 2
                             , title: ['四川省精神医学中心与成都市温江区人民医院院际间会诊申请表(急会诊)', 'font-size:21px;text-align:center;']
@@ -297,6 +297,9 @@
                         }
                         if (data.JYConType === "平会诊") {
                             jyConType = "1"
+                        }
+                        if (data.JYConType === "特殊会诊") {
+                            jyConType = "3"
                         }
                         layui.$.ajax({
                             url: "/change_msg/changeFormState?JYConNum=" + data.JYConNum + "&JYConFormApproveComment=提交&flag=approve&JYConType=" + jyConType + "&JYConFormPolicy=" + data.JYConFormPolicy1,

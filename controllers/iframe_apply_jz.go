@@ -81,7 +81,7 @@ func (c *ApplicationFormEtController) Get() {
 			c.Data["JYConDepLocaltion"] = s.JYConDepLocaltion
 			c.Data["JYConSickDoc"] = s.JYConSickDoc
 			c.Data["JYConSickDocPhone"] = s.JYConSickDocPhone
-			c.Data["JYConFormConclusion"] = s.JYConFormConclusion
+			c.Data["JYConFormConclusion"] = utils.StringZyt(s.JYConFormConclusion)
 			c.Data["JYConFormConclusionDate"] = s.JYConFormConclusionDate
 			c.Data["JYConType"] = s.JYConType
 			/*if s.JYConType == "1" {
@@ -174,7 +174,7 @@ func (c *ApplicationFormEtController) Post() {
 		parameterMap["JYConOppDocName"] = JYConOppDocName
 		parameterMap["JYConOppDocId"] = JYConOppDocId
 		parameterMap["JYConOppDocPhone"] = JYConOppDocPhone
-		parameterMap["JYConFormConclusion"] = JYConFormConclusion
+		parameterMap["JYConFormConclusion"] = utils.StringZy(JYConFormConclusion)
 		parameterMap["JYConFormConclusionDate"] = JYConFormConclusionDate
 		parameterMap["JYConFormCreatePersonId"] = c.PersonUer.JYConPersonCode
 		parameterMap["JYConFormCreatePersonName"] = c.PersonUer.JYConPersonName

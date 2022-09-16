@@ -113,7 +113,11 @@
             var jyConType ="";
             if (data.JYConType==="急会诊"){
                 jyConType="2"
-            }if (data.JYConType==="平会诊"){
+            }
+            if (data.JYConType==="特殊会诊"){
+                jyConType="3"
+            }
+            if (data.JYConType==="平会诊"){
                 jyConType="1"
             }
             switch (obj.event){

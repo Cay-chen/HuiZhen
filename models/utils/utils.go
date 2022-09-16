@@ -224,7 +224,7 @@ func Post(serverName, method, parameter, postName string) (content string) {
 		"application/x-www-form-urlencoded;charset=utf-8",
 		strings.NewReader("method="+method+parameter))
 	if err != nil {
-		logs.Notice(postName + "->Post请求出错！")
+		//logs.Notice(postName + "->Post请求出错！")
 		fmt.Println(err)
 
 	}
@@ -244,8 +244,9 @@ func Post(serverName, method, parameter, postName string) (content string) {
 		return
 		// handle error
 	}
-	logs.Notice(postName + "->POST返回结果：" + string(body))
+	//logs.Notice(postName + "->POST返回结果：" + string(body))
 	return string(body)
+
 }
 func StringZy(str string) string {
 	str = strings.Replace(str, "&", "\\u0026", -1)
